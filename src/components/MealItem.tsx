@@ -1,0 +1,75 @@
+import React, { useState } from 'react';
+import { Meal } from '../models/types';
+import { getIngredientById } from '../models/data';
+
+interface MealItemProps {
+  meal: Meal;
+  onAddMeal: (mealId: string, quantity: number) => boolean;
+  remainingSlots: number;
+}
+
+export const MealItem: React.FC<MealItemProps> = ({ meal, onAddMeal, remainingSlots }) => {
+  const [quantity, setQuantity] = useState(1);
+  const [error, setError] = useState('');
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setQuantity(Number(e.target.value));
+    setError('');
+  };
+
+  const handleAddMeal = () => {
+    if (quantity > remainingSlots) {
+      setError(`Only ${remainingSlots} slots remaining`);
+      return;
+    }
+
+    const success = onAddMeal(meal.id, quantity);
+    if (!success) {
+      setError('Could not add meal to plan');
+    } else {
+      setQuantity(1); // Reset quantity after successful add
+    }
+  };
+
+  return (
+    <div className="card">
+      <h3 className="card-title">{meal.name}</h3>
+      <div className="meal-ingredients">
+        <p><strong>Ingredients:</strong></p>
+        <ul>
+          {meal.ingredients.map((ingredientId) => (
+            <li key={ingredientId}>
+              {getIngredientById(ingredientId)?.name || ingredientId}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="form-group">
+        <label htmlFor={`quantity-${meal.id}`} className="form-label">
+          Quantity (slots):
+        </label>
+        <select
+          id={`quantity-${meal.id}`}
+          className="form-control"
+          value={quantity}
+          onChange={handleQuantityChange}
+          disabled={remainingSlots === 0}
+        >
+          {[...Array(Math.min(remainingSlots, 2) + 1).keys()].slice(1).map((num) => (
+            <option key={num} value={num}>
+              {num}
+            </option>
+          ))}
+        </select>
+      </div>
+      {error && <p className="error-text" style={{ color: 'var(--danger-color)' }}>{error}</p>}
+      <button
+        className="btn"
+        onClick={handleAddMeal}
+        disabled={remainingSlots === 0}
+      >
+        Add to Plan
+      </button>
+    </div>
+  );
+};
