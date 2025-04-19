@@ -1,13 +1,24 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { WeeklyPlan } from '../models/types';
 
 const TOTAL_SLOTS = 7; // 7 days in a week
+const STORAGE_KEY = 'foodinator_weekly_plan';
 
 export const useWeeklyPlan = () => {
-  const [weeklyPlan, setWeeklyPlan] = useState<WeeklyPlan>({
-    selectedMeals: [],
-    totalSlots: TOTAL_SLOTS,
-  });
+  // Load weekly plan from localStorage
+  const loadWeeklyPlan = (): WeeklyPlan => {
+    const savedPlan = localStorage.getItem(STORAGE_KEY);
+    return savedPlan 
+      ? JSON.parse(savedPlan) 
+      : { selectedMeals: [], totalSlots: TOTAL_SLOTS };
+  };
+
+  const [weeklyPlan, setWeeklyPlan] = useState<WeeklyPlan>(loadWeeklyPlan);
+
+  // Save weekly plan to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(weeklyPlan));
+  }, [weeklyPlan]);
 
   // Calculate the number of slots used
   const usedSlots = weeklyPlan.selectedMeals.reduce(

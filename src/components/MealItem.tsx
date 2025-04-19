@@ -31,6 +31,9 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onAddMeal, remainingSl
     }
   };
 
+  // Determine if the Add button should be disabled
+  const isAddDisabled = remainingSlots === 0 || quantity > remainingSlots;
+
   return (
     <div className="card">
       <h3 className="card-title">{meal.name}</h3>
@@ -55,20 +58,28 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onAddMeal, remainingSl
           onChange={handleQuantityChange}
           disabled={remainingSlots === 0}
         >
-          {[...Array(Math.min(remainingSlots, 2) + 1).keys()].slice(1).map((num) => (
-            <option key={num} value={num}>
-              {num}
-            </option>
-          ))}
+          {remainingSlots > 0 ? (
+            [...Array(Math.min(remainingSlots, 2) + 1).keys()].slice(1).map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))
+          ) : (
+            <option value="1">1</option>
+          )}
         </select>
       </div>
       {error && <p className="error-text" style={{ color: 'var(--danger-color)' }}>{error}</p>}
       <button
         className="btn"
         onClick={handleAddMeal}
-        disabled={remainingSlots === 0}
+        disabled={isAddDisabled}
+        style={{
+          opacity: isAddDisabled ? 0.6 : 1,
+          cursor: isAddDisabled ? 'not-allowed' : 'pointer'
+        }}
       >
-        Add to Plan
+        {isAddDisabled ? 'No Slots Available' : 'Add to Plan'}
       </button>
     </div>
   );

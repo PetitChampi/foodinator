@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MealSelector } from './components/MealSelector';
 import { WeeklyPlanDisplay } from './components/WeeklyPlanDisplay';
 import { GroceryList } from './components/GroceryList';
@@ -9,7 +9,16 @@ import { useIngredientSearch } from './hooks/useIngredientSearch';
 
 function App() {
   // State for active tab
-  const [activeTab, setActiveTab] = useState<'planner' | 'search'>('planner');
+  const [activeTab, setActiveTab] = useState<'planner' | 'search' | 'grocery'>(() => {
+    // Try to restore active tab from localStorage
+    const savedTab = localStorage.getItem('foodinator_active_tab');
+    return (savedTab as 'planner' | 'search' | 'grocery') || 'planner';
+  });
+
+  // Save active tab to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('foodinator_active_tab', activeTab);
+  }, [activeTab]);
 
   // Initialize hooks
   const {
@@ -26,6 +35,7 @@ function App() {
     groceryList,
     toggleItemChecked,
     isEmpty,
+    groupedByMeal
   } = useGroceryList(weeklyPlan.selectedMeals);
 
   const {
@@ -42,8 +52,6 @@ function App() {
   // Handle toggling grocery item checked state
   const handleToggleGroceryItem = (ingredientId: string) => {
     toggleItemChecked(ingredientId);
-    // In a real app, we would update the state here
-    // For this MVP, we're just calling the function without persisting the returned value
   };
 
   return (
@@ -66,8 +74,20 @@ function App() {
           <button
             className={`btn ${activeTab === 'search' ? '' : 'btn-secondary'}`}
             onClick={() => setActiveTab('search')}
+            style={{ marginRight: '10px' }}
           >
             Ingredient Search
+          </button>
+          <button
+            className={`btn ${activeTab === 'grocery' ? '' : 'btn-secondary'}`}
+            onClick={() => setActiveTab('grocery')}
+          >
+            Grocery List
+            {!isEmpty && (
+              <span className="badge" style={{ marginLeft: '5px', fontSize: '0.7rem' }}>
+                {groceryList.items.length}
+              </span>
+            )}
           </button>
         </div>
 
@@ -76,11 +96,22 @@ function App() {
           <div>
             <div className="flex-between" style={{ marginBottom: '20px' }}>
               <h2>Plan Your Weekly Meals</h2>
-              {weeklyPlan.selectedMeals.length > 0 && (
-                <button className="btn btn-danger" onClick={resetPlan}>
-                  Reset Plan
-                </button>
-              )}
+              <div>
+                {weeklyPlan.selectedMeals.length > 0 && (
+                  <>
+                    <button 
+                      className="btn btn-secondary" 
+                      onClick={() => setActiveTab('grocery')}
+                      style={{ marginRight: '10px' }}
+                    >
+                      View Grocery List
+                    </button>
+                    <button className="btn btn-danger" onClick={resetPlan}>
+                      Reset Plan
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
 
             <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
@@ -91,12 +122,6 @@ function App() {
                   onUpdateQuantity={updateMealQuantity}
                   usedSlots={usedSlots}
                   totalSlots={weeklyPlan.totalSlots}
-                />
-
-                <GroceryList
-                  groceryItems={groceryList.items}
-                  onToggleItem={handleToggleGroceryItem}
-                  isEmpty={isEmpty}
                 />
               </div>
 
@@ -135,6 +160,28 @@ function App() {
                 />
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Grocery List Tab */}
+        {activeTab === 'grocery' && (
+          <div>
+            <div className="flex-between" style={{ marginBottom: '20px' }}>
+              <h2>Your Grocery List</h2>
+              <button 
+                className="btn" 
+                onClick={() => setActiveTab('planner')}
+              >
+                Back to Meal Plan
+              </button>
+            </div>
+            
+            <GroceryList
+              groceryItems={groceryList.items}
+              onToggleItem={handleToggleGroceryItem}
+              isEmpty={isEmpty}
+              groupedByMeal={groupedByMeal}
+            />
           </div>
         )}
       </div>

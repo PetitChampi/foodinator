@@ -23,6 +23,7 @@ export interface GroceryItem {
   ingredientId: string;
   portions: number;
   checked: boolean;
+  meals?: string[]; // Array of meal IDs that use this ingredient
 }
 
 export interface GroceryList {

@@ -1,10 +1,23 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { ingredients } from '../models/data';
 import { meals } from '../models/data';
 
+const STORAGE_KEY = 'foodinator_selected_ingredients';
+
 export const useIngredientSearch = () => {
+  // Load selected ingredients from localStorage
+  const loadSelectedIngredients = (): string[] => {
+    const savedIngredients = localStorage.getItem(STORAGE_KEY);
+    return savedIngredients ? JSON.parse(savedIngredients) : [];
+  };
+
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>(loadSelectedIngredients);
+
+  // Save selected ingredients to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedIngredients));
+  }, [selectedIngredients]);
 
   // Filter ingredients based on search term
   const filteredIngredients = useMemo(() => {
