@@ -39,42 +39,54 @@ export const useWeeklyPlan = () => {
   useEffect(() => {
     // Generate a new meal order based on the selected meals
     const newOrder: Array<string | null> = Array(TOTAL_SLOTS).fill(null);
-    let slotIndex = 0;
     
     // If we have an existing order, try to preserve it
     if (mealOrder.some(id => id !== null)) {
-      // First, remove any meals that are no longer in the plan
+      // First, identify which meals are still in the plan
       const validMealIds = new Set(weeklyPlan.selectedMeals.map(meal => meal.mealId));
-      const validOrder = mealOrder.filter(id => id === null || validMealIds.has(id));
       
-      // Then, count how many of each meal we have in the order
-      const mealCounts: Record<string, number> = {};
-      validOrder.forEach(id => {
-        if (id !== null) {
-          mealCounts[id] = (mealCounts[id] || 0) + 1;
-        }
+      // Create a map to track how many instances of each meal we need
+      const requiredCounts: Record<string, number> = {};
+      weeklyPlan.selectedMeals.forEach(({ mealId, quantity }) => {
+        requiredCounts[mealId] = quantity;
       });
       
-      // Copy the valid order to the new order
-      for (let i = 0; i < Math.min(validOrder.length, TOTAL_SLOTS); i++) {
-        newOrder[i] = validOrder[i];
-        if (validOrder[i] !== null) {
-          slotIndex++;
+      // Create a map to track how many instances of each meal we've placed
+      const placedCounts: Record<string, number> = {};
+      
+      // First pass: preserve existing meal positions if they're still valid
+      for (let i = 0; i < TOTAL_SLOTS; i++) {
+        const mealId = mealOrder[i];
+        if (mealId !== null && validMealIds.has(mealId)) {
+          // This meal is still in the plan
+          placedCounts[mealId] = (placedCounts[mealId] || 0) + 1;
+          
+          // Only keep this meal in this position if we haven't placed too many
+          if (placedCounts[mealId] <= requiredCounts[mealId]) {
+            newOrder[i] = mealId;
+          }
         }
       }
       
-      // Add any new meals or additional quantities
+      // Second pass: fill in any remaining quantities in the first available slots
       weeklyPlan.selectedMeals.forEach(({ mealId, quantity }) => {
-        const existingCount = mealCounts[mealId] || 0;
-        const neededCount = quantity - existingCount;
+        const placed = placedCounts[mealId] || 0;
+        const remaining = quantity - placed;
         
-        for (let i = 0; i < neededCount && slotIndex < TOTAL_SLOTS; i++) {
-          newOrder[slotIndex] = mealId;
-          slotIndex++;
+        if (remaining > 0) {
+          // Find the first available slots and fill them
+          let added = 0;
+          for (let i = 0; i < TOTAL_SLOTS && added < remaining; i++) {
+            if (newOrder[i] === null) {
+              newOrder[i] = mealId;
+              added++;
+            }
+          }
         }
       });
     } else {
       // No existing order, just fill in the slots sequentially
+      let slotIndex = 0;
       weeklyPlan.selectedMeals.forEach(({ mealId, quantity }) => {
         for (let i = 0; i < quantity && slotIndex < TOTAL_SLOTS; i++) {
           newOrder[slotIndex] = mealId;

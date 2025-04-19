@@ -73,6 +73,19 @@ body {
   gap: 10px;
 }
 
+.meal-slots-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.meal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
 .btn {
   display: inline-block;
   background-color: var(--primary-color);
@@ -219,11 +232,56 @@ body {
     grid-template-columns: 1fr;
   }
   
+  .meal-slots-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .meal-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .meal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
   .container {
     padding: 10px;
   }
   
   .app-title {
     font-size: 2rem;
+  }
+  
+  /* Make buttons more touch-friendly on mobile */
+  .btn {
+    padding: 10px 16px;
+  }
+  
+  /* Improve spacing for tab navigation */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .tabs button {
+    margin-right: 0 !important;
+    margin-bottom: 8px;
+    flex: 1 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .meal-slots-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .meal-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .meal-grid {
+    grid-template-columns: 1fr;
   }
 }

@@ -81,15 +81,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
       
       <p>Drag and drop meals to rearrange your weekly schedule.</p>
       
-      <div 
-        className="meal-slots-container"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-          gap: '15px',
-          marginBottom: '20px'
-        }}
-      >
+      <div className="meal-slots-container">
         {mealSlots.map((mealId, index) => {
           const meal = mealId ? getMealById(mealId) : null;
           
