@@ -67,6 +67,12 @@ body {
   padding-bottom: 10px;
 }
 
+.meal-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
 .btn {
   display: inline-block;
   background-color: var(--primary-color);

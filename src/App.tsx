@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { MealSelector } from './components/MealSelector';
 import { WeeklyPlanDisplay } from './components/WeeklyPlanDisplay';
 import { GroceryList } from './components/GroceryList';
 import { IngredientSearch } from './components/IngredientSearch';
+import { MealSchedule } from './components/MealSchedule';
 import { useWeeklyPlan } from './hooks/useWeeklyPlan';
 import { useGroceryList } from './hooks/useGroceryList';
 import { useIngredientSearch } from './hooks/useIngredientSearch';
 
 function App() {
   // State for active tab
-  const [activeTab, setActiveTab] = useState<'planner' | 'search' | 'grocery'>(() => {
+  const [activeTab, setActiveTab] = useState<'planner' | 'search' | 'grocery' | 'schedule'>(() => {
     // Try to restore active tab from localStorage
     const savedTab = localStorage.getItem('foodinator_active_tab');
     return (savedTab as 'planner' | 'search' | 'grocery') || 'planner';
@@ -23,12 +24,14 @@ function App() {
   // Initialize hooks
   const {
     weeklyPlan,
+    mealOrder,
     usedSlots,
     remainingSlots,
     addMeal,
     removeMeal,
     updateMealQuantity,
     resetPlan,
+    reorderMeals,
   } = useWeeklyPlan();
 
   const {
@@ -72,6 +75,13 @@ function App() {
             Meal Planner
           </button>
           <button
+            className={`btn ${activeTab === 'schedule' ? '' : 'btn-secondary'}`}
+            onClick={() => setActiveTab('schedule')}
+            style={{ marginRight: '10px' }}
+          >
+            Meal Schedule
+          </button>
+          <button
             className={`btn ${activeTab === 'search' ? '' : 'btn-secondary'}`}
             onClick={() => setActiveTab('search')}
             style={{ marginRight: '10px' }}
@@ -101,6 +111,13 @@ function App() {
                   <>
                     <button 
                       className="btn btn-secondary" 
+                      onClick={() => setActiveTab('schedule')}
+                      style={{ marginRight: '10px' }}
+                    >
+                      Arrange Schedule
+                    </button>
+                    <button 
+                      className="btn btn-secondary" 
                       onClick={() => setActiveTab('grocery')}
                       style={{ marginRight: '10px' }}
                     >
@@ -114,23 +131,19 @@ function App() {
               </div>
             </div>
 
-            <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-              <div>
-                <WeeklyPlanDisplay
-                  selectedMeals={weeklyPlan.selectedMeals}
-                  onRemoveMeal={removeMeal}
-                  onUpdateQuantity={updateMealQuantity}
-                  usedSlots={usedSlots}
-                  totalSlots={weeklyPlan.totalSlots}
-                />
-              </div>
-
-              <div>
-                <MealSelector
-                  onAddMeal={addMeal}
-                  remainingSlots={remainingSlots}
-                />
-              </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <WeeklyPlanDisplay
+                selectedMeals={weeklyPlan.selectedMeals}
+                onRemoveMeal={removeMeal}
+                onUpdateQuantity={updateMealQuantity}
+                usedSlots={usedSlots}
+                totalSlots={weeklyPlan.totalSlots}
+              />
+              
+              <MealSelector
+                onAddMeal={addMeal}
+                remainingSlots={remainingSlots}
+              />
             </div>
           </div>
         )}
@@ -139,27 +152,48 @@ function App() {
         {activeTab === 'search' && (
           <div>
             <h2 style={{ marginBottom: '20px' }}>Find Meals by Ingredients</h2>
-            <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <IngredientSearch
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                selectedIngredients={selectedIngredients}
+                filteredIngredients={filteredIngredients}
+                matchingMeals={matchingMeals}
+                onAddIngredient={addIngredient}
+                onRemoveIngredient={removeIngredient}
+                onClearIngredients={clearIngredients}
+              />
+              
+              <MealSelector
+                onAddMeal={addMeal}
+                remainingSlots={remainingSlots}
+                searchResults={matchingMeals.map(meal => meal.id)}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Meal Schedule Tab */}
+        {activeTab === 'schedule' && (
+          <div>
+            <div className="flex-between" style={{ marginBottom: '20px' }}>
+              <h2>Meal Schedule</h2>
               <div>
-                <IngredientSearch
-                  searchTerm={searchTerm}
-                  onSearchChange={setSearchTerm}
-                  selectedIngredients={selectedIngredients}
-                  filteredIngredients={filteredIngredients}
-                  matchingMeals={matchingMeals}
-                  onAddIngredient={addIngredient}
-                  onRemoveIngredient={removeIngredient}
-                  onClearIngredients={clearIngredients}
-                />
-              </div>
-              <div>
-                <MealSelector
-                  onAddMeal={addMeal}
-                  remainingSlots={remainingSlots}
-                  searchResults={matchingMeals.map(meal => meal.id)}
-                />
+                <button 
+                  className="btn" 
+                  onClick={() => setActiveTab('planner')}
+                >
+                  Back to Meal Plan
+                </button>
               </div>
             </div>
+            
+            <MealSchedule
+              selectedMeals={weeklyPlan.selectedMeals}
+              totalSlots={weeklyPlan.totalSlots}
+              onReorderMeals={reorderMeals}
+              initialMealOrder={mealOrder}
+            />
           </div>
         )}
 

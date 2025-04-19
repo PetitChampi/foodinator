@@ -1,6 +1,6 @@
 import React from 'react';
 import { SelectedMeal } from '../models/types';
-import { getMealById } from '../models/data';
+import { getMealById, getIngredientById } from '../models/data';
 
 interface WeeklyPlanDisplayProps {
   selectedMeals: SelectedMeal[];
@@ -22,6 +22,9 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
     onUpdateQuantity(mealId, newQuantity);
   };
 
+  // Calculate empty slots
+  const emptySlots = totalSlots - usedSlots;
+
   return (
     <div className="card">
       <div className="flex-between">
@@ -35,28 +38,37 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
         <p>No meals selected yet. Start by adding meals from the list below.</p>
       ) : (
         <div>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
-                <th style={{ textAlign: 'left', padding: '8px' }}>Meal</th>
-                <th style={{ textAlign: 'center', padding: '8px' }}>Quantity</th>
-                <th style={{ textAlign: 'right', padding: '8px' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {selectedMeals.map(({ mealId, quantity }) => {
-                const meal = getMealById(mealId);
-                if (!meal) return null;
+          <div className="meal-list">
+            {selectedMeals.map(({ mealId, quantity }) => {
+              const meal = getMealById(mealId);
+              if (!meal) return null;
 
-                return (
-                  <tr key={mealId} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                    <td style={{ padding: '8px' }}>{meal.name}</td>
-                    <td style={{ textAlign: 'center', padding: '8px' }}>
+              return (
+                <div 
+                  key={mealId} 
+                  className="meal-item"
+                  style={{
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '8px',
+                    padding: '15px',
+                    marginBottom: '10px',
+                    backgroundColor: 'var(--card-background)',
+                    boxShadow: 'var(--shadow)'
+                  }}
+                >
+                  <div className="flex-between" style={{ marginBottom: '10px' }}>
+                    <div>
+                      <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{meal.name}</h3>
+                      <div style={{ fontSize: '0.9rem', color: 'var(--secondary-color)', marginTop: '5px' }}>
+                        {quantity > 1 ? `${quantity} slots` : '1 slot'}
+                      </div>
+                    </div>
+                    <div className="meal-actions">
                       <select
                         value={quantity}
                         onChange={(e) => handleQuantityChange(mealId, e)}
                         className="form-control"
-                        style={{ width: 'auto', margin: '0 auto' }}
+                        style={{ width: '60px', display: 'inline-block', marginRight: '5px' }}
                       >
                         {[...Array(Math.min(totalSlots - usedSlots + quantity, 2) + 1).keys()].slice(1).map((num) => (
                           <option key={num} value={num}>
@@ -64,20 +76,32 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
                           </option>
                         ))}
                       </select>
-                    </td>
-                    <td style={{ textAlign: 'right', padding: '8px' }}>
                       <button
                         className="btn btn-danger btn-sm"
                         onClick={() => onRemoveMeal(mealId)}
+                        style={{ padding: '4px 8px' }}
                       >
-                        Remove
+                        ✕
                       </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                    </div>
+                  </div>
+                  <div className="meal-ingredients" style={{ fontSize: '0.9rem' }}>
+                    <p style={{ margin: 0 }}>
+                      <strong>Ingredients:</strong> {meal.ingredients.length > 3 
+                        ? `${meal.ingredients.length} ingredients` 
+                        : meal.ingredients.map(id => getIngredientById(id)?.name || id).join(', ')}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+            
+            {emptySlots > 0 && (
+              <div style={{ color: 'var(--border-color)', marginTop: '10px' }}>
+                {emptySlots} empty {emptySlots === 1 ? 'slot' : 'slots'} remaining
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

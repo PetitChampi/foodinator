@@ -34,7 +34,7 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
       {displayedMeals.length === 0 ? (
         <p>No meals found matching your criteria.</p>
       ) : (
-        <div className="grid">
+        <div className="grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px' }}>
           {displayedMeals.map((meal) => (
             <MealItem
               key={meal.id}
