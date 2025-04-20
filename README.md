@@ -1,54 +1,71 @@
-# React + TypeScript + Vite
+# Foodinator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A weekly meal and grocery planner app built with React.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Plan your weekly meals by selecting from a list of available recipes
+- Automatically generate a grocery list based on your meal selections
+- Rearrange your meals in the schedule view
+- Search for meals by ingredients
+- Mobile-friendly design
 
-## Expanding the ESLint configuration
+## Development
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+
+### Installation
+
+1. Clone the repository
+   ```
+   git clone https://github.com/yourusername/foodinator.git
+   cd foodinator
+   ```
+
+2. Install dependencies
+   ```
+   npm install
+   ```
+
+3. Start the development server
+   ```
+   npm run dev
+   ```
+
+4. Open your browser and navigate to `http://localhost:5173/foodinator/`
+
+### Building for Production
+
+```
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The built files will be in the `dist` directory.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Deployment
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+This project is configured to deploy automatically to GitHub Pages using GitHub Actions.
+
+### Setting up GitHub Pages
+
+1. Push your code to GitHub
+2. Go to your repository on GitHub
+3. Go to Settings > Pages
+4. Under "Build and deployment", select "GitHub Actions" as the source
+5. The site will be deployed automatically when you push to the main branch
+
+### Manual Deployment
+
+You can also trigger a deployment manually:
+
+1. Go to your repository on GitHub
+2. Go to the Actions tab
+3. Select the "Deploy to GitHub Pages" workflow
+4. Click "Run workflow"
+
+## License
+
+MIT
