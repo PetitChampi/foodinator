@@ -52,10 +52,18 @@ This project is configured to deploy automatically to GitHub Pages using GitHub 
 ### Setting up GitHub Pages
 
 1. Push your code to GitHub
-2. Go to your repository on GitHub
-3. Go to Settings > Pages
-4. Under "Build and deployment", select "GitHub Actions" as the source
-5. The site will be deployed automatically when you push to the main branch
+2. The GitHub Actions workflow will attempt to automatically enable GitHub Pages for your repository
+3. If the workflow fails with a "Pages not enabled" error, you'll need to manually enable it:
+   - Go to your repository on GitHub
+   - Go to Settings > Pages
+   - Under "Source", select "GitHub Actions" as the source
+4. After GitHub Pages is enabled, re-run the failed workflow:
+   - Go to the Actions tab
+   - Click on the failed workflow run
+   - Click "Re-run all jobs" button
+5. Once the workflow completes successfully, your site will be available at `https://yourusername.github.io/foodinator/`
+
+**Note:** Make sure to update the `homepage` field in `package.json` with your actual GitHub username before pushing to GitHub.
 
 ### Manual Deployment
 
