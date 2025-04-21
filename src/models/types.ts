@@ -28,4 +28,5 @@ export interface GroceryItem {
 
 export interface GroceryList {
   items: GroceryItem[];
+  notes?: string;
 }

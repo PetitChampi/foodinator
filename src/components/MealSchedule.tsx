@@ -40,12 +40,82 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
     return slots;
   });
 
-  // Track the meal being dragged
+  // Track the meal being dragged and touch positions
   const draggedMeal = useRef<number | null>(null);
+  const touchStartX = useRef<number>(0);
+  const touchStartY = useRef<number>(0);
+  const touchCurrentSlot = useRef<number | null>(null);
   
   // Handle drag start
   const handleDragStart = (index: number) => {
     draggedMeal.current = index;
+  };
+  
+  // Handle touch start
+  const handleTouchStart = (index: number, e: React.TouchEvent) => {
+    if (mealSlots[index] === null) return; // Don't allow dragging empty slots
+    
+    draggedMeal.current = index;
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    touchCurrentSlot.current = index;
+    
+    // Add a class to the element being dragged
+    if (e.currentTarget) {
+      e.currentTarget.classList.add('dragging');
+    }
+  };
+  
+  // Handle touch move
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (draggedMeal.current === null) return;
+    e.preventDefault(); // Prevent scrolling while dragging
+    
+    const touch = e.touches[0];
+    const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
+    
+    // Find the meal slot element under the touch point
+    const slotElement = elements.find(el => 
+      el.classList.contains('meal-slot')
+    );
+    
+    if (slotElement) {
+      // Get the index from the data attribute
+      const index = parseInt(slotElement.getAttribute('data-index') || '-1');
+      if (index !== -1 && index !== touchCurrentSlot.current) {
+        touchCurrentSlot.current = index;
+        
+        // Add a visual indicator for the target slot
+        document.querySelectorAll('.meal-slot').forEach(el => {
+          el.classList.remove('drop-target');
+        });
+        slotElement.classList.add('drop-target');
+      }
+    }
+  };
+  
+  // Handle touch end
+  const handleTouchEnd = () => {
+    if (draggedMeal.current === null || touchCurrentSlot.current === null) {
+      // Remove visual indicators
+      document.querySelectorAll('.meal-slot').forEach(el => {
+        el.classList.remove('dragging');
+        el.classList.remove('drop-target');
+      });
+      return;
+    }
+    
+    // Perform the swap
+    handleDrop(touchCurrentSlot.current);
+    
+    // Remove visual indicators
+    document.querySelectorAll('.meal-slot').forEach(el => {
+      el.classList.remove('dragging');
+      el.classList.remove('drop-target');
+    });
+    
+    // Reset touch tracking
+    touchCurrentSlot.current = null;
   };
   
   // Handle drop
@@ -99,6 +169,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
                 cursor: 'move',
                 touchAction: 'none', // Improves touch support
               }}
+              data-index={index}
               draggable={!!meal}
               onDragStart={() => handleDragStart(index)}
               onDragOver={(e) => {
@@ -106,9 +177,9 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
               }}
               onDrop={() => handleDrop(index)}
               // Touch events for mobile support
-              onTouchStart={() => handleDragStart(index)}
-              onTouchMove={(e) => e.preventDefault()}
-              onTouchEnd={() => handleDrop(index)}
+              onTouchStart={(e) => handleTouchStart(index, e)}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
               {meal ? (
                 <>

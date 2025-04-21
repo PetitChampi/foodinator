@@ -38,7 +38,9 @@ function App() {
     groceryList,
     toggleItemChecked,
     isEmpty,
-    groupedByMeal
+    groupedByMeal,
+    notes,
+    updateNotes
   } = useGroceryList(weeklyPlan.selectedMeals);
 
   const {
@@ -188,6 +190,8 @@ function App() {
               onToggleItem={handleToggleGroceryItem}
               isEmpty={isEmpty}
               groupedByMeal={groupedByMeal}
+              notes={notes}
+              onUpdateNotes={updateNotes}
             />
           </div>
         )}

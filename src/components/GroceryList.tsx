@@ -7,6 +7,8 @@ interface GroceryListProps {
   onToggleItem: (ingredientId: string) => void;
   isEmpty: boolean;
   groupedByMeal?: Map<string, GroceryItem[]>;
+  notes?: string;
+  onUpdateNotes?: (notes: string) => void;
 }
 
 export const GroceryList: React.FC<GroceryListProps> = ({
@@ -14,6 +16,8 @@ export const GroceryList: React.FC<GroceryListProps> = ({
   onToggleItem,
   isEmpty,
   groupedByMeal,
+  notes = '',
+  onUpdateNotes,
 }) => {
   const [sortBy, setSortBy] = useState<'name' | 'portions' | 'meal'>('meal');
   const [showChecked, setShowChecked] = useState(true);
@@ -91,46 +95,67 @@ export const GroceryList: React.FC<GroceryListProps> = ({
 
       {isEmpty ? (
         <p>Your grocery list will appear here once you select meals for your weekly plan.</p>
-      ) : sortBy === 'meal' && groupedByMeal ? (
-        // Group by meal view
-        <div>
-          {Array.from(groupedByMeal.entries()).map(([mealId, items]) => {
-            if (items.length === 0) return null;
-            
-            // Filter out checked items if needed
-            const mealItems = showChecked 
-              ? items 
-              : items.filter(item => !item.checked);
-              
-            if (mealItems.length === 0) return null;
-            
-            const meal = getMealById(mealId);
-            if (!meal) return null;
-            
-            return (
-              <div key={mealId} style={{ margin: '20px 0' }}>
-                <h3 style={{ 
-                  fontSize: '1.1rem', 
-                  borderBottom: '1px solid var(--border-color)',
-                  paddingBottom: '5px',
-                  marginBottom: '10px'
-                }}>
-                  {meal.name}
-                </h3>
-                <ul style={{ listStyle: 'none', padding: 0 }}>
-                  {mealItems.map(renderGroceryItem)}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
       ) : (
-        // Regular list view
-        <div>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            {sortedItems.map(renderGroceryItem)}
-          </ul>
-        </div>
+        <>
+          {sortBy === 'meal' && groupedByMeal ? (
+            // Group by meal view
+            <div>
+              {Array.from(groupedByMeal.entries()).map(([mealId, items]) => {
+                if (items.length === 0) return null;
+                
+                // Filter out checked items if needed
+                const mealItems = showChecked 
+                  ? items 
+                  : items.filter(item => !item.checked);
+                  
+                if (mealItems.length === 0) return null;
+                
+                const meal = getMealById(mealId);
+                if (!meal) return null;
+                
+                return (
+                  <div key={mealId} style={{ margin: '20px 0' }}>
+                    <h3 style={{ 
+                      fontSize: '1.1rem', 
+                      borderBottom: '1px solid var(--border-color)',
+                      paddingBottom: '5px',
+                      marginBottom: '10px'
+                    }}>
+                      {meal.name}
+                    </h3>
+                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                      {mealItems.map(renderGroceryItem)}
+                    </ul>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            // Regular list view
+            <div>
+              <ul style={{ listStyle: 'none', padding: 0 }}>
+                {sortedItems.map(renderGroceryItem)}
+              </ul>
+            </div>
+          )}
+          
+          {/* Notes section */}
+          <div className="grocery-notes" style={{ marginTop: '30px' }}>
+            <h3 style={{ fontSize: '1.1rem', marginBottom: '10px' }}>Notes</h3>
+            <textarea
+              className="form-control"
+              value={notes}
+              onChange={(e) => onUpdateNotes && onUpdateNotes(e.target.value)}
+              placeholder="Add notes for your grocery list here..."
+              rows={4}
+              style={{ width: '100%', resize: 'vertical' }}
+              maxLength={1000}
+            />
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-color)', opacity: 0.7, marginTop: '5px', textAlign: 'right' }}>
+              {notes.length}/1000 characters
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

@@ -7,15 +7,26 @@ interface CheckedState {
   [ingredientId: string]: boolean;
 }
 
+// Storage keys
+const CHECKED_ITEMS_KEY = 'foodinator_checked_items';
+const GROCERY_NOTES_KEY = 'foodinator_grocery_notes';
+
 export const useGroceryList = (selectedMeals: { mealId: string; quantity: number }[]) => {
   // Load checked state from localStorage
   const loadCheckedState = (): CheckedState => {
-    const savedState = localStorage.getItem('foodinator_checked_items');
+    const savedState = localStorage.getItem(CHECKED_ITEMS_KEY);
     return savedState ? JSON.parse(savedState) : {};
   };
 
-  // State to track checked items
+  // Load notes from localStorage
+  const loadNotes = (): string => {
+    const savedNotes = localStorage.getItem(GROCERY_NOTES_KEY);
+    return savedNotes || '';
+  };
+
+  // State to track checked items and notes
   const [checkedItems, setCheckedItems] = useState<CheckedState>(loadCheckedState);
+  const [notes, setNotes] = useState<string>(loadNotes);
 
   // Generate the grocery list based on the selected meals and checked state
   const groceryList = useMemo<GroceryList>(() => {
@@ -55,13 +66,21 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
       })
     );
 
-    return { items };
-  }, [selectedMeals, checkedItems]);
+    return { 
+      items,
+      notes 
+    };
+  }, [selectedMeals, checkedItems, notes]);
 
   // Save checked state to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('foodinator_checked_items', JSON.stringify(checkedItems));
+    localStorage.setItem(CHECKED_ITEMS_KEY, JSON.stringify(checkedItems));
   }, [checkedItems]);
+
+  // Save notes to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(GROCERY_NOTES_KEY, notes);
+  }, [notes]);
 
   // Toggle the checked status of a grocery item
   const toggleItemChecked = (ingredientId: string) => {
@@ -102,11 +121,18 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
     return result;
   }, [groceryList.items, selectedMeals]);
 
+  // Update notes
+  const updateNotes = (newNotes: string) => {
+    setNotes(newNotes);
+  };
+
   return {
     groceryList,
     toggleItemChecked,
     allItemsChecked,
     isEmpty,
-    groupedByMeal
+    groupedByMeal,
+    notes,
+    updateNotes
   };
 };
