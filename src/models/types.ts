@@ -19,6 +19,11 @@ export interface WeeklyPlan {
   totalSlots: number;
 }
 
+export interface MealSlotStatus {
+  mealId: string | null;
+  cooked: boolean;
+}
+
 export interface GroceryItem {
   ingredientId: string;
   portions: number;

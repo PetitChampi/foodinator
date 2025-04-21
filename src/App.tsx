@@ -25,6 +25,8 @@ function App() {
   const {
     weeklyPlan,
     mealOrder,
+    cookedMeals,
+    dragLocked,
     usedSlots,
     remainingSlots,
     addMeal,
@@ -32,6 +34,8 @@ function App() {
     updateMealQuantity,
     resetPlan,
     reorderMeals,
+    toggleMealCooked,
+    toggleDragLock,
   } = useWeeklyPlan();
 
   const {
@@ -174,6 +178,10 @@ function App() {
               totalSlots={weeklyPlan.totalSlots}
               onReorderMeals={reorderMeals}
               initialMealOrder={mealOrder}
+              cookedMeals={cookedMeals}
+              dragLocked={dragLocked}
+              onToggleMealCooked={toggleMealCooked}
+              onToggleDragLock={toggleDragLock}
             />
           </div>
         )}

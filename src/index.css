@@ -311,3 +311,27 @@ body {
   border: 2px dashed var(--primary-color) !important;
   background-color: rgba(74, 111, 165, 0.1) !important;
 }
+
+/* Cooked meal styles */
+.meal-cooked-toggle {
+  transition: all 0.2s ease;
+}
+
+.meal-cooked-toggle:hover {
+  transform: scale(1.05);
+}
+
+.meal-cooked-toggle.cooked {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Drag lock styles */
+.meal-slot {
+  position: relative;
+  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.meal-slot.cooked {
+  opacity: 0.7;
+  background-color: rgba(40, 167, 69, 0.05) !important;
+}

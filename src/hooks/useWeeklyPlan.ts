@@ -4,6 +4,8 @@ import { WeeklyPlan } from '../models/types';
 const TOTAL_SLOTS = 7; // 7 days in a week
 const STORAGE_KEY = 'foodinator_weekly_plan';
 const MEAL_ORDER_KEY = 'foodinator_meal_order';
+const COOKED_MEALS_KEY = 'foodinator_cooked_meals';
+const DRAG_LOCK_KEY = 'foodinator_drag_lock';
 
 export const useWeeklyPlan = () => {
   // Load weekly plan from localStorage
@@ -22,8 +24,26 @@ export const useWeeklyPlan = () => {
       : Array(TOTAL_SLOTS).fill(null);
   };
 
+  // Load cooked meals from localStorage
+  const loadCookedMeals = (): boolean[] => {
+    const savedCookedMeals = localStorage.getItem(COOKED_MEALS_KEY);
+    return savedCookedMeals 
+      ? JSON.parse(savedCookedMeals) 
+      : Array(TOTAL_SLOTS).fill(false);
+  };
+
+  // Load drag lock state from localStorage
+  const loadDragLock = (): boolean => {
+    const savedDragLock = localStorage.getItem(DRAG_LOCK_KEY);
+    return savedDragLock 
+      ? JSON.parse(savedDragLock) 
+      : true; // Default to locked for better mobile experience
+  };
+
   const [weeklyPlan, setWeeklyPlan] = useState<WeeklyPlan>(loadWeeklyPlan);
   const [mealOrder, setMealOrder] = useState<Array<string | null>>(loadMealOrder);
+  const [cookedMeals, setCookedMeals] = useState<boolean[]>(loadCookedMeals);
+  const [dragLocked, setDragLocked] = useState<boolean>(loadDragLock);
 
   // Save weekly plan to localStorage whenever it changes
   useEffect(() => {
@@ -34,6 +54,16 @@ export const useWeeklyPlan = () => {
   useEffect(() => {
     localStorage.setItem(MEAL_ORDER_KEY, JSON.stringify(mealOrder));
   }, [mealOrder]);
+
+  // Save cooked meals to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(COOKED_MEALS_KEY, JSON.stringify(cookedMeals));
+  }, [cookedMeals]);
+
+  // Save drag lock state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(DRAG_LOCK_KEY, JSON.stringify(dragLocked));
+  }, [dragLocked]);
 
   // Update meal order when meals are added or removed
   useEffect(() => {
@@ -198,9 +228,25 @@ export const useWeeklyPlan = () => {
     setMealOrder(newOrder);
   }, []);
 
+  // Toggle the cooked status of a meal
+  const toggleMealCooked = useCallback((index: number) => {
+    setCookedMeals(prev => {
+      const newCookedMeals = [...prev];
+      newCookedMeals[index] = !newCookedMeals[index];
+      return newCookedMeals;
+    });
+  }, []);
+
+  // Toggle the drag lock state
+  const toggleDragLock = useCallback(() => {
+    setDragLocked(prev => !prev);
+  }, []);
+
   return {
     weeklyPlan,
     mealOrder,
+    cookedMeals,
+    dragLocked,
     usedSlots,
     remainingSlots,
     addMeal,
@@ -208,5 +254,7 @@ export const useWeeklyPlan = () => {
     updateMealQuantity,
     resetPlan,
     reorderMeals,
+    toggleMealCooked,
+    toggleDragLock,
   };
 };

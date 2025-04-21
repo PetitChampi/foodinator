@@ -32,6 +32,7 @@ export const IngredientSearch: React.FC<IngredientSearchProps> = ({
         </label>
         <input
           id="ingredient-search"
+          style={{ width: '100%' }}
           type="text"
           className="form-control"
           placeholder="e.g., chicken, rice, avocado..."

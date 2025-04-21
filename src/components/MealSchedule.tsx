@@ -7,6 +7,10 @@ interface MealScheduleProps {
   totalSlots: number;
   onReorderMeals: (mealSlots: Array<string | null>) => void;
   initialMealOrder?: Array<string | null>;
+  cookedMeals?: boolean[];
+  dragLocked?: boolean;
+  onToggleMealCooked?: (index: number) => void;
+  onToggleDragLock?: () => void;
 }
 
 export const MealSchedule: React.FC<MealScheduleProps> = ({
@@ -14,6 +18,10 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
   totalSlots,
   onReorderMeals,
   initialMealOrder,
+  cookedMeals = Array(7).fill(false),
+  dragLocked = true,
+  onToggleMealCooked,
+  onToggleDragLock,
 }) => {
   // Create an array of meal slots
   // Each slot contains either a mealId or null (for empty slots)
@@ -54,6 +62,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
   // Handle touch start
   const handleTouchStart = (index: number, e: React.TouchEvent) => {
     if (mealSlots[index] === null) return; // Don't allow dragging empty slots
+    if (dragLocked) return; // Don't allow dragging if locked
     
     draggedMeal.current = index;
     touchStartX.current = e.touches[0].clientX;
@@ -140,6 +149,13 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
     draggedMeal.current = null;
   };
 
+  // Handle toggling a meal's cooked status
+  const handleToggleCooked = (index: number) => {
+    if (onToggleMealCooked) {
+      onToggleMealCooked(index);
+    }
+  };
+
   return (
     <div className="card">
       <div className="flex-between">
@@ -149,7 +165,16 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
         </div>
       </div>
       
-      <p>Drag and drop meals to rearrange your weekly schedule.</p>
+      <div className="flex-between" style={{ marginBottom: '15px' }}>
+        <p>Drag and drop meals to rearrange your weekly schedule.</p>
+        <button 
+          className={`btn btn-sm ${dragLocked ? 'btn-secondary' : ''}`}
+          onClick={onToggleDragLock}
+          title={dragLocked ? "Unlock drag and drop" : "Lock drag and drop"}
+        >
+          {dragLocked ? "🔒 Locked" : "🔓 Unlocked"}
+        </button>
+      </div>
       
       <div className="meal-slots-container">
         {mealSlots.map((mealId, index) => {
@@ -158,7 +183,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
           return (
             <div 
               key={`slot-${index}`}
-              className={`meal-slot ${!meal ? 'empty' : ''}`}
+              className={`meal-slot ${!meal ? 'empty' : ''} ${meal && cookedMeals[index] ? 'cooked' : ''}`}
               style={{
                 border: meal ? '1px solid var(--border-color)' : '2px dashed var(--border-color)',
                 borderRadius: '8px',
@@ -166,11 +191,11 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
                 minHeight: '100px',
                 backgroundColor: meal ? 'var(--card-background)' : 'rgba(0,0,0,0.02)',
                 boxShadow: meal ? 'var(--shadow)' : 'none',
-                cursor: 'move',
+                cursor: dragLocked ? 'default' : 'move',
                 touchAction: 'none', // Improves touch support
               }}
               data-index={index}
-              draggable={!!meal}
+              draggable={!!meal && !dragLocked}
               onDragStart={() => handleDragStart(index)}
               onDragOver={(e) => {
                 e.preventDefault();
@@ -183,9 +208,30 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
             >
               {meal ? (
                 <>
-                  <h3 style={{ margin: 0, fontSize: '1.1rem', marginBottom: '10px' }}>
-                    {meal.name}
-                  </h3>
+                  <div className="flex-between" style={{ marginBottom: '10px' }}>
+                    <h3 style={{ margin: 0, fontSize: '1.1rem' }}>
+                      {meal.name}
+                    </h3>
+                    <div 
+                      className={`meal-cooked-toggle ${cookedMeals[index] ? 'cooked' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleToggleCooked(index);
+                      }}
+                      style={{
+                        cursor: 'pointer',
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        backgroundColor: cookedMeals[index] ? 'var(--success-color)' : '#f0f0f0',
+                        color: cookedMeals[index] ? 'white' : 'var(--text-color)',
+                        fontSize: '0.8rem',
+                        fontWeight: 'bold',
+                        userSelect: 'none',
+                      }}
+                    >
+                      {cookedMeals[index] ? '✓ Cooked' : 'Mark Cooked'}
+                    </div>
+                  </div>
                   <div className="meal-ingredients" style={{ fontSize: '0.9rem' }}>
                     <p style={{ margin: 0 }}>
                       {meal.ingredients.length > 3 
