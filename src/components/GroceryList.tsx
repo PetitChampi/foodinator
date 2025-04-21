@@ -108,7 +108,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({
             if (!meal) return null;
             
             return (
-              <div key={mealId} style={{ marginBottom: '20px' }}>
+              <div key={mealId} style={{ margin: '20px 0' }}>
                 <h3 style={{ 
                   fontSize: '1.1rem', 
                   borderBottom: '1px solid var(--border-color)',

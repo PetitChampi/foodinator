@@ -1,3 +1,8 @@
+/* --primary-color: #e76f51;
+--tertiary-color: #dee2ff;
+--tertiary-color: #fec89a;
+--secondary-color: #f4a261; */
+
 :root {
   --primary-color: #4a6fa5;
   --secondary-color: #166d3b;
@@ -6,8 +11,8 @@
   --text-color: #333333;
   --border-color: #e0e0e0;
   --success-color: #28a745;
-  --danger-color: #dc3545;
-  --warning-color: #ffc107;
+  --danger-color: #d62828;
+  --warning-color: #ffb703;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -41,43 +46,50 @@ body {
 }
 
 .app-title {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.app-subtitle {
-  font-size: 1.2rem;
-  font-weight: normal;
-  opacity: 0.9;
+  font-size: 2rem;
 }
 
 .card {
   background-color: var(--card-background);
   border-radius: 8px;
   box-shadow: var(--shadow);
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 15px;
 }
 
 .card-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin-bottom: 15px;
   color: var(--primary-color);
   border-bottom: 1px solid var(--border-color);
   padding-bottom: 10px;
 }
 
+.card .controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ingredient-list {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
 .meal-list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+  margin-top: 10px;
 }
 
 .meal-slots-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 15px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .meal-grid {
@@ -127,18 +139,14 @@ body {
   font-size: 0.875rem;
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
-
 .form-label {
   display: block;
   margin-bottom: 5px;
   font-weight: 500;
+  font-size: .875rem;
 }
 
 .form-control {
-  width: 100%;
   padding: 8px 12px;
   border: 1px solid var(--border-color);
   border-radius: 4px;

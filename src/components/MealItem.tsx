@@ -39,48 +39,51 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onAddMeal, remainingSl
       <h3 className="card-title">{meal.name}</h3>
       <div className="meal-ingredients">
         <p><strong>Ingredients:</strong></p>
-        <ul>
-          {meal.ingredients.map((ingredientId) => (
-            <li key={ingredientId}>
+        <div className="ingredient-list">
+          {meal.ingredients.map((ingredientId, i) => (
+            <span key={ingredientId}>
               {getIngredientById(ingredientId)?.name || ingredientId}
-            </li>
+              {i !== meal.ingredients.length - 1 && <span>, </span>}
+            </span>
           ))}
-        </ul>
+        </div>
       </div>
-      <div className="form-group">
-        <label htmlFor={`quantity-${meal.id}`} className="form-label">
-          Quantity (slots):
-        </label>
-        <select
-          id={`quantity-${meal.id}`}
-          className="form-control"
-          value={quantity}
-          onChange={handleQuantityChange}
-          disabled={remainingSlots === 0}
+      <div className="controls">
+        <div className="form-group">
+          <label htmlFor={`quantity-${meal.id}`} className="form-label">
+            Quantity (slots):
+          </label>
+          <select
+            id={`quantity-${meal.id}`}
+            className="form-control"
+            value={quantity}
+            onChange={handleQuantityChange}
+            disabled={remainingSlots === 0}
+          >
+            {remainingSlots > 0 ? (
+              [...Array(Math.min(remainingSlots, 2) + 1).keys()].slice(1).map((num) => (
+                <option key={num} value={num}>
+                  {num}
+                </option>
+              ))
+            ) : (
+              <option value="1">1</option>
+            )}
+          </select>
+        </div>
+        {error && <p className="error-text" style={{ color: 'var(--danger-color)' }}>{error}</p>}
+        <button
+          className="btn"
+          onClick={handleAddMeal}
+          disabled={isAddDisabled}
+          style={{
+            opacity: isAddDisabled ? 0.6 : 1,
+            cursor: isAddDisabled ? 'not-allowed' : 'pointer'
+          }}
         >
-          {remainingSlots > 0 ? (
-            [...Array(Math.min(remainingSlots, 2) + 1).keys()].slice(1).map((num) => (
-              <option key={num} value={num}>
-                {num}
-              </option>
-            ))
-          ) : (
-            <option value="1">1</option>
-          )}
-        </select>
+          {isAddDisabled ? 'No Slots Available' : 'Add to Plan'}
+        </button>
       </div>
-      {error && <p className="error-text" style={{ color: 'var(--danger-color)' }}>{error}</p>}
-      <button
-        className="btn"
-        onClick={handleAddMeal}
-        disabled={isAddDisabled}
-        style={{
-          opacity: isAddDisabled ? 0.6 : 1,
-          cursor: isAddDisabled ? 'not-allowed' : 'pointer'
-        }}
-      >
-        {isAddDisabled ? 'No Slots Available' : 'Add to Plan'}
-      </button>
     </div>
   );
 };

@@ -51,7 +51,6 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
                     border: '1px solid var(--border-color)',
                     borderRadius: '8px',
                     padding: '15px',
-                    marginBottom: '10px',
                     backgroundColor: 'var(--card-background)',
                     boxShadow: 'var(--shadow)'
                   }}

@@ -61,7 +61,6 @@ function App() {
     <div>
       <header className="app-header">
         <h1 className="app-title">Foodinator</h1>
-        <p className="app-subtitle">Weekly Meal & Grocery Planner</p>
       </header>
 
       <div className="container">
@@ -109,20 +108,6 @@ function App() {
               <div>
                 {weeklyPlan.selectedMeals.length > 0 && (
                   <>
-                    <button 
-                      className="btn btn-secondary" 
-                      onClick={() => setActiveTab('schedule')}
-                      style={{ marginRight: '10px' }}
-                    >
-                      Arrange Schedule
-                    </button>
-                    <button 
-                      className="btn btn-secondary" 
-                      onClick={() => setActiveTab('grocery')}
-                      style={{ marginRight: '10px' }}
-                    >
-                      View Grocery List
-                    </button>
                     <button className="btn btn-danger" onClick={resetPlan}>
                       Reset Plan
                     </button>
@@ -179,12 +164,6 @@ function App() {
             <div className="flex-between" style={{ marginBottom: '20px' }}>
               <h2>Meal Schedule</h2>
               <div>
-                <button 
-                  className="btn" 
-                  onClick={() => setActiveTab('planner')}
-                >
-                  Back to Meal Plan
-                </button>
               </div>
             </div>
             
@@ -202,12 +181,6 @@ function App() {
           <div>
             <div className="flex-between" style={{ marginBottom: '20px' }}>
               <h2>Your Grocery List</h2>
-              <button 
-                className="btn" 
-                onClick={() => setActiveTab('planner')}
-              >
-                Back to Meal Plan
-              </button>
             </div>
             
             <GroceryList

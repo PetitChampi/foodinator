@@ -1,17 +1,17 @@
 import { Ingredient, Meal } from './types';
 
-// Define all ingredients
 export const ingredients: Ingredient[] = [
   { id: 'chicken', name: 'Chicken' },
   { id: 'broccoli', name: 'Broccoli' },
   { id: 'mushrooms', name: 'Mushrooms' },
   { id: 'creme-fraiche', name: 'Creme fraiche' },
   { id: 'rice', name: 'Rice' },
-  { id: 'full-grain-pasta', name: 'Full grain pasta' },
+  { id: 'pasta', name: 'Pasta' },
   { id: 'tomato-sauce', name: 'Tomato sauce' },
   { id: 'ground-beef', name: 'Ground beef' },
   { id: 'steaks', name: 'Steaks' },
   { id: 'white-beans', name: 'White beans' },
+  { id: 'black-beans', name: 'Black beans' },
   { id: 'garlic', name: 'Garlic' },
   { id: 'fresh-rosemary', name: 'Fresh rosemary' },
   { id: 'brown-bread', name: 'Brown bread' },
@@ -23,9 +23,15 @@ export const ingredients: Ingredient[] = [
   { id: 'shallots', name: 'Shallots' },
   { id: 'bell-pepper', name: 'Bell pepper' },
   { id: 'milk', name: 'Milk' },
+  { id: 'parmesan', name: 'Parmesan' },
+  { id: 'grana-padano', name: 'Grana Padano' },
+  { id: 'lardons', name: 'Lardons' },
+  { id: 'asparagus', name: 'Asparagus' },
+  { id: 'white-wine', name: 'White wine' },
+  { id: 'chillis', name: 'Chillis' },
+  { id: 'shallots', name: 'Shallots' },
 ];
 
-// Define all meals with their ingredients
 export const meals: Meal[] = [
   {
     id: 'creamy-chic-broc',
@@ -35,12 +41,27 @@ export const meals: Meal[] = [
   {
     id: 'pasta-bolognese',
     name: 'Pasta bolognese',
-    ingredients: ['full-grain-pasta', 'tomato-sauce', 'ground-beef'],
+    ingredients: ['pasta', 'tomato-sauce', 'ground-beef'],
+  },
+  {
+    id: 'pasta-carbonara',
+    name: 'Pasta carbonara',
+    ingredients: ['pasta', 'eggs', 'grana-padano', "parmesan", 'lardons'],
+  },
+  {
+    id: 'fishy-pasta',
+    name: 'Fishy pasta',
+    ingredients: ['pasta', 'fish', 'creme-fraiche', "shallots", 'asparagus', 'white-wine'],
   },
   {
     id: 'epic-beans-and-steak',
     name: 'Epic beans and steak',
     ingredients: ['steaks', 'white-beans', 'mushrooms', 'garlic', 'fresh-rosemary'],
+  },
+  {
+    id: 'all-day-mexican-breakfast',
+    name: 'All day Mexican breakfast',
+    ingredients: ['eggs', 'black-beans', 'avocados', 'chillis', 'lime'],
   },
   {
     id: 'avocado-toast',
@@ -54,12 +75,10 @@ export const meals: Meal[] = [
   },
 ];
 
-// Helper function to get ingredient by ID
-export const getIngredientById = (id: string): Ingredient | undefined => {
-  return ingredients.find(ingredient => ingredient.id === id);
+export const getIngredientById = (id: string): Ingredient | null => {
+  return ingredients.find(ingredient => ingredient.id === id) || null;
 };
 
-// Helper function to get meal by ID
-export const getMealById = (id: string): Meal | undefined => {
-  return meals.find(meal => meal.id === id);
+export const getMealById = (id: string): Meal | null => {
+  return meals.find(meal => meal.id === id) || null;
 };
