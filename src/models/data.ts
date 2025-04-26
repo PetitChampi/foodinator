@@ -9,6 +9,7 @@ export const ingredients: Ingredient[] = [
   { id: 'pasta', name: 'Pasta' },
   { id: 'tomato-sauce', name: 'Tomato sauce' },
   { id: 'ground-beef', name: 'Ground beef' },
+  { id: 'diced-beef', name: 'Diced beef' },
   { id: 'steaks', name: 'Steaks' },
   { id: 'white-beans', name: 'White beans' },
   { id: 'black-beans', name: 'Black beans' },
@@ -46,7 +47,7 @@ export const meals: Meal[] = [
   {
     id: 'pasta-carbonara',
     name: 'Pasta carbonara',
-    ingredients: ['pasta', 'eggs', 'grana-padano', "parmesan", 'lardons'],
+    ingredients: ['pasta', 'eggs', 'grana-padano', "parmesan", 'lardons', 'mushrooms'],
   },
   {
     id: 'fishy-pasta',
@@ -61,7 +62,7 @@ export const meals: Meal[] = [
   {
     id: 'all-day-mexican-breakfast',
     name: 'All day Mexican breakfast',
-    ingredients: ['eggs', 'black-beans', 'avocados', 'chillis', 'lime'],
+    ingredients: ['eggs', 'black-beans', 'avocados', 'chillis', 'lime', 'diced-beef'],
   },
   {
     id: 'avocado-toast',
