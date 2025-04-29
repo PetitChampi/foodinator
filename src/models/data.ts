@@ -31,6 +31,11 @@ export const ingredients: Ingredient[] = [
   { id: 'white-wine', name: 'White wine' },
   { id: 'chillis', name: 'Chillis' },
   { id: 'shallots', name: 'Shallots' },
+  { id: 'lamb', name: 'Lamb' },
+  { id: 'new-potatoes', name: 'Lamb' },
+  { id: 'frozen-peas', name: 'Frozen peas' },
+  { id: 'fresh-basil', name: 'Fresh basil' },
+  { id: 'yellow-pepper', name: 'Yellow pepper paste' },
 ];
 
 export const meals: Meal[] = [
@@ -73,6 +78,11 @@ export const meals: Meal[] = [
     id: 'fish-n-mash',
     name: 'Fish n mash',
     ingredients: ['fish', 'potatoes', 'shallots', 'bell-pepper', 'milk'],
+  },
+  {
+    id: 'pan-seared-lamb',
+    name: 'Pan-seared lamb',
+    ingredients: ['lamb', 'new-potatoes', 'frozen-peas', 'fresh-basil', 'yellow-pepper'],
   },
 ];
 
