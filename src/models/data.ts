@@ -32,7 +32,7 @@ export const ingredients: Ingredient[] = [
   { id: 'chillis', name: 'Chillis' },
   { id: 'shallots', name: 'Shallots' },
   { id: 'lamb', name: 'Lamb' },
-  { id: 'new-potatoes', name: 'Lamb' },
+  { id: 'new-potatoes', name: 'New potatoes' },
   { id: 'frozen-peas', name: 'Frozen peas' },
   { id: 'fresh-basil', name: 'Fresh basil' },
   { id: 'yellow-pepper', name: 'Yellow pepper paste' },
