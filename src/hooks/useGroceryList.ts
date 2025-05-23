@@ -82,12 +82,38 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
     localStorage.setItem(GROCERY_NOTES_KEY, notes);
   }, [notes]);
 
+  // Clear checked items for ingredients that are no longer in any meal
+  useEffect(() => {
+    const currentIngredientIds = new Set(groceryList.items.map(item => item.ingredientId));
+    const checkedIngredientIds = Object.keys(checkedItems);
+    
+    // Find checked ingredients that are no longer in the grocery list
+    const ingredientsToRemove = checkedIngredientIds.filter(
+      ingredientId => !currentIngredientIds.has(ingredientId)
+    );
+    
+    if (ingredientsToRemove.length > 0) {
+      setCheckedItems(prev => {
+        const newCheckedItems = { ...prev };
+        ingredientsToRemove.forEach(ingredientId => {
+          delete newCheckedItems[ingredientId];
+        });
+        return newCheckedItems;
+      });
+    }
+  }, [groceryList.items, checkedItems]);
+
   // Toggle the checked status of a grocery item
   const toggleItemChecked = (ingredientId: string) => {
     setCheckedItems(prev => ({
       ...prev,
       [ingredientId]: !prev[ingredientId]
     }));
+  };
+
+  // Clear all checked items (useful for reset functionality)
+  const clearAllCheckedItems = () => {
+    setCheckedItems({});
   };
 
   // Check if all grocery items are checked
@@ -129,6 +155,7 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
   return {
     groceryList,
     toggleItemChecked,
+    clearAllCheckedItems,
     allItemsChecked,
     isEmpty,
     groupedByMeal,

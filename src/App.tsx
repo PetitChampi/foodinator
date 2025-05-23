@@ -41,6 +41,7 @@ function App() {
   const {
     groceryList,
     toggleItemChecked,
+    clearAllCheckedItems,
     isEmpty,
     groupedByMeal,
     notes,
@@ -61,6 +62,12 @@ function App() {
   // Handle toggling grocery item checked state
   const handleToggleGroceryItem = (ingredientId: string) => {
     toggleItemChecked(ingredientId);
+  };
+
+  // Handle resetting the plan and clearing checked grocery items
+  const handleResetPlan = () => {
+    resetPlan();
+    clearAllCheckedItems();
   };
 
   return (
@@ -114,7 +121,7 @@ function App() {
               <div>
                 {weeklyPlan.selectedMeals.length > 0 && (
                   <>
-                    <button className="btn btn-danger" onClick={resetPlan}>
+                    <button className="btn btn-danger" onClick={handleResetPlan}>
                       Reset Plan
                     </button>
                   </>

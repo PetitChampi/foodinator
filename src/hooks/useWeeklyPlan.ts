@@ -24,12 +24,12 @@ export const useWeeklyPlan = () => {
       : Array(TOTAL_SLOTS).fill(null);
   };
 
-  // Load cooked meals from localStorage
-  const loadCookedMeals = (): boolean[] => {
+  // Load cooked meals from localStorage - now stores meal IDs with instance numbers
+  const loadCookedMeals = (): Record<string, boolean> => {
     const savedCookedMeals = localStorage.getItem(COOKED_MEALS_KEY);
     return savedCookedMeals 
       ? JSON.parse(savedCookedMeals) 
-      : Array(TOTAL_SLOTS).fill(false);
+      : {};
   };
 
   // Load drag lock state from localStorage
@@ -42,7 +42,7 @@ export const useWeeklyPlan = () => {
 
   const [weeklyPlan, setWeeklyPlan] = useState<WeeklyPlan>(loadWeeklyPlan);
   const [mealOrder, setMealOrder] = useState<Array<string | null>>(loadMealOrder);
-  const [cookedMeals, setCookedMeals] = useState<boolean[]>(loadCookedMeals);
+  const [cookedMeals, setCookedMeals] = useState<Record<string, boolean>>(loadCookedMeals);
   const [dragLocked, setDragLocked] = useState<boolean>(loadDragLock);
 
   // Save weekly plan to localStorage whenever it changes
@@ -64,6 +64,37 @@ export const useWeeklyPlan = () => {
   useEffect(() => {
     localStorage.setItem(DRAG_LOCK_KEY, JSON.stringify(dragLocked));
   }, [dragLocked]);
+
+  // Generate unique keys for meal instances in slots
+  const generateMealInstanceKey = (mealId: string, slotIndex: number): string => {
+    return `${mealId}_slot_${slotIndex}`;
+  };
+
+  // Clean up cooked status for meals that are no longer in the plan
+  useEffect(() => {
+    const currentMealInstanceKeys = new Set<string>();
+    
+    // Generate all current meal instance keys
+    mealOrder.forEach((mealId, index) => {
+      if (mealId) {
+        currentMealInstanceKeys.add(generateMealInstanceKey(mealId, index));
+      }
+    });
+
+    // Find cooked meal keys that are no longer valid
+    const cookedMealKeys = Object.keys(cookedMeals);
+    const keysToRemove = cookedMealKeys.filter(key => !currentMealInstanceKeys.has(key));
+
+    if (keysToRemove.length > 0) {
+      setCookedMeals(prev => {
+        const newCookedMeals = { ...prev };
+        keysToRemove.forEach(key => {
+          delete newCookedMeals[key];
+        });
+        return newCookedMeals;
+      });
+    }
+  }, [mealOrder, cookedMeals]);
 
   // Update meal order when meals are added or removed
   useEffect(() => {
@@ -221,21 +252,60 @@ export const useWeeklyPlan = () => {
       totalSlots: TOTAL_SLOTS,
     });
     setMealOrder(Array(TOTAL_SLOTS).fill(null));
+    setCookedMeals({});
   }, []);
 
   // Reorder meals in the schedule
   const reorderMeals = useCallback((newOrder: Array<string | null>) => {
-    setMealOrder(newOrder);
-  }, []);
-
-  // Toggle the cooked status of a meal
-  const toggleMealCooked = useCallback((index: number) => {
-    setCookedMeals(prev => {
-      const newCookedMeals = [...prev];
-      newCookedMeals[index] = !newCookedMeals[index];
-      return newCookedMeals;
+    // When reordering, we need to update the cooked status to follow the meals
+    const oldOrder = [...mealOrder];
+    const newCookedMeals: Record<string, boolean> = {};
+    
+    // Map the cooked status from old positions to new positions
+    newOrder.forEach((mealId, newIndex) => {
+      if (mealId) {
+        const newKey = generateMealInstanceKey(mealId, newIndex);
+        
+        // Find if this meal was cooked in its old position
+        const oldIndex = oldOrder.findIndex((oldMealId, idx) => {
+          const oldKey = generateMealInstanceKey(oldMealId || '', idx);
+          return oldMealId === mealId && cookedMeals[oldKey];
+        });
+        
+        if (oldIndex !== -1) {
+          const oldKey = generateMealInstanceKey(mealId, oldIndex);
+          if (cookedMeals[oldKey]) {
+            newCookedMeals[newKey] = true;
+          }
+        }
+      }
     });
-  }, []);
+    
+    setMealOrder(newOrder);
+    setCookedMeals(newCookedMeals);
+  }, [mealOrder, cookedMeals]);
+
+  // Toggle the cooked status of a meal instance
+  const toggleMealCooked = useCallback((slotIndex: number) => {
+    const mealId = mealOrder[slotIndex];
+    if (!mealId) return;
+    
+    const mealInstanceKey = generateMealInstanceKey(mealId, slotIndex);
+    
+    setCookedMeals(prev => ({
+      ...prev,
+      [mealInstanceKey]: !prev[mealInstanceKey]
+    }));
+  }, [mealOrder]);
+
+  // Check if a meal instance is cooked
+  const isMealCooked = useCallback((slotIndex: number): boolean => {
+    const mealId = mealOrder[slotIndex];
+    if (!mealId) return false;
+    
+    const mealInstanceKey = generateMealInstanceKey(mealId, slotIndex);
+    return cookedMeals[mealInstanceKey] || false;
+  }, [mealOrder, cookedMeals]);
 
   // Toggle the drag lock state
   const toggleDragLock = useCallback(() => {
@@ -245,7 +315,7 @@ export const useWeeklyPlan = () => {
   return {
     weeklyPlan,
     mealOrder,
-    cookedMeals,
+    cookedMeals: mealOrder.map((_, index) => isMealCooked(index)), // Convert to boolean array for backward compatibility
     dragLocked,
     usedSlots,
     remainingSlots,
@@ -255,6 +325,7 @@ export const useWeeklyPlan = () => {
     resetPlan,
     reorderMeals,
     toggleMealCooked,
+    isMealCooked,
     toggleDragLock,
   };
 };

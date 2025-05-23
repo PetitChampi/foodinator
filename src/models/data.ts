@@ -18,6 +18,7 @@ export const ingredients: Ingredient[] = [
   { id: 'brown-bread', name: 'Brown bread' },
   { id: 'avocados', name: 'Avocados' },
   { id: 'lime', name: 'Lime' },
+  { id: 'lemon', name: 'Lemon' },
   { id: 'eggs', name: 'Eggs' },
   { id: 'fish', name: 'Fish' },
   { id: 'potatoes', name: 'Potatoes' },
@@ -33,9 +34,8 @@ export const ingredients: Ingredient[] = [
   { id: 'shallots', name: 'Shallots' },
   { id: 'lamb', name: 'Lamb' },
   { id: 'new-potatoes', name: 'New potatoes' },
-  { id: 'frozen-peas', name: 'Frozen peas' },
-  { id: 'fresh-basil', name: 'Fresh basil' },
-  { id: 'yellow-pepper', name: 'Yellow pepper paste' },
+  { id: 'green-veg', name: 'Green veg' },
+  { id: 'mint-sauce', name: 'Mint sauce' },
 ];
 
 export const meals: Meal[] = [
@@ -57,7 +57,7 @@ export const meals: Meal[] = [
   {
     id: 'fishy-pasta',
     name: 'Fishy pasta',
-    ingredients: ['pasta', 'fish', 'creme-fraiche', "shallots", 'asparagus', 'white-wine'],
+    ingredients: ['pasta', 'fish', 'creme-fraiche', "shallots", 'asparagus', 'white-wine', 'lemon'],
   },
   {
     id: 'epic-beans-and-steak',
@@ -82,7 +82,7 @@ export const meals: Meal[] = [
   {
     id: 'pan-seared-lamb',
     name: 'Pan-seared lamb',
-    ingredients: ['lamb', 'new-potatoes', 'frozen-peas', 'fresh-basil', 'yellow-pepper'],
+    ingredients: ['lamb', 'new-potatoes', 'green-veg', 'mint-sauce'],
   },
 ];
 
