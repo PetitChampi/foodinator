@@ -36,6 +36,10 @@ export const ingredients: Ingredient[] = [
   { id: 'new-potatoes', name: 'New potatoes' },
   { id: 'green-veg', name: 'Green veg' },
   { id: 'mint-sauce', name: 'Mint sauce' },
+  { id: 'cheese', name: 'Cheese' },
+  { id: 'buns', name: 'Buns' },
+  { id: 'sauce', name: 'Sauce' },
+  { id: 'lettuce', name: 'Lettuce' },
 ];
 
 export const meals: Meal[] = [
@@ -83,6 +87,11 @@ export const meals: Meal[] = [
     id: 'pan-seared-lamb',
     name: 'Pan-seared lamb',
     ingredients: ['lamb', 'new-potatoes', 'green-veg', 'mint-sauce'],
+  },
+  {
+    id: 'burgers',
+    name: 'Burgers',
+    ingredients: ['buns', 'sauce', 'ground-beef', 'cheese', 'lettuce', 'potatoes'],
   },
 ];
 
