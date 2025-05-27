@@ -159,7 +159,6 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
   return (
     <div className="card">
       <div className="flex-between">
-        <h2 className="card-title">Meal Schedule</h2>
         <div className="badge">
           {mealSlots.filter(slot => slot !== null).length}/{totalSlots} slots filled
         </div>
@@ -167,6 +166,10 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
       
       <div className="flex-between" style={{ marginBottom: '15px' }}>
         <p>Drag and drop meals to rearrange your weekly schedule.</p>
+        <p>
+          (Last day of schedule:&nbsp;
+          {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString().replace(/\//g, '-')})
+        </p>
         <button 
           className={`btn btn-sm ${dragLocked ? 'btn-secondary' : ''}`}
           onClick={onToggleDragLock}
@@ -254,10 +257,6 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
             </div>
           );
         })}
-      </div>
-      
-      <div style={{ fontSize: '0.9rem', color: 'var(--secondary-color)', marginTop: '10px' }}>
-        <p>Tip: Drag meals to rearrange them in the order you want to cook them.</p>
       </div>
     </div>
   );
