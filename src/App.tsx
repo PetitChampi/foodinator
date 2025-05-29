@@ -46,7 +46,7 @@ function App() {
     groupedByMeal,
     notes,
     updateNotes
-  } = useGroceryList(weeklyPlan.selectedMeals);
+  } = useGroceryList(weeklyPlan.selectedMeals, mealOrder);
 
   const {
     searchTerm,

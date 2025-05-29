@@ -222,7 +222,7 @@ body {
 }
 
 .checkbox-container {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   margin-bottom: 8px;
 }

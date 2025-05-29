@@ -11,7 +11,7 @@ interface CheckedState {
 const CHECKED_ITEMS_KEY = 'foodinator_checked_items';
 const GROCERY_NOTES_KEY = 'foodinator_grocery_notes';
 
-export const useGroceryList = (selectedMeals: { mealId: string; quantity: number }[]) => {
+export const useGroceryList = (selectedMeals: { mealId: string; quantity: number }[], mealOrder?: Array<string | null>) => {
   // Load checked state from localStorage
   const loadCheckedState = (): CheckedState => {
     const savedState = localStorage.getItem(CHECKED_ITEMS_KEY);
@@ -123,7 +123,7 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
   // Check if the grocery list is empty
   const isEmpty = groceryList.items.length === 0;
 
-  // Group items by meal
+  // Group items by meal, ordered according to the meal schedule
   const groupedByMeal = useMemo(() => {
     const result = new Map<string, GroceryItem[]>();
     
@@ -144,8 +144,37 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
       }
     });
     
+    // If we have a meal order, reorder the map to match the schedule order
+    if (mealOrder && mealOrder.length > 0) {
+      const orderedResult = new Map<string, GroceryItem[]>();
+      
+      // Get unique meal IDs in the order they appear in the schedule
+      const uniqueMealIds: string[] = [];
+      mealOrder.forEach(mealId => {
+        if (mealId && !uniqueMealIds.includes(mealId)) {
+          uniqueMealIds.push(mealId);
+        }
+      });
+      
+      // Add meals in schedule order
+      uniqueMealIds.forEach(mealId => {
+        if (result.has(mealId)) {
+          orderedResult.set(mealId, result.get(mealId)!);
+        }
+      });
+      
+      // Add any remaining meals that weren't in the schedule (shouldn't happen normally)
+      result.forEach((items, mealId) => {
+        if (!orderedResult.has(mealId)) {
+          orderedResult.set(mealId, items);
+        }
+      });
+      
+      return orderedResult;
+    }
+    
     return result;
-  }, [groceryList.items, selectedMeals]);
+  }, [groceryList.items, selectedMeals, mealOrder]);
 
   // Update notes
   const updateNotes = (newNotes: string) => {

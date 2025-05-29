@@ -48,14 +48,11 @@ export const GroceryList: React.FC<GroceryListProps> = ({
 
     return (
       <li key={item.ingredientId}>
-        <div
-          className={`checkbox-container ${item.checked ? 'checked' : ''}`}
-          onClick={() => onToggleItem(item.ingredientId)}
-        >
+        <div className={`checkbox-container ${item.checked ? 'checked' : ''}`}>
           <input
             type="checkbox"
             checked={item.checked}
-            onChange={() => {}} // Handled by the onClick on the container
+            onChange={() => onToggleItem(item.ingredientId)}
             id={`ingredient-${item.ingredientId}`}
           />
           <label htmlFor={`ingredient-${item.ingredientId}`}>
@@ -132,7 +129,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({
             </div>
           ) : (
             // Regular list view
-            <div>
+            <div style={{ marginTop: '20px' }}>
               <ul style={{ listStyle: 'none', padding: 0 }}>
                 {sortedItems.map(renderGroceryItem)}
               </ul>
