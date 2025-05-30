@@ -17,6 +17,7 @@ export interface SelectedMeal {
 export interface WeeklyPlan {
   selectedMeals: SelectedMeal[];
   totalSlots: number;
+  startDate?: string; // ISO date string for the start of the meal schedule
 }
 
 export interface MealSlotStatus {

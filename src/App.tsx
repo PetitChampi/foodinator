@@ -27,6 +27,7 @@ function App() {
     mealOrder,
     cookedMeals,
     dragLocked,
+    startDate,
     usedSlots,
     remainingSlots,
     addMeal,
@@ -36,6 +37,8 @@ function App() {
     reorderMeals,
     toggleMealCooked,
     toggleDragLock,
+    updateStartDate,
+    getSlotDate,
   } = useWeeklyPlan();
 
   const {
@@ -189,6 +192,9 @@ function App() {
               dragLocked={dragLocked}
               onToggleMealCooked={toggleMealCooked}
               onToggleDragLock={toggleDragLock}
+              startDate={startDate}
+              onUpdateStartDate={updateStartDate}
+              getSlotDate={getSlotDate}
             />
           </div>
         )}

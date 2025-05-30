@@ -11,6 +11,9 @@ interface MealScheduleProps {
   dragLocked?: boolean;
   onToggleMealCooked?: (index: number) => void;
   onToggleDragLock?: () => void;
+  startDate?: string;
+  onUpdateStartDate?: (date: string) => void;
+  getSlotDate?: (index: number) => string;
 }
 
 export const MealSchedule: React.FC<MealScheduleProps> = ({
@@ -22,6 +25,9 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
   dragLocked = true,
   onToggleMealCooked,
   onToggleDragLock,
+  startDate,
+  onUpdateStartDate,
+  getSlotDate,
 }) => {
   // Create an array of meal slots
   // Each slot contains either a mealId or null (for empty slots)
@@ -166,10 +172,23 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
       
       <div className="flex-between" style={{ marginBottom: '15px' }}>
         <p>Drag and drop meals to rearrange your weekly schedule.</p>
-        <p>
-          (Last day of schedule:&nbsp;
-          {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString().replace(/\//g, '-')})
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+          <label htmlFor="start-date" style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
+            Start Date:
+          </label>
+          <input
+            id="start-date"
+            type="date"
+            value={startDate || new Date().toISOString().split('T')[0]}
+            onChange={(e) => onUpdateStartDate?.(e.target.value)}
+            style={{
+              padding: '4px 8px',
+              borderRadius: '4px',
+              border: '1px solid var(--border-color)',
+              fontSize: '0.9rem',
+            }}
+          />
+        </div>
         <button 
           className={`btn btn-sm ${dragLocked ? 'btn-secondary' : ''}`}
           onClick={onToggleDragLock}
@@ -188,6 +207,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
               key={`slot-${index}`}
               className={`meal-slot ${!meal ? 'empty' : ''} ${meal && cookedMeals[index] ? 'cooked' : ''}`}
               style={{
+                position: 'relative',
                 border: meal ? '1px solid var(--border-color)' : '2px dashed var(--border-color)',
                 borderRadius: '8px',
                 padding: '15px',
@@ -209,6 +229,22 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
             >
+              {/* Date label for the slot */}
+              <div style={{
+                position: 'absolute',
+                top: '5px',
+                right: '5px',
+                fontSize: '0.75rem',
+                fontWeight: 'bold',
+                color: 'var(--text-color)',
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                padding: '2px 6px',
+                borderRadius: '4px',
+                border: '1px solid var(--border-color)',
+              }}>
+                {getSlotDate ? getSlotDate(index) : ''}
+              </div>
+              
               {meal ? (
                 <>
                   <div className="flex-between" style={{ marginBottom: '10px' }}>

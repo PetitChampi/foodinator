@@ -6,6 +6,7 @@ const STORAGE_KEY = 'foodinator_weekly_plan';
 const MEAL_ORDER_KEY = 'foodinator_meal_order';
 const COOKED_MEALS_KEY = 'foodinator_cooked_meals';
 const DRAG_LOCK_KEY = 'foodinator_drag_lock';
+const START_DATE_KEY = 'foodinator_start_date';
 
 export const useWeeklyPlan = () => {
   // Load weekly plan from localStorage
@@ -40,10 +41,19 @@ export const useWeeklyPlan = () => {
       : true; // Default to locked for better mobile experience
   };
 
+  // Load start date from localStorage
+  const loadStartDate = (): string => {
+    const savedStartDate = localStorage.getItem(START_DATE_KEY);
+    return savedStartDate 
+      ? JSON.parse(savedStartDate) 
+      : new Date().toISOString().split('T')[0]; // Default to today's date
+  };
+
   const [weeklyPlan, setWeeklyPlan] = useState<WeeklyPlan>(loadWeeklyPlan);
   const [mealOrder, setMealOrder] = useState<Array<string | null>>(loadMealOrder);
   const [cookedMeals, setCookedMeals] = useState<Record<string, boolean>>(loadCookedMeals);
   const [dragLocked, setDragLocked] = useState<boolean>(loadDragLock);
+  const [startDate, setStartDate] = useState<string>(loadStartDate);
 
   // Save weekly plan to localStorage whenever it changes
   useEffect(() => {
@@ -64,6 +74,11 @@ export const useWeeklyPlan = () => {
   useEffect(() => {
     localStorage.setItem(DRAG_LOCK_KEY, JSON.stringify(dragLocked));
   }, [dragLocked]);
+
+  // Save start date to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(START_DATE_KEY, JSON.stringify(startDate));
+  }, [startDate]);
 
   // Generate unique keys for meal instances in slots
   const generateMealInstanceKey = (mealId: string, slotIndex: number): string => {
@@ -247,13 +262,28 @@ export const useWeeklyPlan = () => {
 
   // Reset the weekly plan
   const resetPlan = useCallback(() => {
+    const todayDate = new Date().toISOString().split('T')[0];
     setWeeklyPlan({
       selectedMeals: [],
       totalSlots: TOTAL_SLOTS,
     });
     setMealOrder(Array(TOTAL_SLOTS).fill(null));
     setCookedMeals({});
+    setStartDate(todayDate);
   }, []);
+
+  // Update start date
+  const updateStartDate = useCallback((newStartDate: string) => {
+    setStartDate(newStartDate);
+  }, []);
+
+  // Get date for a specific slot
+  const getSlotDate = useCallback((slotIndex: number): string => {
+    const start = new Date(startDate);
+    const slotDate = new Date(start);
+    slotDate.setDate(start.getDate() + slotIndex);
+    return slotDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
+  }, [startDate]);
 
   // Reorder meals in the schedule
   const reorderMeals = useCallback((newOrder: Array<string | null>) => {
@@ -317,6 +347,7 @@ export const useWeeklyPlan = () => {
     mealOrder,
     cookedMeals: mealOrder.map((_, index) => isMealCooked(index)), // Convert to boolean array for backward compatibility
     dragLocked,
+    startDate,
     usedSlots,
     remainingSlots,
     addMeal,
@@ -327,5 +358,7 @@ export const useWeeklyPlan = () => {
     toggleMealCooked,
     isMealCooked,
     toggleDragLock,
+    updateStartDate,
+    getSlotDate,
   };
 };
