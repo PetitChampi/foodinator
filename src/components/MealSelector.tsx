@@ -22,11 +22,11 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
     <div className="card">
       <h2 className="card-title">Available Meals</h2>
       {remainingSlots === 0 ? (
-        <div className="alert" style={{ color: 'var(--success-color)', marginBottom: '15px' }}>
+        <div className="alert alert--success">
           <strong>All slots filled!</strong> Your weekly plan is complete.
         </div>
       ) : (
-        <div className="alert" style={{ marginBottom: '15px' }}>
+        <div className="alert">
           <strong>{remainingSlots} slots</strong> remaining to fill.
         </div>
       )}

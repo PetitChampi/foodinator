@@ -44,21 +44,11 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
               if (!meal) return null;
 
               return (
-                <div 
-                  key={mealId} 
-                  className="meal-item"
-                  style={{
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '8px',
-                    padding: '15px',
-                    backgroundColor: 'var(--card-background)',
-                    boxShadow: 'var(--shadow)'
-                  }}
-                >
-                  <div className="flex-between" style={{ marginBottom: '10px' }}>
+                <div key={mealId} className="meal-item">
+                  <div className="meal-item__header">
                     <div>
-                      <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{meal.name}</h3>
-                      <div style={{ fontSize: '0.9rem', color: 'var(--secondary-color)', marginTop: '5px' }}>
+                      <h3 className="meal-item__title">{meal.name}</h3>
+                      <div className="meal-item__quantity">
                         {quantity > 1 ? `${quantity} slots` : '1 slot'}
                       </div>
                     </div>
@@ -67,7 +57,6 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
                         value={quantity}
                         onChange={(e) => handleQuantityChange(mealId, e)}
                         className="form-control"
-                        style={{ width: '60px', display: 'inline-block', marginRight: '5px' }}
                       >
                         {[...Array(Math.min(totalSlots - usedSlots + quantity, 2) + 1).keys()].slice(1).map((num) => (
                           <option key={num} value={num}>
@@ -78,14 +67,13 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
                       <button
                         className="btn btn-danger btn-sm"
                         onClick={() => onRemoveMeal(mealId)}
-                        style={{ padding: '4px 8px' }}
                       >
                         ✕
                       </button>
                     </div>
                   </div>
-                  <div className="meal-ingredients" style={{ fontSize: '0.9rem' }}>
-                    <p style={{ margin: 0 }}>
+                  <div className="meal-ingredients">
+                    <p>
                       <strong>Ingredients:</strong> {meal.ingredients.length > 3 
                         ? `${meal.ingredients.length} ingredients` 
                         : meal.ingredients.map(id => getIngredientById(id)?.name || id).join(', ')}
@@ -96,7 +84,7 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
             })}
             
             {emptySlots > 0 && (
-              <div style={{ color: 'var(--border-color)', marginTop: '10px' }}>
+              <div className="empty-slots">
                 {emptySlots} empty {emptySlots === 1 ? 'slot' : 'slots'} remaining
               </div>
             )}

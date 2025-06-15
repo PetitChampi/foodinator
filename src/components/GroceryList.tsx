@@ -66,14 +66,12 @@ export const GroceryList: React.FC<GroceryListProps> = ({
   return (
     <div className="card">
       <div className="flex-between">
-        <h2 className="card-title">Grocery List</h2>
         {!isEmpty && (
-          <div className="form-group" style={{ margin: 0, display: 'flex', gap: '10px' }}>
+          <div className="controls-group">
             <select
               className="form-control"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as 'name' | 'portions' | 'meal')}
-              style={{ width: 'auto' }}
             >
               <option value="name">Sort by Name</option>
               <option value="portions">Sort by Quantity</option>
@@ -82,7 +80,6 @@ export const GroceryList: React.FC<GroceryListProps> = ({
             <button 
               className="btn btn-sm" 
               onClick={() => setShowChecked(!showChecked)}
-              style={{ whiteSpace: 'nowrap' }}
             >
               {showChecked ? 'Hide Checked' : 'Show All'}
             </button>
@@ -111,16 +108,11 @@ export const GroceryList: React.FC<GroceryListProps> = ({
                 if (!meal) return null;
                 
                 return (
-                  <div key={mealId} style={{ margin: '20px 0' }}>
-                    <h3 style={{ 
-                      fontSize: '1.1rem', 
-                      borderBottom: '1px solid var(--border-color)',
-                      paddingBottom: '5px',
-                      marginBottom: '10px'
-                    }}>
+                  <div key={mealId} className="grocery-section">
+                    <h3 className="grocery-section__title">
                       {meal.name}
                     </h3>
-                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                    <ul className="grocery-section__list">
                       {mealItems.map(renderGroceryItem)}
                     </ul>
                   </div>
@@ -129,26 +121,25 @@ export const GroceryList: React.FC<GroceryListProps> = ({
             </div>
           ) : (
             // Regular list view
-            <div style={{ marginTop: '20px' }}>
-              <ul style={{ listStyle: 'none', padding: 0 }}>
+            <div className="grocery-section">
+              <ul className="grocery-section__list">
                 {sortedItems.map(renderGroceryItem)}
               </ul>
             </div>
           )}
           
           {/* Notes section */}
-          <div className="grocery-notes" style={{ marginTop: '30px' }}>
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '10px' }}>Notes</h3>
+          <div className="grocery-notes">
+            <h3 className="grocery-notes__title">Notes</h3>
             <textarea
               className="form-control"
               value={notes}
               onChange={(e) => onUpdateNotes && onUpdateNotes(e.target.value)}
               placeholder="Add notes for your grocery list here..."
               rows={4}
-              style={{ width: '100%', resize: 'vertical' }}
               maxLength={1000}
             />
-            <div style={{ fontSize: '0.8rem', color: 'var(--text-color)', opacity: 0.7, marginTop: '5px', textAlign: 'right' }}>
+            <div className="grocery-notes__counter">
               {notes.length}/1000 characters
             </div>
           </div>

@@ -32,7 +32,6 @@ export const IngredientSearch: React.FC<IngredientSearchProps> = ({
         </label>
         <input
           id="ingredient-search"
-          style={{ width: '100%' }}
           type="text"
           className="form-control"
           placeholder="e.g., chicken, rice, avocado..."
@@ -43,14 +42,13 @@ export const IngredientSearch: React.FC<IngredientSearchProps> = ({
 
       {/* Display search results */}
       {searchTerm.trim() !== '' && filteredIngredients.length > 0 && (
-        <div className="search-results" style={{ marginBottom: '15px' }}>
+        <div className="search-results">
           <p><strong>Matching ingredients:</strong></p>
           <div>
             {filteredIngredients.map((ingredient) => (
               <span
                 key={ingredient.id}
                 className="tag"
-                style={{ cursor: 'pointer' }}
                 onClick={() => onAddIngredient(ingredient.id)}
               >
                 {ingredient.name}
@@ -62,7 +60,7 @@ export const IngredientSearch: React.FC<IngredientSearchProps> = ({
 
       {/* Display selected ingredients */}
       {selectedIngredients.length > 0 && (
-        <div className="selected-ingredients" style={{ marginBottom: '15px' }}>
+        <div className="selected-ingredients">
           <div className="flex-between">
             <p><strong>Selected ingredients:</strong></p>
             <button
@@ -72,7 +70,7 @@ export const IngredientSearch: React.FC<IngredientSearchProps> = ({
               Clear All
             </button>
           </div>
-          <div style={{ marginTop: '8px' }}>
+          <div>
             {selectedIngredients.map((ingredientId) => {
               const ingredient = getIngredientById(ingredientId);
               if (!ingredient) return null;

@@ -1,0 +1,41 @@
+// ===========================
+// BASE STYLES
+// ===========================
+
+@use "variables" as *;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $font-family-base;
+  line-height: $line-height-base;
+  color: $text-color;
+  background-color: $background-color;
+  margin: 0;
+  padding: 0;
+}
+
+// Container
+.container {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: $spacing-xl;
+}
+
+// App Header
+.app-header {
+  background-color: $primary-color;
+  color: white;
+  padding: $spacing-xl 0;
+  text-align: center;
+  margin-bottom: $spacing-xxxl;
+}
+
+.app-title {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+}

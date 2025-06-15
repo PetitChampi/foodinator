@@ -9,9 +9,7 @@ import { useGroceryList } from './hooks/useGroceryList';
 import { useIngredientSearch } from './hooks/useIngredientSearch';
 
 function App() {
-  // State for active tab
   const [activeTab, setActiveTab] = useState<'planner' | 'search' | 'grocery' | 'schedule'>(() => {
-    // Try to restore active tab from localStorage
     const savedTab = localStorage.getItem('foodinator_active_tab');
     return (savedTab as 'planner' | 'search' | 'grocery') || 'planner';
   });
@@ -21,7 +19,6 @@ function App() {
     localStorage.setItem('foodinator_active_tab', activeTab);
   }, [activeTab]);
 
-  // Initialize hooks
   const {
     weeklyPlan,
     mealOrder,
@@ -62,12 +59,10 @@ function App() {
     clearIngredients,
   } = useIngredientSearch();
 
-  // Handle toggling grocery item checked state
   const handleToggleGroceryItem = (ingredientId: string) => {
     toggleItemChecked(ingredientId);
   };
 
-  // Handle resetting the plan and clearing checked grocery items
   const handleResetPlan = () => {
     resetPlan();
     clearAllCheckedItems();
@@ -80,26 +75,22 @@ function App() {
       </header>
 
       <div className="container">
-        {/* Tab Navigation */}
-        <div className="tabs" style={{ marginBottom: '20px', textAlign: 'center' }}>
+        <div className="tabs">
           <button
             className={`btn ${activeTab === 'planner' ? '' : 'btn-secondary'}`}
             onClick={() => setActiveTab('planner')}
-            style={{ marginRight: '10px' }}
           >
             Meal Planner
           </button>
           <button
             className={`btn ${activeTab === 'schedule' ? '' : 'btn-secondary'}`}
             onClick={() => setActiveTab('schedule')}
-            style={{ marginRight: '10px' }}
           >
             Meal Schedule
           </button>
           <button
             className={`btn ${activeTab === 'search' ? '' : 'btn-secondary'}`}
             onClick={() => setActiveTab('search')}
-            style={{ marginRight: '10px' }}
           >
             Ingredient Search
           </button>
@@ -109,7 +100,7 @@ function App() {
           >
             Grocery List
             {!isEmpty && (
-              <span className="badge" style={{ marginLeft: '5px', fontSize: '0.7rem' }}>
+              <span className="badge badge-count">
                 {groceryList.items.length}
               </span>
             )}
@@ -119,7 +110,7 @@ function App() {
         {/* Meal Planner Tab */}
         {activeTab === 'planner' && (
           <div>
-            <div className="flex-between" style={{ marginBottom: '20px' }}>
+            <div className="section-header">
               <h2>Plan Your Weekly Meals</h2>
               <div>
                 {weeklyPlan.selectedMeals.length > 0 && (
@@ -132,7 +123,7 @@ function App() {
               </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div className="app-section">
               <WeeklyPlanDisplay
                 selectedMeals={weeklyPlan.selectedMeals}
                 onRemoveMeal={removeMeal}
@@ -152,8 +143,10 @@ function App() {
         {/* Ingredient Search Tab */}
         {activeTab === 'search' && (
           <div>
-            <h2 style={{ marginBottom: '20px' }}>Find Meals by Ingredients</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div className="section-header">
+              <h2>Find Meals by Ingredients</h2>
+            </div>
+            <div className="app-section">
               <IngredientSearch
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
@@ -177,12 +170,6 @@ function App() {
         {/* Meal Schedule Tab */}
         {activeTab === 'schedule' && (
           <div>
-            <div className="flex-between" style={{ marginBottom: '20px' }}>
-              <h2>Meal Schedule</h2>
-              <div>
-              </div>
-            </div>
-            
             <MealSchedule
               selectedMeals={weeklyPlan.selectedMeals}
               totalSlots={weeklyPlan.totalSlots}
@@ -202,10 +189,6 @@ function App() {
         {/* Grocery List Tab */}
         {activeTab === 'grocery' && (
           <div>
-            <div className="flex-between" style={{ marginBottom: '20px' }}>
-              <h2>Your Grocery List</h2>
-            </div>
-            
             <GroceryList
               groceryItems={groceryList.items}
               onToggleItem={handleToggleGroceryItem}

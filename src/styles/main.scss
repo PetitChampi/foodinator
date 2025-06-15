@@ -1,0 +1,16 @@
+// ===========================
+// MAIN SASS FILE
+// ===========================
+
+// Use order is important!
+// 1. Variables first (so they can be used everywhere)
+// 2. Mixins second (so they can use variables and be used by components)
+// 3. Base styles
+// 4. Components
+// 5. Layout last (so it can override component styles if needed)
+
+@use "variables" as *;
+@use "mixins" as *;
+@use "base";
+@use "components";
+@use "layout";

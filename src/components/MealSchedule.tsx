@@ -170,10 +170,10 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
         </div>
       </div>
       
-      <div className="flex-between" style={{ marginBottom: '15px' }}>
+      <div className="schedule-controls">
         <p>Drag and drop meals to rearrange your weekly schedule.</p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
-          <label htmlFor="start-date" style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>
+        <div className="schedule-controls__date-group">
+          <label htmlFor="start-date">
             Start Date:
           </label>
           <input
@@ -181,12 +181,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
             type="date"
             value={startDate || new Date().toISOString().split('T')[0]}
             onChange={(e) => onUpdateStartDate?.(e.target.value)}
-            style={{
-              padding: '4px 8px',
-              borderRadius: '4px',
-              border: '1px solid var(--border-color)',
-              fontSize: '0.9rem',
-            }}
+            className="date-input"
           />
         </div>
         <button 
@@ -205,18 +200,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
           return (
             <div 
               key={`slot-${index}`}
-              className={`meal-slot ${!meal ? 'empty' : ''} ${meal && cookedMeals[index] ? 'cooked' : ''}`}
-              style={{
-                position: 'relative',
-                border: meal ? '1px solid var(--border-color)' : '2px dashed var(--border-color)',
-                borderRadius: '8px',
-                padding: '15px',
-                minHeight: '100px',
-                backgroundColor: meal ? 'var(--card-background)' : 'rgba(0,0,0,0.02)',
-                boxShadow: meal ? 'var(--shadow)' : 'none',
-                cursor: dragLocked ? 'default' : 'move',
-                touchAction: 'none', // Improves touch support
-              }}
+              className={`meal-slot ${!meal ? 'meal-slot--empty' : ''} ${meal && cookedMeals[index] ? 'cooked' : ''}`}
               data-index={index}
               draggable={!!meal && !dragLocked}
               onDragStart={() => handleDragStart(index)}
@@ -230,25 +214,14 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
               onTouchEnd={handleTouchEnd}
             >
               {/* Date label for the slot */}
-              <div style={{
-                position: 'absolute',
-                top: '5px',
-                right: '5px',
-                fontSize: '0.75rem',
-                fontWeight: 'bold',
-                color: 'var(--text-color)',
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                padding: '2px 6px',
-                borderRadius: '4px',
-                border: '1px solid var(--border-color)',
-              }}>
+              <div className="meal-slot__date-label">
                 {getSlotDate ? getSlotDate(index) : ''}
               </div>
               
               {meal ? (
                 <>
-                  <div className="flex-between" style={{ marginBottom: '10px' }}>
-                    <h3 style={{ margin: 0, fontSize: '1.1rem' }}>
+                  <div className="meal-slot__header">
+                    <h3 className="meal-slot__title">
                       {meal.name}
                     </h3>
                     <div 
@@ -257,22 +230,12 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
                         e.stopPropagation();
                         handleToggleCooked(index);
                       }}
-                      style={{
-                        cursor: 'pointer',
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                        backgroundColor: cookedMeals[index] ? 'var(--success-color)' : '#f0f0f0',
-                        color: cookedMeals[index] ? 'white' : 'var(--text-color)',
-                        fontSize: '0.8rem',
-                        fontWeight: 'bold',
-                        userSelect: 'none',
-                      }}
                     >
                       {cookedMeals[index] ? '✓ Cooked' : 'Mark Cooked'}
                     </div>
                   </div>
-                  <div className="meal-ingredients" style={{ fontSize: '0.9rem' }}>
-                    <p style={{ margin: 0 }}>
+                  <div className="meal-ingredients">
+                    <p>
                       {meal.ingredients.length > 3 
                         ? `${meal.ingredients.length} ingredients` 
                         : meal.ingredients.map(id => getIngredientById(id)?.name || id).join(', ')}
@@ -280,13 +243,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
                   </div>
                 </>
               ) : (
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  height: '100%',
-                  color: 'var(--border-color)'
-                }}>
+                <div className="empty-slot-content">
                   Empty Slot
                 </div>
               )}

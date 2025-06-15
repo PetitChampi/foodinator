@@ -71,15 +71,11 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onAddMeal, remainingSl
             )}
           </select>
         </div>
-        {error && <p className="error-text" style={{ color: 'var(--danger-color)' }}>{error}</p>}
+        {error && <p className="error-text">{error}</p>}
         <button
           className="btn"
           onClick={handleAddMeal}
           disabled={isAddDisabled}
-          style={{
-            opacity: isAddDisabled ? 0.6 : 1,
-            cursor: isAddDisabled ? 'not-allowed' : 'pointer'
-          }}
         >
           {isAddDisabled ? 'No Slots Available' : 'Add to Plan'}
         </button>

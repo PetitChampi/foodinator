@@ -1,0 +1,108 @@
+// ===========================
+// VARIABLES
+// ===========================
+
+// Colors
+// ===========================
+// Primary Colors
+$primary-color: #4a6fa5;
+$secondary-color: #166d3b;
+
+// Background Colors
+$background-color: #f5f7fa;
+$card-background: #ffffff;
+
+// Text Colors
+$text-color: #333333;
+$text-light: #666666;
+$text-muted: #999999;
+
+// Border Colors
+$border-color: #e0e0e0;
+$border-light: #f0f0f0;
+
+// Status Colors
+$success-color: #28a745;
+$danger-color: #d62828;
+$warning-color: #ffb703;
+$info-color: #17a2b8;
+
+// Hover States
+$primary-hover: #3a5a8c;
+$secondary-hover: #0f5a2f;
+$danger-hover: #bd2130;
+
+// Typography
+// ===========================
+$font-family-base: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+$font-size-base: 1rem;
+$font-size-sm: 0.875rem;
+$font-size-md: 1.125rem;
+$font-size-lg: 1.25rem;
+$font-size-xl: 1.5rem;
+$font-size-xxl: 2rem;
+
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+$line-height-base: 1.6;
+$line-height-sm: 1.4;
+$line-height-lg: 1.8;
+
+// Spacing
+// ===========================
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 20px;
+$spacing-xxl: 24px;
+$spacing-xxxl: 30px;
+
+// Border Radius
+// ===========================
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 16px;
+$border-radius-pill: 50px;
+
+// Shadows
+// ===========================
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+$shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+// Transitions
+// ===========================
+$transition-fast: 0.15s ease;
+$transition-base: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// Breakpoints
+// ===========================
+$breakpoint-xs: 480px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Z-index
+// ===========================
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+// Grid
+// ===========================
+$container-max-width: 1200px;
+$grid-gap: 20px;
+$grid-gap-sm: 15px;
+$grid-gap-lg: 30px;
