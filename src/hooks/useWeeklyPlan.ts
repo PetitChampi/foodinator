@@ -97,19 +97,21 @@ export const useWeeklyPlan = () => {
     });
 
     // Find cooked meal keys that are no longer valid
-    const cookedMealKeys = Object.keys(cookedMeals);
-    const keysToRemove = cookedMealKeys.filter(key => !currentMealInstanceKeys.has(key));
+    setCookedMeals(prev => {
+      const cookedMealKeys = Object.keys(prev);
+      const keysToRemove = cookedMealKeys.filter(key => !currentMealInstanceKeys.has(key));
 
-    if (keysToRemove.length > 0) {
-      setCookedMeals(prev => {
+      if (keysToRemove.length > 0) {
         const newCookedMeals = { ...prev };
         keysToRemove.forEach(key => {
           delete newCookedMeals[key];
         });
         return newCookedMeals;
-      });
-    }
-  }, [mealOrder, cookedMeals]);
+      }
+      
+      return prev; // Return the same object if no changes needed
+    });
+  }, [mealOrder]); // Removed cookedMeals from dependency array to prevent infinite loop
 
   // Update meal order when meals are added or removed
   useEffect(() => {
@@ -291,25 +293,54 @@ export const useWeeklyPlan = () => {
     const oldOrder = [...mealOrder];
     const newCookedMeals: Record<string, boolean> = {};
     
-    // Map the cooked status from old positions to new positions
-    newOrder.forEach((mealId, newIndex) => {
-      if (mealId) {
-        const newKey = generateMealInstanceKey(mealId, newIndex);
-        
-        // Find if this meal was cooked in its old position
-        const oldIndex = oldOrder.findIndex((oldMealId, idx) => {
-          const oldKey = generateMealInstanceKey(oldMealId || '', idx);
-          return oldMealId === mealId && cookedMeals[oldKey];
-        });
-        
-        if (oldIndex !== -1) {
-          const oldKey = generateMealInstanceKey(mealId, oldIndex);
-          if (cookedMeals[oldKey]) {
-            newCookedMeals[newKey] = true;
-          }
+    // Create a mapping from old positions to new positions based on the actual swap/reorder
+    // This ensures that cooked status follows the specific meal instance, not just any meal with the same ID
+    const positionMapping: Record<number, number> = {};
+    
+    // For a simple swap (most common case), we can detect which positions were swapped
+    // and map the cooked status accordingly
+    if (oldOrder.length === newOrder.length) {
+      // Find positions that changed
+      const changedPositions: number[] = [];
+      for (let i = 0; i < oldOrder.length; i++) {
+        if (oldOrder[i] !== newOrder[i]) {
+          changedPositions.push(i);
         }
       }
-    });
+      
+      // If exactly 2 positions changed, it's a simple swap
+      if (changedPositions.length === 2) {
+        const [pos1, pos2] = changedPositions;
+        positionMapping[pos1] = pos2;
+        positionMapping[pos2] = pos1;
+        
+        // Map unchanged positions to themselves
+        for (let i = 0; i < oldOrder.length; i++) {
+          if (!changedPositions.includes(i)) {
+            positionMapping[i] = i;
+          }
+        }
+      } else {
+        // For more complex reorderings, we need to preserve cooked status by position
+        // This is a fallback that maintains the cooked status in the same slots
+        for (let i = 0; i < oldOrder.length; i++) {
+          positionMapping[i] = i;
+        }
+      }
+    }
+    
+    // Apply the position mapping to preserve cooked status
+    for (let oldPos = 0; oldPos < oldOrder.length; oldPos++) {
+      const newPos = positionMapping[oldPos];
+      if (newPos !== undefined && newOrder[newPos]) {
+        const oldKey = generateMealInstanceKey(oldOrder[oldPos] || '', oldPos);
+        const newKey = generateMealInstanceKey(newOrder[newPos] || '', newPos);
+        
+        if (cookedMeals[oldKey]) {
+          newCookedMeals[newKey] = true;
+        }
+      }
+    }
     
     setMealOrder(newOrder);
     setCookedMeals(newCookedMeals);
