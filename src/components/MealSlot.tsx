@@ -8,6 +8,9 @@ interface MealSlotProps {
   isDraggable: boolean;
   dateLabel: string;
   onDragStart: (index: number) => void;
+  onDragOver: (e: React.DragEvent) => void;
+  onDragEnter: (index: number) => void;
+  onDragEnd: () => void;
   onDrop: (index: number) => void;
   onTouchStart: (index: number, e: React.TouchEvent) => void;
   onTouchMove: (e: React.TouchEvent) => void;
@@ -22,6 +25,9 @@ export const MealSlot: React.FC<MealSlotProps> = ({
   isDraggable,
   dateLabel,
   onDragStart,
+  onDragOver,
+  onDragEnter,
+  onDragEnd,
   onDrop,
   onTouchStart,
   onTouchMove,
@@ -29,16 +35,16 @@ export const MealSlot: React.FC<MealSlotProps> = ({
   onToggleCooked,
 }) => {
   const meal = mealId ? getMealById(mealId) : null;
-  
+
   return (
     <div 
       className={`meal-slot ${!meal ? 'meal-slot--empty' : ''} ${meal && isCooked ? 'cooked' : ''}`}
       data-index={index}
       draggable={!!meal && isDraggable}
       onDragStart={() => onDragStart(index)}
-      onDragOver={(e) => {
-        e.preventDefault();
-      }}
+      onDragOver={onDragOver}
+      onDragEnter={() => onDragEnter(index)}
+      onDragEnd={onDragEnd}
       onDrop={() => onDrop(index)}
       // Touch events for mobile support
       onTouchStart={(e) => onTouchStart(index, e)}
@@ -49,7 +55,7 @@ export const MealSlot: React.FC<MealSlotProps> = ({
       <div className="meal-slot__date-label">
         {dateLabel}
       </div>
-      
+
       {meal ? (
         <>
           <div className="meal-slot__header">

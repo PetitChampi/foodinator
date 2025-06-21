@@ -25,7 +25,6 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
   return (
     <div>
       <div className="section-header">
-        <h2>Plan Your Weekly Meals</h2>
         <div>
           {selectedMeals.length > 0 && (
             <>

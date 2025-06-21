@@ -332,7 +332,8 @@
     opacity: 0.7;
     z-index: 10;
     position: relative;
-    touch-action: none; // Prevents scrolling during touch drag operations
+    touch-action: none; // Prevent all scrolling during drag operations
+    transform: scale(1.02); // Slightly enlarge the dragged element for better visibility
   }
 
   &.drop-target {

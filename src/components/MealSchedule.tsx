@@ -59,6 +59,9 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
   const {
     mealSlots,
     handleDragStart,
+    handleDragOver,
+    handleDragEnter,
+    handleDragEnd,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
@@ -101,6 +104,9 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
             isDraggable={!dragLocked}
             dateLabel={getSlotDate ? getSlotDate(index) : ''}
             onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragEnd={handleDragEnd}
             onDrop={handleDrop}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}

@@ -68,7 +68,7 @@
   @include draggable;
   @include drop-target;
   position: relative;
-  
+
   &.cooked {
     opacity: 0.7;
     background-color: rgba($success-color, 0.05) !important;
@@ -79,11 +79,11 @@
 // ===========================
 .meal-cooked-toggle {
   transition: all $transition-base;
-  
+
   &:hover {
     transform: scale(1.05);
   }
-  
+
   &.cooked {
     box-shadow: $shadow-sm;
   }
@@ -98,13 +98,13 @@
   gap: $spacing-sm;
   margin-bottom: $spacing-xl;
   text-align: center;
-  
+
   .btn {
     // Active tab styling (primary button)
     &:not(.btn-secondary) {
       @include button-variant($primary-color, $primary-hover);
     }
-    
+
     // Inactive tab styling (secondary button)
     &.btn-secondary {
       @include button-variant($secondary-color, $secondary-hover);
@@ -118,32 +118,32 @@
   .grid {
     grid-template-columns: 1fr;
   }
-  
+
   .meal-slots-container {
     grid-template-columns: 1fr;
   }
-  
+
   .meal-list {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .meal-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .container {
     padding: $spacing-sm;
   }
-  
+
   .app-title {
     font-size: $font-size-xxl;
   }
-  
+
   // Make buttons more touch-friendly on mobile
   .btn {
     padding: $spacing-sm $spacing-lg;
   }
-  
+
   // Improve spacing for tab navigation
   .tabs {
     button {
@@ -158,19 +158,19 @@
   .meal-slots-container {
     grid-template-columns: 1fr;
   }
-  
+
   .meal-list {
     grid-template-columns: 1fr;
   }
-  
+
   .meal-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .container {
     padding: $spacing-sm;
   }
-  
+
   .app-title {
     font-size: $font-size-xl;
   }
@@ -187,7 +187,7 @@
 .section-header {
   @include flex-between;
   margin-bottom: $spacing-xl;
-  
+
   h2 {
     margin: 0;
   }
@@ -200,7 +200,7 @@
   border-radius: $border-radius-sm;
   border: 1px solid $border-color;
   font-size: $font-size-sm;
-  
+
   &:focus {
     outline: none;
     border-color: $primary-color;
@@ -219,12 +219,12 @@
     flex-direction: column;
     align-items: baseline;
   }
-  
+
   &__date-group {
     display: flex;
     align-items: center;
     gap: $spacing-sm;
-    
+
     label {
       font-size: $font-size-sm;
       font-weight: $font-weight-semibold;
@@ -244,26 +244,26 @@
   min-height: 100px;
   background-color: $card-background;
   box-shadow: $shadow-md;
-  touch-action: none;
-  
+  touch-action: none; /* Prevent all scrolling during drag operations */
+
   &--empty {
     border: 2px dashed $border-color;
     background-color: rgba(0, 0, 0, 0.02);
     box-shadow: none;
     cursor: default;
-    
+
     .empty-slot-content {
       @include flex-center;
       height: 100%;
       color: $border-color;
     }
   }
-  
+
   &.cooked {
     opacity: 0.7;
     background-color: rgba($success-color, 0.05) !important;
   }
-  
+
   &__date-label {
     position: absolute;
     top: $spacing-xs;
@@ -276,11 +276,11 @@
     border-radius: $border-radius-sm;
     border: 1px solid $border-color;
   }
-  
+
   &__header {
     margin-bottom: $spacing-sm;
   }
-  
+
   &__title {
     margin: 0;
     font-size: $font-size-md;
@@ -299,11 +299,11 @@
   font-weight: $font-weight-semibold;
   user-select: none;
   transition: all $transition-base;
-  
+
   &:hover {
     transform: scale(1.05);
   }
-  
+
   &.cooked {
     background-color: $success-color;
     color: white;
