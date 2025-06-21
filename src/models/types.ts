@@ -20,10 +20,6 @@ export interface WeeklyPlan {
   startDate?: string; // ISO date string for the start of the meal schedule
 }
 
-export interface MealSlotStatus {
-  mealId: string | null;
-  cooked: boolean;
-}
 
 export interface GroceryItem {
   ingredientId: string;
