@@ -94,7 +94,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
         onToggleDragLock={onToggleDragLock || (() => {})}
       />
 
-      <div className="meal-slots-container">
+      <div className={`meal-slots-container ${dragLocked ? 'drag-locked' : ''}`}>
         {mealSlots.map((mealId, index) => (
           <MealSlot
             key={`slot-${index}`}

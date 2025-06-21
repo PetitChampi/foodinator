@@ -333,6 +333,10 @@
     z-index: 10;
     position: relative;
     touch-action: none; // Prevent all scrolling during drag operations
+
+    .drag-locked & {
+      touch-action: auto; // Allow scrolling when the schedule is locked
+    }
     transform: scale(1.02); // Slightly enlarge the dragged element for better visibility
   }
 

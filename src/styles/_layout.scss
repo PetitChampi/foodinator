@@ -246,6 +246,10 @@
   box-shadow: $shadow-md;
   touch-action: none; /* Prevent all scrolling during drag operations */
 
+  .drag-locked & {
+    touch-action: auto; /* Allow scrolling when the schedule is locked */
+  }
+
   &--empty {
     border: 2px dashed $border-color;
     background-color: rgba(0, 0, 0, 0.02);
