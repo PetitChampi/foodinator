@@ -1,0 +1,32 @@
+// ===========================
+// BADGES
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.badge {
+  display: inline-block;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-pill;
+  font-size: 0.75rem;
+  font-weight: $font-weight-semibold;
+  background-color: $primary-color;
+  color: white;
+
+  &-success {
+    background-color: $success-color;
+  }
+  &-warning {
+    background-color: $warning-color;
+    color: $text-color;
+  }
+  &-danger {
+    background-color: $danger-color;
+  }
+  &-count {
+    margin-left: $spacing-xs;
+    font-size: 0.7rem;
+  }
+}

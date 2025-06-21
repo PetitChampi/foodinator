@@ -1,0 +1,21 @@
+// ===========================
+// ALERTS
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.alert {
+  margin-bottom: $spacing-lg;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-sm;
+  background-color: color.adjust($info-color, $lightness: 45%);
+  border: 1px solid $info-color;
+
+  &--success {
+    color: $success-color;
+    background-color: color.adjust($success-color, $lightness: 45%);
+    border-color: $success-color;
+  }
+}

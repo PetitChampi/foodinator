@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SelectedMeal } from '../models/types';
-import { getMealById, getIngredientById } from '../models/data';
+import { PlanMealItem } from './PlanMealItem';
 
 interface WeeklyPlanDisplayProps {
   selectedMeals: SelectedMeal[];
@@ -81,57 +81,24 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
       ) : (
         <div>
           <div className="meal-list">
-            {selectedMeals.map(({ mealId, quantity }) => {
-              const meal = getMealById(mealId);
-              if (!meal) return null;
-
-              return (
-                <div key={mealId} className="meal-item">
-                  <div className="meal-item__header">
-                    <div>
-                      <h3 className="meal-item__title">{meal.name}</h3>
-                      <div className="meal-item__quantity">
-                        {quantity > 1 ? `${quantity} slots` : '1 slot'}
-                      </div>
-                    </div>
-                    <div className="meal-actions">
-                      <div className="quantity-controls">
-                        <button 
-                          type="button"
-                          className="btn btn-sm"
-                          onClick={() => handleDecreaseQuantity(mealId, quantity)}
-                          disabled={quantity <= 1}
-                        >
-                          -
-                        </button>
-                        <span className="quantity-display">{quantity}</span>
-                        <button 
-                          type="button"
-                          className="btn btn-sm"
-                          onClick={() => handleIncreaseQuantity(mealId, quantity)}
-                          disabled={quantity >= totalSlots - (localUsedSlots - quantity)}
-                        >
-                          +
-                        </button>
-                      </div>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => onRemoveMeal(mealId)}
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  </div>
-                  <div className="meal-ingredients">
-                    <p>
-                      <strong>Ingredients:</strong> {meal.ingredients.length > 3 
-                        ? `${meal.ingredients.length} ingredients` 
-                        : meal.ingredients.map(id => getIngredientById(id)?.name || id).join(', ')}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+            {selectedMeals.map(({ mealId, quantity }) => (
+              <PlanMealItem
+                key={mealId}
+                mealId={mealId}
+                quantity={quantity}
+                onRemoveMeal={onRemoveMeal}
+                onUpdateQuantity={(id, qty) => {
+                  const success = onUpdateQuantity(id, qty);
+                  if (success && qty > quantity) {
+                    handleIncreaseQuantity(id, quantity);
+                  } else if (success && qty < quantity) {
+                    handleDecreaseQuantity(id, quantity);
+                  }
+                  return success;
+                }}
+                availableSlots={totalSlots - (localUsedSlots - quantity)}
+              />
+            ))}
 
             {emptySlots > 0 && (
               <div className="empty-slots">

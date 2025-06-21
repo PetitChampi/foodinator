@@ -1,0 +1,27 @@
+// ===========================
+// CHECKBOXES
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: $spacing-sm;
+
+  input[type="checkbox"] {
+    margin-right: $spacing-sm;
+  }
+
+  label {
+    cursor: pointer;
+    transition: all $transition-base;
+  }
+
+  &.checked label {
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+}

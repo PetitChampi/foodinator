@@ -44,12 +44,12 @@
   text-decoration: none;
   text-align: center;
   text-wrap: nowrap;
-  
+
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
-  
+
   &:active {
     transform: translateY(1px);
   }
@@ -58,11 +58,11 @@
 @mixin button-variant($bg-color, $hover-color: darken($bg-color, 10%)) {
   background-color: $bg-color;
   color: white;
-  
+
   &:hover:not(:disabled) {
     background-color: $hover-color;
   }
-  
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba($bg-color, 0.3);
@@ -93,13 +93,13 @@
   font-size: $font-size-base;
   font-family: $font-family-base;
   transition: border-color $transition-base, box-shadow $transition-base;
-  
+
   &:focus {
     outline: none;
     border-color: $primary-color;
     box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
   }
-  
+
   &:disabled {
     background-color: color.adjust($border-color, $lightness: 10%);
     cursor: not-allowed;
@@ -204,11 +204,11 @@
 @mixin draggable {
   cursor: grab;
   transition: transform $transition-base, opacity $transition-base, box-shadow $transition-base;
-  
+
   &:active {
     cursor: grabbing;
   }
-  
+
   &.dragging {
     opacity: 0.7;
     transform: scale(1.02);
@@ -221,5 +221,46 @@
   &.drop-target {
     border: 2px dashed $primary-color !important;
     background-color: rgba($primary-color, 0.1) !important;
+  }
+}
+
+// Component Mixins
+// ===========================
+@mixin meal-item-base {
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  padding: $spacing-lg;
+  background-color: $card-background;
+  box-shadow: $shadow-md;
+}
+
+@mixin meal-cooked-toggle {
+  cursor: pointer;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  background-color: #f0f0f0;
+  color: $text-color;
+  font-size: 0.8rem;
+  font-weight: $font-weight-semibold;
+  user-select: none;
+  transition: all $transition-base;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &.cooked {
+    background-color: $success-color;
+    color: white;
+    box-shadow: $shadow-sm;
+  }
+}
+
+@mixin section-header {
+  @include flex-between;
+  margin-bottom: $spacing-xl;
+
+  h2 {
+    margin: 0;
   }
 }

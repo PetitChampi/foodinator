@@ -1,0 +1,28 @@
+// ===========================
+// TABS
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xl;
+  text-align: center;
+
+  .btn {
+    // Active tab styling (primary button)
+    &:not(.btn-secondary) {
+      @include button-variant($primary-color, $primary-hover);
+    }
+
+    // Inactive tab styling (secondary button)
+    &.btn-secondary {
+      @include button-variant($secondary-color, $secondary-hover);
+    }
+  }
+}

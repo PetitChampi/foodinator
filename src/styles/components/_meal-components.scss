@@ -1,0 +1,129 @@
+// ===========================
+// MEAL COMPONENTS
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+// Meal Ingredients
+.meal-ingredients {
+  font-size: $font-size-sm;
+
+  p {
+    margin: 0;
+  }
+}
+
+// Quantity Controls
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+
+  .quantity-display {
+    min-width: 2rem;
+    text-align: center;
+    font-weight: $font-weight-medium;
+    padding: $spacing-xs;
+    background-color: $background-color;
+    border-radius: $border-radius-sm;
+    border: 1px solid $border-color;
+  }
+
+  .btn {
+    min-width: 2rem;
+    padding: $spacing-xs;
+    font-weight: $font-weight-bold;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Meal Item
+.meal-item {
+  @include meal-item-base;
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $font-size-lg;
+  }
+
+  &__quantity {
+    font-size: $font-size-sm;
+    color: $secondary-color;
+    margin-top: $spacing-xs;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+}
+
+// Meal Actions
+.meal-actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+
+  .form-control {
+    width: 60px;
+  }
+}
+
+// Empty Slots
+.empty-slots {
+  color: $border-color;
+  margin-top: $spacing-sm;
+  font-style: italic;
+}
+
+// Grocery List
+.grocery-section {
+  margin: $spacing-xl 0;
+
+  &__title {
+    font-size: $font-size-md;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: $spacing-xs;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+  }
+}
+
+// Grocery Notes - Component specific styles
+.grocery-notes {
+  margin-top: $spacing-xxxl;
+
+  &__title {
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__counter {
+    font-size: 0.8rem;
+    color: $text-color;
+    opacity: 0.7;
+    margin-top: $spacing-xs;
+    text-align: right;
+  }
+
+  // Note: textarea layout styles are in layout/_app-layout.scss
+}
+
+// Note: Drag and Drop styles for meal-slot have been moved to layout/_schedule.scss

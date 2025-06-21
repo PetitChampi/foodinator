@@ -1,0 +1,22 @@
+// ===========================
+// BUTTONS
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.btn {
+  @include button-base;
+  @include button-variant($primary-color, $primary-hover);
+
+  &-secondary {
+    @include button-variant($secondary-color, $secondary-hover);
+  }
+  &-danger {
+    @include button-variant($danger-color, $danger-hover);
+  }
+  &-sm {
+    @include button-size($spacing-xs, $spacing-sm, $font-size-sm);
+  }
+}

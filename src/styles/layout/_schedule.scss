@@ -1,0 +1,93 @@
+// ===========================
+// SCHEDULE
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+// Schedule Controls
+.schedule-controls {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xl;
+  @include mobile {
+    flex-direction: column;
+    align-items: baseline;
+  }
+
+  &__date-group {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    label {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-semibold;
+    }
+  }
+}
+
+// Meal Slot Styles
+.meal-slot {
+  @include draggable;
+  @include drop-target;
+  position: relative;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  padding: $spacing-md $spacing-lg;
+  min-height: 100px;
+  background-color: $card-background;
+  box-shadow: $shadow-md;
+  touch-action: none; /* Prevent all scrolling during drag operations */
+
+  .drag-locked & {
+    touch-action: auto; /* Allow scrolling when the schedule is locked */
+  }
+
+  &--empty {
+    border: 2px dashed $border-color;
+    background-color: rgba(0, 0, 0, 0.02);
+    box-shadow: none;
+    cursor: default;
+
+    .empty-slot-content {
+      @include flex-center;
+      height: 100%;
+      color: $border-color;
+    }
+  }
+
+  &.cooked {
+    opacity: 0.7;
+    background-color: rgba($success-color, 0.05) !important;
+  }
+
+  &__date-label {
+    position: absolute;
+    top: $spacing-xs;
+    right: $spacing-xs;
+    font-size: 0.75rem;
+    font-weight: $font-weight-semibold;
+    color: $text-color;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 2px 6px;
+    border-radius: $border-radius-sm;
+    border: 1px solid $border-color;
+  }
+
+  &__header {
+    margin-bottom: $spacing-sm;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: $font-size-md;
+  }
+}
+
+// Meal Cooked Toggle
+.meal-cooked-toggle {
+  @include meal-cooked-toggle;
+}

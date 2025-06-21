@@ -1,0 +1,69 @@
+// ===========================
+// RESPONSIVE DESIGN
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+@include tablet {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-slots-container {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .meal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .container {
+    padding: $spacing-sm;
+  }
+
+  .app-title {
+    font-size: $font-size-xxl;
+  }
+
+  // Make buttons more touch-friendly on mobile
+  .btn {
+    padding: $spacing-sm $spacing-lg;
+  }
+
+  // Improve spacing for tab navigation
+  .tabs {
+    button {
+      margin-right: 0 !important;
+      margin-bottom: $spacing-sm;
+      flex: 1 0 auto;
+    }
+  }
+}
+
+@include mobile {
+  .meal-slots-container {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-list {
+    grid-template-columns: 1fr;
+  }
+
+  .meal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: $spacing-sm;
+  }
+
+  .app-title {
+    font-size: $font-size-xl;
+  }
+}

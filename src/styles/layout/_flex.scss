@@ -1,0 +1,26 @@
+// ===========================
+// FLEX UTILITIES
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.flex {
+  display: flex;
+}
+
+.flex-between {
+  @include flex-between;
+}
+
+.flex-center {
+  @include flex-center;
+}
+
+// Ingredient List
+.ingredient-list {
+  padding-bottom: $spacing-sm;
+  margin-bottom: $spacing-sm;
+  border-bottom: 1px solid $border-color;
+}

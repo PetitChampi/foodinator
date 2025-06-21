@@ -1,0 +1,26 @@
+// ===========================
+// APP LAYOUT UTILITIES
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.app-section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.section-header {
+  @include section-header;
+}
+
+// Grocery Notes - Layout specific styles
+.grocery-notes {
+  textarea {
+    font-family: inherit;
+    height: 200px;
+    resize: vertical;
+  }
+}

@@ -9,8 +9,26 @@
 // 4. Components
 // 5. Layout last (so it can override component styles if needed)
 
+// Core
 @use "variables" as *;
 @use "mixins" as *;
 @use "base";
-@use "components";
-@use "layout";
+
+// Components
+@use "components/cards";
+@use "components/buttons";
+@use "components/forms";
+@use "components/badges";
+@use "components/tags";
+@use "components/checkboxes";
+@use "components/alerts";
+@use "components/meal-components";
+
+// Layout
+@use "layout/grid";
+@use "layout/flex";
+@use "layout/app-layout";
+@use "layout/forms-layout";
+@use "layout/tabs";
+@use "layout/schedule";
+@use "layout/responsive";

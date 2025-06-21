@@ -1,0 +1,31 @@
+// ===========================
+// TAGS
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: color.adjust($border-color, $lightness: 5%);
+  color: $text-light;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  margin-right: $spacing-xs;
+  margin-bottom: $spacing-xs;
+  font-size: $font-size-sm;
+
+  .close {
+    margin-left: $spacing-xs;
+    font-size: $font-size-base;
+    line-height: 0.5;
+    cursor: pointer;
+    transition: color $transition-fast;
+    &:hover {
+      color: $danger-color;
+    }
+  }
+}

@@ -1,0 +1,29 @@
+// ===========================
+// GRID SYSTEMS
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.grid {
+  @include grid-auto-fill(300px, $grid-gap);
+}
+
+.meal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-lg;
+}
+
+.meal-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-sm;
+  margin-top: $spacing-sm;
+}
+
+.meal-slots-container {
+  @include grid-auto-fill(200px, $spacing-lg);
+  margin: $spacing-xl 0;
+}

@@ -1,0 +1,25 @@
+// ===========================
+// CARDS
+// ===========================
+
+@use "sass:color";
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.card {
+  @include card-base;
+
+  // Saving that for later when we do need a card hover mixin
+  // &:hover {
+  //   @include card-hover;
+  // }
+}
+
+.card-title {
+  font-size: $font-size-lg;
+  margin-bottom: $spacing-lg;
+  color: $primary-color;
+  border-bottom: 1px solid $border-color;
+  padding-bottom: $spacing-sm;
+  font-weight: $font-weight-semibold;
+}
