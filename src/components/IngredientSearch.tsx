@@ -1,12 +1,12 @@
 import React from 'react';
 import { getIngredientById } from '../models/data';
-import { Meal } from '../models/types';
+import { Meal, Ingredient } from '../models/types';
 
 interface IngredientSearchProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
   selectedIngredients: string[];
-  filteredIngredients: { id: string; name: string }[];
+  filteredIngredients: Ingredient[];
   matchingMeals: Meal[];
   onAddIngredient: (ingredientId: string) => void;
   onRemoveIngredient: (ingredientId: string) => void;

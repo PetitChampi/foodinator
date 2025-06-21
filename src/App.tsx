@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
-import { MealSelector } from './components/MealSelector';
-import { WeeklyPlanDisplay } from './components/WeeklyPlanDisplay';
-import { GroceryList } from './components/GroceryList';
-import { IngredientSearch } from './components/IngredientSearch';
-import { MealSchedule } from './components/MealSchedule';
+import { TabNavigation } from './components/TabNavigation';
+import { PlannerTab } from './components/tabs/PlannerTab';
+import { SearchTab } from './components/tabs/SearchTab';
+import { ScheduleTab } from './components/tabs/ScheduleTab';
+import { GroceryTab } from './components/tabs/GroceryTab';
 import { useWeeklyPlan } from './hooks/useWeeklyPlan';
 import { useGroceryList } from './hooks/useGroceryList';
 import { useIngredientSearch } from './hooks/useIngredientSearch';
 
+type TabType = 'planner' | 'search' | 'grocery' | 'schedule';
+
 function App() {
-  const [activeTab, setActiveTab] = useState<'planner' | 'search' | 'grocery' | 'schedule'>(() => {
+  // Load active tab from localStorage or default to 'planner'
+  const [activeTab, setActiveTab] = useState<TabType>(() => {
     const savedTab = localStorage.getItem('foodinator_active_tab');
-    return (savedTab as 'planner' | 'search' | 'grocery') || 'planner';
+    return (savedTab as TabType) || 'planner';
   });
 
   // Save active tab to localStorage when it changes
@@ -19,13 +22,13 @@ function App() {
     localStorage.setItem('foodinator_active_tab', activeTab);
   }, [activeTab]);
 
+  // Initialize hooks for state management
   const {
     weeklyPlan,
     mealOrder,
     cookedMeals,
     dragLocked,
     startDate,
-    usedSlots,
     remainingSlots,
     addMeal,
     removeMeal,
@@ -59,6 +62,7 @@ function App() {
     clearIngredients,
   } = useIngredientSearch();
 
+  // Handler functions
   const handleToggleGroceryItem = (ingredientId: string) => {
     toggleItemChecked(ingredientId);
   };
@@ -75,129 +79,67 @@ function App() {
       </header>
 
       <div className="container">
-        <div className="tabs">
-          <button
-            className={`btn ${activeTab === 'planner' ? '' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('planner')}
-          >
-            Meal Planner
-          </button>
-          <button
-            className={`btn ${activeTab === 'schedule' ? '' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('schedule')}
-          >
-            Meal Schedule
-          </button>
-          <button
-            className={`btn ${activeTab === 'search' ? '' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('search')}
-          >
-            Ingredient Search
-          </button>
-          <button
-            className={`btn ${activeTab === 'grocery' ? '' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('grocery')}
-          >
-            Grocery List
-            {!isEmpty && (
-              <span className="badge badge-count">
-                {groceryList.items.length}
-              </span>
-            )}
-          </button>
-        </div>
+        {/* Tab Navigation */}
+        <TabNavigation 
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          groceryItemCount={groceryList.items.length}
+          isEmpty={isEmpty}
+        />
 
-        {/* Meal Planner Tab */}
+        {/* Tab Content */}
         {activeTab === 'planner' && (
-          <div>
-            <div className="section-header">
-              <h2>Plan Your Weekly Meals</h2>
-              <div>
-                {weeklyPlan.selectedMeals.length > 0 && (
-                  <>
-                    <button className="btn btn-danger" onClick={handleResetPlan}>
-                      Reset Plan
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-
-            <div className="app-section">
-              <WeeklyPlanDisplay
-                selectedMeals={weeklyPlan.selectedMeals}
-                onRemoveMeal={removeMeal}
-                onUpdateQuantity={updateMealQuantity}
-                usedSlots={usedSlots}
-                totalSlots={weeklyPlan.totalSlots}
-              />
-              
-              <MealSelector
-                onAddMeal={addMeal}
-                remainingSlots={remainingSlots}
-              />
-            </div>
-          </div>
+          <PlannerTab 
+            selectedMeals={weeklyPlan.selectedMeals}
+            onRemoveMeal={removeMeal}
+            onUpdateQuantity={updateMealQuantity}
+            totalSlots={weeklyPlan.totalSlots}
+            remainingSlots={remainingSlots}
+            onAddMeal={addMeal}
+            onResetPlan={handleResetPlan}
+          />
         )}
 
-        {/* Ingredient Search Tab */}
         {activeTab === 'search' && (
-          <div>
-            <div className="section-header">
-              <h2>Find Meals by Ingredients</h2>
-            </div>
-            <div className="app-section">
-              <IngredientSearch
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                selectedIngredients={selectedIngredients}
-                filteredIngredients={filteredIngredients}
-                matchingMeals={matchingMeals}
-                onAddIngredient={addIngredient}
-                onRemoveIngredient={removeIngredient}
-                onClearIngredients={clearIngredients}
-              />
-              
-              <MealSelector
-                onAddMeal={addMeal}
-                remainingSlots={remainingSlots}
-                searchResults={matchingMeals.map(meal => meal.id)}
-              />
-            </div>
-          </div>
+          <SearchTab 
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            selectedIngredients={selectedIngredients}
+            filteredIngredients={filteredIngredients}
+            matchingMeals={matchingMeals}
+            onAddIngredient={addIngredient}
+            onRemoveIngredient={removeIngredient}
+            onClearIngredients={clearIngredients}
+            onAddMeal={addMeal}
+            remainingSlots={remainingSlots}
+          />
         )}
 
-        {/* Meal Schedule Tab */}
         {activeTab === 'schedule' && (
-          <div>
-            <MealSchedule
-              selectedMeals={weeklyPlan.selectedMeals}
-              totalSlots={weeklyPlan.totalSlots}
-              onReorderMeals={reorderMeals}
-              initialMealOrder={mealOrder}
-              cookedMeals={cookedMeals}
-              dragLocked={dragLocked}
-              onToggleMealCooked={toggleMealCooked}
-              onToggleDragLock={toggleDragLock}
-              startDate={startDate}
-              onUpdateStartDate={updateStartDate}
-              getSlotDate={getSlotDate}
-            />
-          </div>
+          <ScheduleTab 
+            selectedMeals={weeklyPlan.selectedMeals}
+            totalSlots={weeklyPlan.totalSlots}
+            onReorderMeals={reorderMeals}
+            initialMealOrder={mealOrder}
+            cookedMeals={cookedMeals}
+            dragLocked={dragLocked}
+            onToggleMealCooked={toggleMealCooked}
+            onToggleDragLock={toggleDragLock}
+            startDate={startDate}
+            onUpdateStartDate={updateStartDate}
+            getSlotDate={getSlotDate}
+          />
         )}
 
-        {/* Grocery List Tab */}
         {activeTab === 'grocery' && (
-          <div>
-            <GroceryList
-              groceryItems={groceryList.items}
-              onToggleItem={handleToggleGroceryItem}
-              isEmpty={isEmpty}
-              groupedByMeal={groupedByMeal}
-              notes={notes}
-              onUpdateNotes={updateNotes}
-            />
-          </div>
+          <GroceryTab 
+            groceryItems={groceryList.items}
+            onToggleItem={handleToggleGroceryItem}
+            isEmpty={isEmpty}
+            groupedByMeal={groupedByMeal}
+            notes={notes}
+            onUpdateNotes={updateNotes}
+          />
         )}
       </div>
     </div>

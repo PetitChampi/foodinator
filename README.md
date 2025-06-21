@@ -1,14 +1,44 @@
 # Foodinator
 
-A weekly meal and grocery planner app built with React.
+A weekly meal and grocery planner app built with React and TypeScript.
+
+![Foodinator App](public/screenshot.png)
 
 ## Features
 
-- Plan your weekly meals by selecting from a list of available recipes
-- Automatically generate a grocery list based on your meal selections
-- Rearrange your meals in the schedule view
-- Search for meals by ingredients
-- Mobile-friendly design
+- **Weekly Meal Planning**: Plan your weekly meals by selecting from a list of available recipes
+- **Automatic Grocery Lists**: Generate a grocery list based on your meal selections
+- **Meal Scheduling**: Rearrange your meals in the schedule view with drag-and-drop functionality
+- **Ingredient Search**: Find meals by searching for specific ingredients
+- **Grocery List Management**: Sort and filter your grocery list, mark items as purchased
+- **Persistent Storage**: All your data is saved locally in your browser
+- **Mobile-Friendly Design**: Works great on both desktop and mobile devices
+
+## Live Demo
+
+Check out the live demo at [https://yourusername.github.io/foodinator/](https://yourusername.github.io/foodinator/)
+
+## Tech Stack
+
+- **React**: UI library
+- **TypeScript**: Type safety
+- **Vite**: Build tool
+- **CSS**: Styling (no external UI libraries)
+- **LocalStorage**: For data persistence
+
+## Project Structure
+
+```
+src/
+├── assets/         # Static assets like images
+├── components/     # React components
+├── hooks/          # Custom React hooks
+├── models/         # TypeScript interfaces and data
+├── styles/         # CSS styles
+├── utils/          # Utility functions
+├── App.tsx         # Main application component
+└── main.tsx        # Application entry point
+```
 
 ## Development
 
@@ -73,6 +103,25 @@ You can also trigger a deployment manually:
 2. Go to the Actions tab
 3. Select the "Deploy to GitHub Pages" workflow
 4. Click "Run workflow"
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Future Improvements
+
+- Add ability to create and edit custom meals
+- Implement meal categories and filtering
+- Add nutritional information for meals and ingredients
+- Implement user accounts for data syncing across devices
+- Add meal rating system
+- Implement meal suggestions based on past selections
 
 ## License
 

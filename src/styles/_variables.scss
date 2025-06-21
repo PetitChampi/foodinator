@@ -2,6 +2,9 @@
 // VARIABLES
 // ===========================
 
+//Imports
+@import url('https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap');
+
 // Colors
 // ===========================
 // Primary Colors
@@ -34,7 +37,7 @@ $danger-hover: #bd2130;
 
 // Typography
 // ===========================
-$font-family-base: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+$font-family-base: "Parkinsans", sans-serif;
 $font-size-base: 1rem;
 $font-size-sm: 0.875rem;
 $font-size-md: 1.125rem;

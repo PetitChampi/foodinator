@@ -10,7 +10,7 @@
 // ===========================
 .card {
   @include card-base;
-  
+
   // Saving that for later when we do need a card hover mixin
   // &:hover {
   //   @include card-hover;
@@ -31,7 +31,7 @@
 .btn {
   @include button-base;
   @include button-variant($primary-color, $primary-hover);
-  
+
   &-secondary {
     @include button-variant($secondary-color, $secondary-hover);
   }
@@ -77,7 +77,7 @@
   font-weight: $font-weight-semibold;
   background-color: $primary-color;
   color: white;
-  
+
   &-success {
     background-color: $success-color;
   }
@@ -107,7 +107,7 @@
   margin-right: $spacing-xs;
   margin-bottom: $spacing-xs;
   font-size: $font-size-sm;
-  
+
   .close {
     margin-left: $spacing-xs;
     font-size: $font-size-base;
@@ -126,16 +126,16 @@
   display: inline-flex;
   align-items: center;
   margin-bottom: $spacing-sm;
-  
+
   input[type="checkbox"] {
     margin-right: $spacing-sm;
   }
-  
+
   label {
     cursor: pointer;
     transition: all $transition-base;
   }
-  
+
   &.checked label {
     text-decoration: line-through;
     opacity: 0.7;
@@ -150,7 +150,7 @@
   border-radius: $border-radius-sm;
   background-color: color.adjust($info-color, $lightness: 45%);
   border: 1px solid $info-color;
-  
+
   &--success {
     color: $success-color;
     background-color: color.adjust($success-color, $lightness: 45%);
@@ -170,7 +170,7 @@
 // ===========================
 .form-group {
   margin-bottom: $spacing-md;
-  
+
   &--inline {
     display: flex;
     align-items: center;
@@ -183,9 +183,39 @@
 // ===========================
 .meal-ingredients {
   font-size: $font-size-sm;
-  
+
   p {
     margin: 0;
+  }
+}
+
+// Quantity Controls
+// ===========================
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+
+  .quantity-display {
+    min-width: 2rem;
+    text-align: center;
+    font-weight: $font-weight-medium;
+    padding: $spacing-xs;
+    background-color: $background-color;
+    border-radius: $border-radius-sm;
+    border: 1px solid $border-color;
+  }
+
+  .btn {
+    min-width: 2rem;
+    padding: $spacing-xs;
+    font-weight: $font-weight-bold;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 }
 
@@ -195,23 +225,23 @@
   padding: $spacing-lg;
   background-color: $card-background;
   box-shadow: $shadow-md;
-  
+
   &__header {
     @include flex-between;
     margin-bottom: $spacing-sm;
   }
-  
+
   &__title {
     margin: 0;
     font-size: $font-size-lg;
   }
-  
+
   &__quantity {
     font-size: $font-size-sm;
     color: $secondary-color;
     margin-top: $spacing-xs;
   }
-  
+
   &__actions {
     display: flex;
     align-items: center;
@@ -223,7 +253,7 @@
   display: flex;
   align-items: center;
   gap: $spacing-xs;
-  
+
   .form-control {
     width: 60px;
   }
@@ -241,14 +271,14 @@
 // ===========================
 .grocery-section {
   margin: $spacing-xl 0;
-  
+
   &__title {
     font-size: $font-size-md;
     border-bottom: 1px solid $border-color;
     padding-bottom: $spacing-xs;
     margin-bottom: $spacing-sm;
   }
-  
+
   &__list {
     list-style: none;
     padding: 0;
@@ -257,12 +287,12 @@
 
 .grocery-notes {
   margin-top: $spacing-xxxl;
-  
+
   &__title {
     font-size: $font-size-lg;
     margin-bottom: $spacing-sm;
   }
-  
+
   &__counter {
     font-size: 0.8rem;
     color: $text-color;
@@ -270,7 +300,7 @@
     margin-top: $spacing-xs;
     text-align: right;
   }
-  
+
   textarea {
     font-family: inherit;
     height: 200px;
@@ -285,12 +315,28 @@
   display: flex;
   align-items: center;
   gap: $spacing-sm;
-  
+
   .form-control {
     width: auto;
   }
-  
+
   .btn {
     white-space: nowrap;
+  }
+}
+
+// Drag and Drop
+// ===========================
+.meal-slot {
+  &.dragging {
+    opacity: 0.7;
+    z-index: 10;
+    position: relative;
+    touch-action: none; // Prevents scrolling during touch drag operations
+  }
+
+  &.drop-target {
+    border: 2px dashed $primary-color;
+    background-color: color.adjust($primary-color, $lightness: 45%);
   }
 }

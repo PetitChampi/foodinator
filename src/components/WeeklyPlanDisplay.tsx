@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SelectedMeal } from '../models/types';
 import { getMealById, getIngredientById } from '../models/data';
 
@@ -6,7 +6,6 @@ interface WeeklyPlanDisplayProps {
   selectedMeals: SelectedMeal[];
   onRemoveMeal: (mealId: string) => void;
   onUpdateQuantity: (mealId: string, quantity: number) => boolean;
-  usedSlots: number;
   totalSlots: number;
 }
 
@@ -14,23 +13,66 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
   selectedMeals,
   onRemoveMeal,
   onUpdateQuantity,
-  usedSlots,
   totalSlots,
 }) => {
-  const handleQuantityChange = (mealId: string, e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newQuantity = Number(e.target.value);
-    onUpdateQuantity(mealId, newQuantity);
+  // Local state to track the current quantities of meals
+  const [localQuantities, setLocalQuantities] = useState<Record<string, number>>({});
+
+  // Initialize local quantities from selectedMeals
+  useEffect(() => {
+    // Create a new object to store the quantities
+    const quantities: Record<string, number> = {};
+    // Populate it with the quantities from selectedMeals
+    selectedMeals.forEach(meal => {
+      quantities[meal.mealId] = meal.quantity;
+    });
+    // Update the local state with the new quantities
+    setLocalQuantities(quantities);
+  }, [selectedMeals]);
+
+  // Calculate local used slots based on local quantities
+  // This is the sum of all quantities in the localQuantities object
+  const localUsedSlots = Object.values(localQuantities).reduce((total, quantity) => total + quantity, 0);
+
+  const handleIncreaseQuantity = (mealId: string, currentQuantity: number) => {
+    // Calculate remaining slots for this meal
+    // Total slots - (used slots - current quantity of this meal)
+    const availableSlots = totalSlots - (localUsedSlots - currentQuantity);
+
+    if (currentQuantity < availableSlots) {
+      const success = onUpdateQuantity(mealId, currentQuantity + 1);
+      if (success) {
+        // Update local quantity
+        setLocalQuantities(prev => ({
+          ...prev,
+          [mealId]: currentQuantity + 1
+        }));
+      }
+    }
   };
 
-  // Calculate empty slots
-  const emptySlots = totalSlots - usedSlots;
+  const handleDecreaseQuantity = (mealId: string, currentQuantity: number) => {
+    if (currentQuantity > 1) {
+      const success = onUpdateQuantity(mealId, currentQuantity - 1);
+      if (success) {
+        // Update local quantity immediately to reflect the change
+        setLocalQuantities(prev => ({
+          ...prev,
+          [mealId]: currentQuantity - 1
+        }));
+      }
+    }
+  };
+
+  // Calculate empty slots based on local used slots
+  const emptySlots = totalSlots - localUsedSlots;
 
   return (
     <div className="card">
       <div className="flex-between">
         <h2 className="card-title">Weekly Meal Plan</h2>
         <div className="badge">
-          {usedSlots}/{totalSlots} slots filled
+          {localUsedSlots}/{totalSlots} slots filled
         </div>
       </div>
 
@@ -53,17 +95,25 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
                       </div>
                     </div>
                     <div className="meal-actions">
-                      <select
-                        value={quantity}
-                        onChange={(e) => handleQuantityChange(mealId, e)}
-                        className="form-control"
-                      >
-                        {[...Array(Math.min(totalSlots - usedSlots + quantity, 2) + 1).keys()].slice(1).map((num) => (
-                          <option key={num} value={num}>
-                            {num}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="quantity-controls">
+                        <button 
+                          type="button"
+                          className="btn btn-sm"
+                          onClick={() => handleDecreaseQuantity(mealId, quantity)}
+                          disabled={quantity <= 1}
+                        >
+                          -
+                        </button>
+                        <span className="quantity-display">{quantity}</span>
+                        <button 
+                          type="button"
+                          className="btn btn-sm"
+                          onClick={() => handleIncreaseQuantity(mealId, quantity)}
+                          disabled={quantity >= totalSlots - (localUsedSlots - quantity)}
+                        >
+                          +
+                        </button>
+                      </div>
                       <button
                         className="btn btn-danger btn-sm"
                         onClick={() => onRemoveMeal(mealId)}
@@ -82,7 +132,7 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
                 </div>
               );
             })}
-            
+
             {emptySlots > 0 && (
               <div className="empty-slots">
                 {emptySlots} empty {emptySlots === 1 ? 'slot' : 'slots'} remaining

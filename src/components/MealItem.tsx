@@ -12,9 +12,18 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onAddMeal, remainingSl
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState('');
 
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setQuantity(Number(e.target.value));
-    setError('');
+  const handleIncreaseQuantity = () => {
+    if (quantity < remainingSlots) {
+      setQuantity(quantity + 1);
+      setError('');
+    }
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+      setError('');
+    }
   };
 
   const handleAddMeal = () => {
@@ -50,26 +59,28 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onAddMeal, remainingSl
       </div>
       <div className="controls">
         <div className="form-group">
-          <label htmlFor={`quantity-${meal.id}`} className="form-label">
+          <label className="form-label">
             Quantity (slots):
           </label>
-          <select
-            id={`quantity-${meal.id}`}
-            className="form-control"
-            value={quantity}
-            onChange={handleQuantityChange}
-            disabled={remainingSlots === 0}
-          >
-            {remainingSlots > 0 ? (
-              [...Array(Math.min(remainingSlots, 2) + 1).keys()].slice(1).map((num) => (
-                <option key={num} value={num}>
-                  {num}
-                </option>
-              ))
-            ) : (
-              <option value="1">1</option>
-            )}
-          </select>
+          <div className="quantity-controls">
+            <button 
+              type="button"
+              className="btn btn-sm"
+              onClick={handleDecreaseQuantity}
+              disabled={quantity <= 1 || remainingSlots === 0}
+            >
+              -
+            </button>
+            <span className="quantity-display">{quantity}</span>
+            <button 
+              type="button"
+              className="btn btn-sm"
+              onClick={handleIncreaseQuantity}
+              disabled={quantity >= remainingSlots || remainingSlots === 0}
+            >
+              +
+            </button>
+          </div>
         </div>
         {error && <p className="error-text">{error}</p>}
         <button

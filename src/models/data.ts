@@ -34,8 +34,6 @@ export const ingredients: Ingredient[] = [
   { id: 'lardons', name: 'Lardons' },
   { id: 'asparagus', name: 'Asparagus' },
   { id: 'white-wine', name: 'White wine' },
-  { id: 'bell-pepper', name: 'Bell pepper' },
-  { id: 'shallots', name: 'Shallots' },
   { id: 'new-potatoes', name: 'New potatoes' },
   { id: 'green-veg', name: 'Green veg' },
   { id: 'mint-sauce', name: 'Mint sauce' },
