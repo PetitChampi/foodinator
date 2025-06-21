@@ -39,11 +39,11 @@
   border-radius: $border-radius-sm;
   padding: $spacing-sm $spacing-lg;
   font-size: $font-size-base;
-  font-weight: $font-weight-medium;
   cursor: pointer;
   transition: all $transition-base;
   text-decoration: none;
   text-align: center;
+  text-wrap: nowrap;
   
   &:disabled {
     opacity: 0.6;
