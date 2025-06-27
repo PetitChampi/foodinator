@@ -18,28 +18,28 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
   return (
     <div className="tabs">
       <button
-        className={`btn ${activeTab === 'planner' ? '' : 'btn-secondary'}`}
+        className={`tab ${activeTab === 'planner' && 'tab-active'}`}
         onClick={() => setActiveTab('planner')}
       >
-        Meal Planner
+        Planner
       </button>
       <button
-        className={`btn ${activeTab === 'schedule' ? '' : 'btn-secondary'}`}
+        className={`tab ${activeTab === 'schedule' && 'tab-active'}`}
         onClick={() => setActiveTab('schedule')}
       >
-        Meal Schedule
+        Schedule
       </button>
+      {/*<button*/}
+      {/*  className={`tab ${activeTab === 'search' && 'tab-active'}`}*/}
+      {/*  onClick={() => setActiveTab('search')}*/}
+      {/*>*/}
+      {/*  Ingredient Search*/}
+      {/*</button>*/}
       <button
-        className={`btn ${activeTab === 'search' ? '' : 'btn-secondary'}`}
-        onClick={() => setActiveTab('search')}
-      >
-        Ingredient Search
-      </button>
-      <button
-        className={`btn ${activeTab === 'grocery' ? '' : 'btn-secondary'}`}
+        className={`tab ${activeTab === 'grocery' && 'tab-active'}`}
         onClick={() => setActiveTab('grocery')}
       >
-        Grocery List
+        Groceries
         {!isEmpty && (
           <span className="badge badge-count">
             {groceryItemCount}

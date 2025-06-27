@@ -68,7 +68,7 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
   const emptySlots = totalSlots - localUsedSlots;
 
   return (
-    <div className="card">
+    <>
       <div className="flex-between">
         <h2 className="card-title">Weekly Meal Plan</h2>
         <div className="badge">
@@ -108,6 +108,6 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };

@@ -12,14 +12,17 @@
 $primary-color: #DE6052;
 $secondary-color: #FFDDAB;
 
-// Background Colors
-$background-color: #f5f7fa;
-$card-background: #ffffff;
+// Neutral colours
+$gray-1: #3F3B3B;
+$gray-2: #554E4F;
+$gray-3: #938A8B;
+$gray-4: #BAB5B5;
+$gray-5: #E2DFDF;
+$gray-6: #F5F4F4;
 
-// Text Colors
-$text-color: #333333;
-$text-light: #666666;
-$text-muted: #999999;
+// Background colours
+$background-color: $gray-6;
+$card-background: #ffffff;
 
 // Border Colors
 $border-color: #e0e0e0;
@@ -82,8 +85,8 @@ $shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.2);
 
 // Transitions
 // ===========================
-$transition-fast: 0.15s ease;
-$transition-base: 0.3s ease;
+$transition-fast: 0.1s ease;
+$transition-base: 0.2s ease;
 $transition-slow: 0.5s ease;
 
 // Breakpoints

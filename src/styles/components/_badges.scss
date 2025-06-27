@@ -11,22 +11,21 @@
   padding: $spacing-xs $spacing-sm;
   border-radius: $border-radius-max;
   font-size: 0.75rem;
-  font-weight: $font-weight-semibold;
-  background-color: $primary-color;
-  color: white;
+  font-weight: $font-weight-medium;
+  background-color: $secondary-color;
+  color: color.adjust($secondary-color, $lightness: -50%);
 
   &-success {
     background-color: $success-color;
   }
   &-warning {
     background-color: $warning-color;
-    color: $text-color;
+    color: $gray-1;
   }
   &-danger {
     background-color: $danger-color;
   }
   &-count {
-    margin-left: $spacing-xs;
     font-size: 0.7rem;
   }
 }

@@ -7,22 +7,30 @@
 @use "../mixins" as *;
 
 .tabs {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: $spacing-sm;
+  display: inline-flex;
+  overflow: auto;
   margin-bottom: $spacing-xl;
-  text-align: center;
-
-  .btn {
-    // Active tab styling (primary button)
-    &:not(.btn-secondary) {
-      @include button-variant($primary-color, $primary-hover);
+  border-radius: $border-radius-max;
+  background-color: $gray-6;
+  border: 1px solid $gray-5;
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    padding: 5px 20px;
+    transition: $transition-base;
+    border-radius: $border-radius-max;
+    cursor: pointer;
+    background-color: transparent;
+    &.tab-active {
+      background-color: $primary-color;
+      color: #fff;
     }
-
-    // Inactive tab styling (secondary button)
-    &.btn-secondary {
-      @include button-variant($secondary-color, $secondary-hover);
+    &:not(.tab-active) {
+      &:hover {
+        background-color: $gray-5;
+      }
     }
   }
 }

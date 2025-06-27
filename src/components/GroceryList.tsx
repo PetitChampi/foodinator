@@ -41,7 +41,6 @@ export const GroceryList: React.FC<GroceryListProps> = ({
     }
   });
 
-  // Render a single grocery item
   const renderGroceryItem = (item: GroceryItem) => {
     const ingredient = getIngredientById(item.ingredientId);
     if (!ingredient) return null;
@@ -64,7 +63,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({
   };
 
   return (
-    <div className="card">
+    <>
       <div className="flex-between">
         {!isEmpty && (
           <div className="controls-group">
@@ -145,6 +144,6 @@ export const GroceryList: React.FC<GroceryListProps> = ({
           </div>
         </>
       )}
-    </div>
+    </>
   );
 };

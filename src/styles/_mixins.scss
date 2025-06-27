@@ -44,12 +44,10 @@
   text-decoration: none;
   text-align: center;
   text-wrap: nowrap;
-
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
-
   &:active {
     transform: translateY(1px);
   }
@@ -58,11 +56,9 @@
 @mixin button-variant($bg-color, $hover-color: darken($bg-color, 10%)) {
   background-color: $bg-color;
   color: white;
-
   &:hover:not(:disabled) {
     background-color: $hover-color;
   }
-
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba($bg-color, 0.3);
@@ -239,7 +235,7 @@
   padding: $spacing-xs $spacing-sm;
   border-radius: $border-radius-sm;
   background-color: #f0f0f0;
-  color: $text-color;
+  color: $gray-1;
   font-size: 0.8rem;
   font-weight: $font-weight-semibold;
   user-select: none;

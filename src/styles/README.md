@@ -32,7 +32,7 @@ Contains all design tokens organized by category:
 ### Colors
 - **Primary Colors**: `$primary-color`, `$secondary-color`
 - **Background Colors**: `$background-color`, `$card-background`
-- **Text Colors**: `$text-color`, `$text-light`, `$text-muted`
+- **Text Colors**: `$gray-1`, `$gray-3`, `$gray-4`
 - **Border Colors**: `$border-color`, `$border-light`
 - **Status Colors**: `$success-color`, `$danger-color`, `$warning-color`, `$info-color`
 - **Hover States**: `$primary-hover`, `$secondary-hover`, `$danger-hover`
