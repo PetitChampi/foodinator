@@ -3,13 +3,14 @@
 // ===========================
 
 //Imports
+@use "sass:color";
 @import url('https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap');
 
 // Colors
 // ===========================
 // Primary Colors
-$primary-color: #4a6fa5;
-$secondary-color: #166d3b;
+$primary-color: #DE6052;
+$secondary-color: #FFDDAB;
 
 // Background Colors
 $background-color: #f5f7fa;
@@ -25,15 +26,15 @@ $border-color: #e0e0e0;
 $border-light: #f0f0f0;
 
 // Status Colors
-$success-color: #28a745;
-$danger-color: #d62828;
-$warning-color: #ffb703;
-$info-color: #17a2b8;
+$success-color: #69990F;
+$danger-color: #E50060;
+$warning-color: #BF9F00;
+$info-color: #1592A6;
 
 // Hover States
-$primary-hover: #3a5a8c;
-$secondary-hover: #0f5a2f;
-$danger-hover: #bd2130;
+$primary-hover: color.adjust($primary-color, $lightness: -10%, $saturation: -10%);
+$secondary-hover: color.adjust($secondary-color, $lightness: -10%);
+$danger-hover: color.adjust($danger-color, $lightness: -10%);
 
 // Typography
 // ===========================
@@ -70,7 +71,7 @@ $border-radius-sm: 4px;
 $border-radius-md: 8px;
 $border-radius-lg: 12px;
 $border-radius-xl: 16px;
-$border-radius-pill: 50px;
+$border-radius-max: 1000px;
 
 // Shadows
 // ===========================

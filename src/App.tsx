@@ -75,7 +75,12 @@ function App() {
   return (
     <div>
       <header className="app-header">
-        <h1 className="app-title">Foodinator</h1>
+        <div className="app-logo"><img src="/foodinator-logo.svg" alt="Foodinator logo"/></div>
+        <button className="burger">
+          <div className="bar"></div>
+          <div className="bar"></div>
+          <div className="bar"></div>
+        </button>
       </header>
 
       <div className="container">

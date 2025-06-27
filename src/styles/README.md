@@ -47,7 +47,7 @@ Contains all design tokens organized by category:
 - **Spacing Scale**: `$spacing-xs` (4px) to `$spacing-xxxl` (30px)
 
 ### Border Radius
-- **Radius Scale**: `$border-radius-sm` (4px) to `$border-radius-pill` (50px)
+- **Radius Scale**: `$border-radius-sm` (4px) to `$border-radius-max` (50px)
 
 ### Shadows
 - **Shadow Scale**: `$shadow-sm` to `$shadow-xl`

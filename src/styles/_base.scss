@@ -17,12 +17,15 @@ body {
   background-color: $background-color;
   margin: 0;
   padding: 0;
-}
-button, input {
-  font-family: inherit;
-}
-h1, h2, h3, h4, h5, h6 {
-  font-weight: $font-weight-semibold;
+  button, input {
+    font-family: inherit;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: $font-weight-semibold;
+  }
+  img {
+    max-width: 100%;
+  }
 }
 
 // Container
@@ -34,14 +37,51 @@ h1, h2, h3, h4, h5, h6 {
 
 // App Header
 .app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   background-color: $primary-color;
   color: white;
-  padding: $spacing-xl 0;
+  padding: $spacing-sm $spacing-xl;
   text-align: center;
-  margin-bottom: $spacing-xxxl;
-}
-
-.app-title {
-  font-size: $font-size-xxl;
-  font-weight: $font-weight-semibold;
+  margin-bottom: $spacing-lg;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .app-logo {
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    img {
+      height: 100%;
+    }
+  }
+  .burger {
+    border-radius: 1000px;
+    border: 1px solid rgba(#fff, .4);
+    background-color: rgba(#fff, .1);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: .2s;
+    &:hover {
+      background-color: rgba(#fff, .2);
+    }
+    .bar {
+      width: 20px;
+      height: 2px;
+      border-radius: $border-radius-max;
+      background-color: #fff;
+      &:first-of-type, &:last-of-type {
+        width: 15px;
+      }
+    }
+  }
 }
