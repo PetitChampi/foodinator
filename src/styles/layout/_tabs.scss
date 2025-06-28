@@ -7,12 +7,18 @@
 @use "../mixins" as *;
 
 .tabs {
+  position: sticky;
+  top: 30px;
+  z-index: 1;
+  min-height: 36px;
+  max-width: 100%;
   display: inline-flex;
   overflow: auto;
-  margin-bottom: $spacing-xl;
+  margin: 30px 0 20px;
   border-radius: $border-radius-max;
   background-color: $gray-6;
   border: 1px solid $gray-5;
+  box-shadow: $shadow-md;
   .tab {
     display: flex;
     align-items: center;

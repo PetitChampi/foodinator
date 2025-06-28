@@ -74,14 +74,14 @@ function App() {
 
   return (
     <div>
-      <header className="app-header">
-        <div className="app-logo"><img src="/foodinator-logo.svg" alt="Foodinator logo"/></div>
-        <button className="burger">
-          <div className="bar"></div>
-          <div className="bar"></div>
-          <div className="bar"></div>
-        </button>
-      </header>
+      {/*<header className="app-header">*/}
+      {/*  <div className="app-logo"><img src="/foodinator-logo.svg" alt="Foodinator logo"/></div>*/}
+      {/*  <button className="burger">*/}
+      {/*    <div className="bar"></div>*/}
+      {/*    <div className="bar"></div>*/}
+      {/*    <div className="bar"></div>*/}
+      {/*  </button>*/}
+      {/*</header>*/}
 
       <div className="container">
         {/* Tab Navigation */}

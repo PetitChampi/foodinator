@@ -26,13 +26,11 @@
   @include flex-between;
   flex-wrap: wrap;
   gap: $spacing-sm;
-  margin-bottom: $spacing-lg;
 }
 
 // Form Groups
 .form-group {
   margin-bottom: $spacing-md;
-
   &--inline {
     display: flex;
     align-items: center;

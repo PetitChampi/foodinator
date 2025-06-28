@@ -19,8 +19,8 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
     : meals;
 
   return (
-    <div className="card">
-      <h2 className="card-title">Available Meals</h2>
+    <section>
+      <h2 className="section-title">Meals</h2>
       {remainingSlots === 0 ? (
         <div className="alert alert--success">
           <strong>All slots filled!</strong> Your weekly plan is complete.
@@ -45,6 +45,6 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 };

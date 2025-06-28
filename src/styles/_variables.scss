@@ -24,17 +24,17 @@ $gray-6: #F5F4F4;
 $background-color: $gray-6;
 $card-background: #ffffff;
 
-// Border Colors
+// Border colours
 $border-color: #e0e0e0;
 $border-light: #f0f0f0;
 
-// Status Colors
+// Status colours
 $success-color: #69990F;
 $danger-color: #E50060;
 $warning-color: #BF9F00;
 $info-color: #1592A6;
 
-// Hover States
+// Hover states
 $primary-hover: color.adjust($primary-color, $lightness: -10%, $saturation: -10%);
 $secondary-hover: color.adjust($secondary-color, $lightness: -10%);
 $danger-hover: color.adjust($danger-color, $lightness: -10%);
@@ -68,20 +68,20 @@ $spacing-xl: 20px;
 $spacing-xxl: 24px;
 $spacing-xxxl: 30px;
 
-// Border Radius
+// Border radius
 // ===========================
-$border-radius-sm: 4px;
-$border-radius-md: 8px;
-$border-radius-lg: 12px;
-$border-radius-xl: 16px;
+$border-radius-sm: 5px;
+$border-radius-md: 10px;
+$border-radius-lg: 15px;
+$border-radius-xl: 20px;
 $border-radius-max: 1000px;
 
 // Shadows
 // ===========================
-$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-$shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
-$shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
-$shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.2);
+$shadow-sm: (0 1px 3px rgba($gray-1, 0.1), 0 1px 2px rgba($gray-1, 0.06));
+$shadow-md: (0 2px 8px -2px rgba($gray-1, 0.2), 0 1px 4px -2px rgba($gray-1, 0.12));
+$shadow-lg: (0 4px 16px -4px rgba($gray-1, 0.16), 0 1px 6px -2px rgba($gray-1, 0.08));
+$shadow-xl: (0 8px 24px -2px rgba($gray-1, 0.12), 0 4px 8px -2px rgba($gray-1, 0.06));
 
 // Transitions
 // ===========================

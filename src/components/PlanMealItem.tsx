@@ -1,5 +1,5 @@
 import React from 'react';
-import { getMealById, getIngredientById } from '../models/data';
+import { getMealById } from '../models/data';
 
 interface PlanMealItemProps {
   mealId: string;
@@ -34,9 +34,6 @@ export const PlanMealItem: React.FC<PlanMealItemProps> = ({
       <div className="meal-item__header">
         <div>
           <h3 className="meal-item__title">{meal.name}</h3>
-          <div className="meal-item__quantity">
-            {quantity > 1 ? `${quantity} slots` : '1 slot'}
-          </div>
         </div>
         <div className="meal-actions">
           <div className="quantity-controls">
@@ -45,33 +42,20 @@ export const PlanMealItem: React.FC<PlanMealItemProps> = ({
               className="btn btn-sm"
               onClick={handleDecreaseQuantity}
               disabled={quantity <= 1}
-            >
-              -
-            </button>
+            >-</button>
             <span className="quantity-display">{quantity}</span>
             <button 
               type="button"
               className="btn btn-sm"
               onClick={handleIncreaseQuantity}
               disabled={quantity >= availableSlots}
-            >
-              +
-            </button>
+            >+</button>
           </div>
           <button
             className="btn btn-danger btn-sm"
             onClick={() => onRemoveMeal(mealId)}
-          >
-            ✕
-          </button>
+          >✕</button>
         </div>
-      </div>
-      <div className="meal-ingredients">
-        <p>
-          <strong>Ingredients:</strong> {meal.ingredients.length > 3 
-            ? `${meal.ingredients.length} ingredients` 
-            : meal.ingredients.map(id => getIngredientById(id)?.name || id).join(', ')}
-        </p>
       </div>
     </div>
   );

@@ -15,7 +15,6 @@ export const ScheduleControls: React.FC<ScheduleControlsProps> = ({
 }) => {
   return (
     <div className="schedule-controls">
-      <p>Drag and drop meals to rearrange your weekly schedule.</p>
       <div className="schedule-controls__date-group">
         <label htmlFor="start-date">
           Start Date:

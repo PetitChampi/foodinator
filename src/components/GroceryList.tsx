@@ -139,7 +139,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({
               maxLength={1000}
             />
             <div className="grocery-notes__counter">
-              {notes.length}/1000 characters
+              {notes.length}/1000
             </div>
           </div>
         </>

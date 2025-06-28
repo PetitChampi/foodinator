@@ -58,37 +58,32 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onAddMeal, remainingSl
         </div>
       </div>
       <div className="controls">
-        <div className="form-group">
-          <label className="form-label">
-            Quantity (slots):
-          </label>
-          <div className="quantity-controls">
-            <button 
-              type="button"
-              className="btn btn-sm"
-              onClick={handleDecreaseQuantity}
-              disabled={quantity <= 1 || remainingSlots === 0}
-            >
-              -
-            </button>
-            <span className="quantity-display">{quantity}</span>
-            <button 
-              type="button"
-              className="btn btn-sm"
-              onClick={handleIncreaseQuantity}
-              disabled={quantity >= remainingSlots || remainingSlots === 0}
-            >
-              +
-            </button>
-          </div>
+        <div className="quantity-controls">
+          <button
+            type="button"
+            className="btn btn-sm"
+            onClick={handleDecreaseQuantity}
+            disabled={quantity <= 1 || remainingSlots === 0}
+          >
+            -
+          </button>
+          <span className="quantity-display">{quantity}</span>
+          <button
+            type="button"
+            className="btn btn-sm"
+            onClick={handleIncreaseQuantity}
+            disabled={quantity >= remainingSlots || remainingSlots === 0}
+          >
+            +
+          </button>
         </div>
         {error && <p className="error-text">{error}</p>}
         <button
-          className="btn"
+          className="btn btn-sm"
           onClick={handleAddMeal}
           disabled={isAddDisabled}
         >
-          {isAddDisabled ? 'No Slots Available' : 'Add to Plan'}
+          {isAddDisabled ? 'All slots filled' : 'Add to plan'}
         </button>
       </div>
     </div>

@@ -36,7 +36,7 @@
 @mixin button-base {
   display: inline-block;
   border: none;
-  border-radius: $border-radius-sm;
+  border-radius: $border-radius-max;
   padding: $spacing-sm $spacing-lg;
   font-size: $font-size-base;
   cursor: pointer;
@@ -76,7 +76,7 @@
   background-color: $card-background;
   border-radius: $border-radius-md;
   box-shadow: $shadow-md;
-  padding: $spacing-lg;
+  padding: $spacing-md;
   transition: box-shadow $transition-base;
 }
 
@@ -84,18 +84,17 @@
 // ===========================
 @mixin form-control {
   padding: $spacing-sm $spacing-md;
-  border: 1px solid $border-color;
-  border-radius: $border-radius-sm;
+  border: 1px solid $gray-4;
+  border-radius: $border-radius-lg;
   font-size: $font-size-base;
   font-family: $font-family-base;
+  color: $gray-1;
   transition: border-color $transition-base, box-shadow $transition-base;
-
   &:focus {
     outline: none;
     border-color: $primary-color;
-    box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
   }
-
   &:disabled {
     background-color: color.adjust($border-color, $lightness: 10%);
     cursor: not-allowed;
@@ -125,7 +124,7 @@
 @mixin grid-auto-fill($min-width: 300px, $gap: $grid-gap) {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
-  gap: $gap;
+  gap: $spacing-md;
 }
 
 // Typography Mixins

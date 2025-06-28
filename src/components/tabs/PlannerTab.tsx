@@ -29,14 +29,14 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
           {selectedMeals.length > 0 && (
             <>
               <button className="btn btn-danger" onClick={onResetPlan}>
-                Reset Plan
+                Reset
               </button>
             </>
           )}
         </div>
       </div>
 
-      <div className="app-section">
+      <div className="app-view">
         <WeeklyPlanDisplay
           selectedMeals={selectedMeals}
           onRemoveMeal={onRemoveMeal}

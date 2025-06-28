@@ -6,10 +6,15 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
-.app-section {
+.app-view {
   display: flex;
   flex-direction: column;
-  gap: $spacing-xl;
+  gap: $spacing-xxxl;
+  .section-title {
+    font-weight: 400;
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-md;
+  }
 }
 
 .section-header {

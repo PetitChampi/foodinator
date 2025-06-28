@@ -15,7 +15,7 @@
 
   &--success {
     color: $success-color;
-    background-color: color.adjust($success-color, $lightness: 45%);
+    background-color: color.adjust($success-color, $lightness: 60%);
     border-color: $success-color;
   }
 }

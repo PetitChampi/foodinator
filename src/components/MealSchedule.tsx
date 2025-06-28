@@ -80,10 +80,10 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
   };
 
   return (
-    <div className="card">
+    <>
       <div className="flex-between">
         <div className="badge">
-          {mealSlots.filter(slot => slot !== null).length}/{totalSlots} slots filled
+          {mealSlots.filter(slot => slot !== null).length}/{totalSlots}
         </div>
       </div>
 
@@ -115,6 +115,6 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
           />
         ))}
       </div>
-    </div>
+    </>
   );
 };

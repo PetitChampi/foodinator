@@ -68,12 +68,10 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
   const emptySlots = totalSlots - localUsedSlots;
 
   return (
-    <>
+    <section>
       <div className="flex-between">
-        <h2 className="card-title">Weekly Meal Plan</h2>
-        <div className="badge">
-          {localUsedSlots}/{totalSlots} slots filled
-        </div>
+        <h2 className="section-title">Weekly dinner plan</h2>
+        <div className="badge">{localUsedSlots}/{totalSlots}</div>
       </div>
 
       {selectedMeals.length === 0 ? (
@@ -108,6 +106,6 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 };

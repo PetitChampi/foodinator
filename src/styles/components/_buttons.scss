@@ -9,7 +9,6 @@
 .btn {
   @include button-base;
   @include button-variant($primary-color, $primary-hover);
-
   &-secondary {
     @include button-variant($secondary-color, $secondary-hover);
   }
@@ -17,6 +16,6 @@
     @include button-variant($danger-color, $danger-hover);
   }
   &-sm {
-    @include button-size($spacing-xs, $spacing-sm, $font-size-sm);
+    @include button-size($spacing-xs, $spacing-md, $font-size-sm);
   }
 }

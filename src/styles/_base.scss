@@ -36,9 +36,7 @@ body {
 
 // App Header
 .app-header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
+  position: relative;
   background-color: $primary-color;
   color: white;
   padding: $spacing-sm $spacing-xl;

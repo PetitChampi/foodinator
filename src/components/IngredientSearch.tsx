@@ -1,13 +1,12 @@
 import React from 'react';
 import { getIngredientById } from '../models/data';
-import { Meal, Ingredient } from '../models/types';
+import { Ingredient } from '../models/types';
 
 interface IngredientSearchProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
   selectedIngredients: string[];
   filteredIngredients: Ingredient[];
-  matchingMeals: Meal[];
   onAddIngredient: (ingredientId: string) => void;
   onRemoveIngredient: (ingredientId: string) => void;
   onClearIngredients: () => void;
@@ -18,7 +17,6 @@ export const IngredientSearch: React.FC<IngredientSearchProps> = ({
   onSearchChange,
   selectedIngredients,
   filteredIngredients,
-  matchingMeals,
   onAddIngredient,
   onRemoveIngredient,
   onClearIngredients,
@@ -88,22 +86,6 @@ export const IngredientSearch: React.FC<IngredientSearchProps> = ({
               );
             })}
           </div>
-        </div>
-      )}
-
-      {/* Display matching meals */}
-      {selectedIngredients.length > 0 && (
-        <div className="matching-meals">
-          <p><strong>Meals containing these ingredients:</strong></p>
-          {matchingMeals.length === 0 ? (
-            <p>No meals found with all selected ingredients.</p>
-          ) : (
-            <ul>
-              {matchingMeals.map((meal) => (
-                <li key={meal.id}>{meal.name}</li>
-              ))}
-            </ul>
-          )}
         </div>
       )}
     </div>

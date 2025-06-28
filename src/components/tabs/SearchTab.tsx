@@ -30,16 +30,12 @@ export const SearchTab: React.FC<SearchTabProps> = ({
 }) => {
   return (
     <div>
-      <div className="section-header">
-        <h2>Find Meals by Ingredients</h2>
-      </div>
-      <div className="app-section">
+      <div className="app-view">
         <IngredientSearch
           searchTerm={searchTerm}
           onSearchChange={onSearchChange}
           selectedIngredients={selectedIngredients}
           filteredIngredients={filteredIngredients}
-          matchingMeals={matchingMeals}
           onAddIngredient={onAddIngredient}
           onRemoveIngredient={onRemoveIngredient}
           onClearIngredients={onClearIngredients}

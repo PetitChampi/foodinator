@@ -1,5 +1,5 @@
 import React from 'react';
-import { getMealById, getIngredientById } from '../models/data';
+import { getMealById } from '../models/data';
 
 interface MealSlotProps {
   mealId: string | null;
@@ -71,13 +71,6 @@ export const MealSlot: React.FC<MealSlotProps> = ({
             >
               {isCooked ? '✓ Cooked' : 'Mark Cooked'}
             </div>
-          </div>
-          <div className="meal-ingredients">
-            <p>
-              {meal.ingredients.length > 3 
-                ? `${meal.ingredients.length} ingredients` 
-                : meal.ingredients.map(id => getIngredientById(id)?.name || id).join(', ')}
-            </p>
           </div>
         </>
       ) : (
