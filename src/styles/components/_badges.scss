@@ -14,7 +14,6 @@
   font-weight: $font-weight-medium;
   background-color: $secondary-color;
   color: color.adjust($secondary-color, $lightness: -50%);
-
   &-success {
     background-color: $success-color;
   }
@@ -27,5 +26,10 @@
   }
   &-count {
     font-size: 0.7rem;
+  }
+  &-neutral {
+    background-color: $gray-5;
+    color: $gray-2;
+    padding: 2px 7px;
   }
 }

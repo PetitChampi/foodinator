@@ -55,7 +55,8 @@ export const GroceryList: React.FC<GroceryListProps> = ({
             id={`ingredient-${item.ingredientId}`}
           />
           <label htmlFor={`ingredient-${item.ingredientId}`}>
-            {ingredient.name} <strong>({item.portions})</strong>
+            {ingredient.name}
+            {item.portions > 1 && (<span className="badge badge-neutral">{item.portions}</span>)}
           </label>
         </div>
       </li>
@@ -64,27 +65,25 @@ export const GroceryList: React.FC<GroceryListProps> = ({
 
   return (
     <>
-      <div className="flex-between">
-        {!isEmpty && (
-          <div className="controls-group">
-            <select
-              className="form-control"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'name' | 'portions' | 'meal')}
-            >
-              <option value="name">Sort by Name</option>
-              <option value="portions">Sort by Quantity</option>
-              <option value="meal">Group by Meal</option>
-            </select>
-            <button 
-              className="btn btn-sm" 
-              onClick={() => setShowChecked(!showChecked)}
-            >
-              {showChecked ? 'Hide Checked' : 'Show All'}
-            </button>
-          </div>
-        )}
-      </div>
+      {!isEmpty && (
+        <div className="controls-group">
+          <select
+            className="form-control"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as 'name' | 'portions' | 'meal')}
+          >
+            <option value="name">Sort by Name</option>
+            <option value="portions">Sort by Quantity</option>
+            <option value="meal">Group by Meal</option>
+          </select>
+          <button
+            className="btn"
+            onClick={() => setShowChecked(!showChecked)}
+          >
+            {showChecked ? 'Hide checked' : 'Show All'}
+          </button>
+        </div>
+      )}
 
       {isEmpty ? (
         <p>Your grocery list will appear here once you select meals for your weekly plan.</p>

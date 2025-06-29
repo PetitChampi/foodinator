@@ -9,19 +9,54 @@
 .checkbox-container {
   display: inline-flex;
   align-items: center;
-  margin-bottom: $spacing-sm;
-
+  margin-bottom: 10px;
   input[type="checkbox"] {
-    margin-right: $spacing-sm;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 1px solid $gray-3;
+    border-radius: 50%;
+    margin-right: $spacing-md;
+    cursor: pointer;
+    position: relative;
+    transition: all $transition-base;
+    flex-shrink: 0;
+    &:checked {
+      background-color: $primary-color;
+      border-color: $primary-color;
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 9px;
+        height: 4px;
+        border: 2px solid white;
+        border-top: none;
+        border-right: none;
+        transform: translate(-50%, -60%) rotate(-45deg);
+      }
+    }
+    &:hover {
+      border-color: $primary-color;
+    }
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    }
   }
-
   label {
     cursor: pointer;
     transition: all $transition-base;
+    font-size: $font-size-base;
+    color: $gray-1;
+    display: flex;
+    align-items: start;
+    gap: 8px;
   }
-
   &.checked label {
     text-decoration: line-through;
     opacity: 0.7;
+    color: $gray-3;
   }
 }

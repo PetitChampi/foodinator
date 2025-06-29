@@ -81,9 +81,19 @@
   margin: $spacing-xl 0;
   &__title {
     font-size: $font-size-md;
-    border-bottom: 1px solid $border-color;
+    font-weight: 500;
     padding-bottom: $spacing-xs;
     margin-bottom: $spacing-sm;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-wrap: nowrap;
+    &::after {
+      content: "";
+      height: 1px;
+      width: 100%;
+      background-color: $gray-5;
+    }
   }
   &__list {
     list-style: none;
