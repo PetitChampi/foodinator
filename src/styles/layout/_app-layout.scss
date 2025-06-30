@@ -20,6 +20,14 @@
 .section-header {
   @include section-header;
 }
+.empty {
+  padding: 20px;
+  text-align: center;
+  border-radius: $border-radius-lg;
+  background-color: $gray-6;
+  color: $gray-3;
+  border: 1px solid $gray-5;
+}
 
 // Grocery Notes - Layout specific styles
 .grocery-notes {

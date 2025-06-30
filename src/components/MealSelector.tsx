@@ -32,7 +32,7 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
       )}
       
       {displayedMeals.length === 0 ? (
-        <p>No meals found matching your criteria.</p>
+        <div className="empty">No meals found matching your criteria.</div>
       ) : (
         <div className="meal-grid">
           {displayedMeals.map((meal) => (

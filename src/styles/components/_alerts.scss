@@ -8,11 +8,11 @@
 
 .alert {
   margin-bottom: $spacing-lg;
-  padding: $spacing-sm $spacing-md;
-  border-radius: $border-radius-sm;
-  background-color: color.adjust($info-color, $lightness: 45%);
-  border: 1px solid $info-color;
-
+  padding: 10px 20px;
+  border-radius: $border-radius-lg;
+  background-color: color.adjust($info-color, $lightness: 60%);
+  border: 1px solid color.adjust($info-color, $lightness: 20%);
+  color: $info-color;
   &--success {
     color: $success-color;
     background-color: color.adjust($success-color, $lightness: 60%);

@@ -86,7 +86,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({
       )}
 
       {isEmpty ? (
-        <p>Your grocery list will appear here once you select meals for your weekly plan.</p>
+        <div className="empty">Your grocery list will appear here once you select meals for your weekly plan.</div>
       ) : (
         <>
           {sortBy === 'meal' && groupedByMeal ? (

@@ -75,7 +75,7 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
       </div>
 
       {selectedMeals.length === 0 ? (
-        <p>No meals selected yet. Start by adding meals from the list below.</p>
+        <div className="empty">No meals selected yet. Start by adding meals from the list below.</div>
       ) : (
         <div>
           <div className="meal-list">

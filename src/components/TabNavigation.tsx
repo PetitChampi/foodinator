@@ -30,12 +30,6 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
         Schedule
       </button>
       <button
-        className={`tab ${activeTab === 'search' && 'tab-active'}`}
-        onClick={() => setActiveTab('search')}
-      >
-        Search
-      </button>
-      <button
         className={`tab ${activeTab === 'grocery' && 'tab-active'}`}
         onClick={() => setActiveTab('grocery')}
       >
@@ -45,6 +39,12 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
             {groceryItemCount}
           </span>
         )}
+      </button>
+      <button
+        className={`tab ${activeTab === 'search' && 'tab-active'}`}
+        onClick={() => setActiveTab('search')}
+      >
+        Search
       </button>
     </div>
   );
