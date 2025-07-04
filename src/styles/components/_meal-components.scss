@@ -18,23 +18,26 @@
 .quantity-controls {
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
+  gap: 3px;
   .quantity-display {
-    min-width: 2rem;
+    min-width: 1.25rem;
     text-align: center;
-    font-weight: $font-weight-medium;
     padding: $spacing-xs;
-    background-color: $background-color;
-    border-radius: $border-radius-sm;
-    border: 1px solid $border-color;
+    line-height: 1;
   }
   .btn {
-    min-width: 2rem;
     padding: $spacing-xs;
-    font-weight: $font-weight-bold;
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+    }
+    &.quantifier {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: $font-size-lg;
+      height: 28px;
+      width: 28px;
     }
   }
 }
@@ -105,8 +108,8 @@
 .grocery-notes {
   margin-top: $spacing-xxxl;
   &__title {
-    font-size: $font-size-lg;
-    margin-bottom: $spacing-sm;
+    font-size: $font-size-base;
+    margin-bottom: $spacing-xs;
   }
   &__counter {
     font-size: $font-size-sm;

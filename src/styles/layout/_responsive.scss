@@ -22,9 +22,6 @@
   .container {
     padding: $spacing-sm;
   }
-  .btn {
-    padding: $spacing-sm $spacing-lg;
-  }
 }
 
 @include mobile {

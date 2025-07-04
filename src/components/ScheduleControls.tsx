@@ -28,7 +28,7 @@ export const ScheduleControls: React.FC<ScheduleControlsProps> = ({
         />
       </div>
       <button 
-        className={`btn btn-sm ${dragLocked ? 'btn-secondary' : ''}`}
+        className={`btn btn-sm ${dragLocked ? 'btn-secondary' : 'btn-tertiary'}`}
         onClick={onToggleDragLock}
         title={dragLocked ? "Unlock drag and drop" : "Lock drag and drop"}
       >

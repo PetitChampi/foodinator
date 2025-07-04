@@ -10,11 +10,11 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-xxxl;
-  .section-title {
-    font-weight: 400;
-    font-size: $font-size-xl;
-    margin-bottom: $spacing-md;
-  }
+}
+.section-title {
+  font-weight: 400;
+  font-size: $font-size-xl;
+  margin-bottom: $spacing-md;
 }
 
 .section-header {

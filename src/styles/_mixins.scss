@@ -35,7 +35,7 @@
 // ===========================
 @mixin button-base {
   display: inline-block;
-  border: none;
+  border: 1px solid transparent;
   border-radius: $border-radius-max;
   padding: $spacing-sm $spacing-lg;
   font-size: $font-size-base;
@@ -74,7 +74,7 @@
 // ===========================
 @mixin card-base {
   background-color: $card-background;
-  border-radius: $border-radius-md;
+  border-radius: $border-radius-xl;
   box-shadow: $shadow-md;
   padding: $spacing-md;
   transition: box-shadow $transition-base;

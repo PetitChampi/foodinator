@@ -10,7 +10,21 @@
   @include button-base;
   @include button-variant($primary-color, $primary-hover);
   &-secondary {
-    @include button-variant($secondary-color, $secondary-hover);
+    color: $primary-color;
+    background-color: rgba($primary-color, .15);
+    &:hover:not(:disabled) {
+      background-color: rgba($primary-color, .25) !important;
+      color: color.adjust($primary-color, $lightness: -10%);
+    }
+  }
+  &-tertiary {
+    color: $primary-color;
+    background-color: white;
+    border: 1px solid rgba($primary-color, .4);
+    &:hover:not(:disabled) {
+      background-color: rgba($primary-color, .1) !important;
+      color: color.adjust($primary-color, $lightness: -10%);
+    }
   }
   &-danger {
     @include button-variant($danger-color, $danger-hover);

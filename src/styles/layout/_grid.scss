@@ -13,7 +13,7 @@
 .meal-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: $spacing-md;
+  gap: $spacing-sm;
 }
 
 .meal-list {

@@ -6,15 +6,20 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
+// Tabler icons for future ref:
+// Planner: list
+// Schedule: calendar
+// Groceries: shopping-bag
+
 .tabs {
   position: sticky;
-  top: 5px;
+  bottom: $spacing-sm;
   z-index: 1;
   min-height: 36px;
   max-width: 100%;
   display: inline-flex;
   overflow: auto;
-  margin: 20px 0;
+  margin-top: 20px;
   border-radius: $border-radius-max;
   background-color: $gray-6;
   border: 1px solid $gray-5;
@@ -22,9 +27,11 @@
   button.tab {
     display: flex;
     align-items: center;
+    justify-content: center;
+    flex: 1;
     gap: 5px;
     border: none;
-    padding: 5px 20px;
+    padding: 10px 20px;
     font-size: $font-size-sm;
     color: $gray-1;
     transition: $transition-base;

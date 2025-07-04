@@ -84,14 +84,6 @@ function App() {
       {/*</header>*/}
 
       <div className="container">
-        {/* Tab Navigation */}
-        <TabNavigation 
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          groceryItemCount={groceryList.items.length}
-          isEmpty={isEmpty}
-        />
-
         {/* Tab Content */}
         {activeTab === 'planner' && (
           <PlannerTab 
@@ -146,6 +138,13 @@ function App() {
             onUpdateNotes={updateNotes}
           />
         )}
+
+        <TabNavigation
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          groceryItemCount={groceryList.items.length}
+          isEmpty={isEmpty}
+        />
       </div>
     </div>
   );

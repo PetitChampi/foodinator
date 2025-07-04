@@ -64,7 +64,8 @@ export const GroceryList: React.FC<GroceryListProps> = ({
   };
 
   return (
-    <>
+    <section>
+      <h2 className="section-title">Groceries</h2>
       {!isEmpty && (
         <div className="controls-group">
           <select
@@ -77,7 +78,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({
             <option value="meal">Group by Meal</option>
           </select>
           <button
-            className="btn"
+            className="btn btn-secondary"
             onClick={() => setShowChecked(!showChecked)}
           >
             {showChecked ? 'Hide checked' : 'Show All'}
@@ -143,6 +144,6 @@ export const GroceryList: React.FC<GroceryListProps> = ({
           </div>
         </>
       )}
-    </>
+    </section>
   );
 };
