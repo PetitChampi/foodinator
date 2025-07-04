@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Meal } from '../models/types';
-import { getIngredientById } from '../models/data';
+// import { getIngredientById } from '../models/data';
 
 interface MealItemProps {
   meal: Meal;
