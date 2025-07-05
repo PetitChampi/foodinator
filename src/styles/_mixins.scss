@@ -73,10 +73,12 @@
 // Card Mixins
 // ===========================
 @mixin card-base {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background-color: $card-background;
   border-radius: $border-radius-xl;
   box-shadow: $shadow-md;
-  padding: $spacing-md;
   transition: box-shadow $transition-base;
 }
 
@@ -110,6 +112,7 @@
 }
 
 @mixin flex-between {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -253,9 +256,5 @@
 
 @mixin section-header {
   @include flex-between;
-  margin-bottom: $spacing-xl;
-
-  h2 {
-    margin: 0;
-  }
+  margin-bottom: $spacing-md;
 }

@@ -50,16 +50,19 @@ export const meals: Meal[] = [
   {
     id: 'creamy-chic-broc',
     name: 'Creamy Chic Broc',
+    imageUrl: '/src/assets/img-meals/chic-broc.jpg',
     ingredients: ['chicken', 'broccoli', 'mushrooms', 'creme-fraiche', 'rice'],
   },
   {
     id: 'pasta-bolognese',
     name: 'Pasta bolognese',
+    imageUrl: '/src/assets/img-meals/pasta-bolognese.jpg',
     ingredients: ['pasta', 'tomato-sauce', 'ground-beef'],
   },
   {
     id: 'pasta-carbonara',
     name: 'Pasta carbonara',
+    imageUrl: '/src/assets/img-meals/pasta-carbonara.jpg',
     ingredients: ['pasta', 'eggs', 'grana-padano', "parmesan", 'lardons', 'mushrooms'],
   },
   {
@@ -70,6 +73,7 @@ export const meals: Meal[] = [
   {
     id: 'epic-beans-and-steak',
     name: 'Epic beans and steak',
+    imageUrl: '/src/assets/img-meals/epic-beans-steak.jpg',
     ingredients: ['steaks', 'white-beans', 'mushrooms', 'garlic', 'rosemary'],
   },
   {
@@ -80,11 +84,13 @@ export const meals: Meal[] = [
   {
     id: 'avocado-toast',
     name: 'Avocado toast',
+    imageUrl: '/src/assets/img-meals/avocado-toasts.jpg',
     ingredients: ['brown-bread', 'avocados', 'lime', 'eggs', 'hummus', 'mint-sauce'],
   },
   {
     id: 'fish-n-mash',
     name: 'Fish n mash',
+    imageUrl: '/src/assets/img-meals/fisn-n-mash.jpg',
     ingredients: ['fish', 'potatoes', 'shallots', 'bell-pepper', 'milk'],
   },
   {
@@ -95,11 +101,13 @@ export const meals: Meal[] = [
   {
     id: 'burgers',
     name: 'Burgers',
+    imageUrl: '/src/assets/img-meals/burgers.jpg',
     ingredients: ['buns', 'sauce', 'ground-beef', 'cheese', 'lettuce', 'potatoes'],
   },
   {
     id: 'chickpea-chard-pork',
     name: 'Chickpea chard pork',
+    imageUrl: '/src/assets/img-meals/chickpea-chard-pork.jpg',
     ingredients: ['pork-fillet', 'chickpeas', 'chard', 'pickled-peppers', 'fennel-seeds'],
   },
 ];

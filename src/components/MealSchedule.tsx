@@ -81,7 +81,9 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
 
   return (
     <>
-      <h2 className="section-title">Meal schedule</h2>
+      <div className="section-header">
+        <h2 className="section-title">Meal schedule</h2>
+      </div>
       <div className="flex-between">
         <div className="badge">
           {mealSlots.filter(slot => slot !== null).length}/{totalSlots}

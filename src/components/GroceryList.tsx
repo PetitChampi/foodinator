@@ -65,7 +65,9 @@ export const GroceryList: React.FC<GroceryListProps> = ({
 
   return (
     <section>
-      <h2 className="section-title">Groceries</h2>
+      <div className="section-header">
+        <h2 className="section-title">Groceries</h2>
+      </div>
       {!isEmpty && (
         <div className="controls-group">
           <select

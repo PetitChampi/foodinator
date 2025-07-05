@@ -69,9 +69,11 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
 
   return (
     <section>
-      <div className="flex-between">
-        <h2 className="section-title">Weekly dinner plan</h2>
-        <div className="badge">{localUsedSlots}/{totalSlots}</div>
+      <div className="section-header">
+        <div className="flex-between">
+          <h2 className="section-title">Dinner plan</h2>
+          <div className="badge">{localUsedSlots}/{totalSlots}</div>
+        </div>
       </div>
 
       {selectedMeals.length === 0 ? (

@@ -6,6 +6,7 @@ export interface Ingredient {
 export interface Meal {
   id: string;
   name: string;
+  imageUrl?: string;
   ingredients: string[]; // Array of ingredient IDs
 }
 

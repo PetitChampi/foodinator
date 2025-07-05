@@ -20,7 +20,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
   .container {
-    padding: $spacing-sm;
+    padding: $spacing-lg $spacing-sm $spacing-xxl;
   }
 }
 
@@ -35,6 +35,6 @@
     grid-template-columns: 1fr 1fr;
   }
   .container {
-    padding: $spacing-sm;
+    padding: $spacing-lg $spacing-sm $spacing-xxl;
   }
 }

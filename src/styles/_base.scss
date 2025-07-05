@@ -25,6 +25,7 @@ body {
   }
   img {
     max-width: 100%;
+    object-fit: cover;
   }
 }
 
@@ -33,7 +34,7 @@ body {
   min-height: 100dvh;
   max-width: $container-max-width;
   margin: 0 auto;
-  padding: $spacing-xl $spacing-xl $spacing-sm;
+  padding: $spacing-xl $spacing-xl $spacing-xxl;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
