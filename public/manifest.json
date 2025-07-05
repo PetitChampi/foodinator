@@ -1,6 +1,7 @@
 {
   "short_name": "Foodinator",
   "name": "Foodinator - Weekly Meal & Grocery Planner",
+  "description": "Plan your weekly meals and automatically generate grocery lists. Works offline!",
   "icons": [
     {
       "src": "favicon.svg",
@@ -26,6 +27,50 @@
   ],
   "start_url": ".",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "theme_color": "#4a6fa5",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "categories": ["food", "lifestyle", "productivity"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Plan Meals",
+      "short_name": "Plan",
+      "description": "Plan your weekly meals",
+      "url": "/?tab=planner",
+      "icons": [
+        {
+          "src": "android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Grocery List",
+      "short_name": "Grocery",
+      "description": "View your grocery list",
+      "url": "/?tab=grocery",
+      "icons": [
+        {
+          "src": "android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Schedule",
+      "short_name": "Schedule",
+      "description": "View your meal schedule",
+      "url": "/?tab=schedule",
+      "icons": [
+        {
+          "src": "android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
 }

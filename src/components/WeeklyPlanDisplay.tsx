@@ -99,12 +99,6 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
                 availableSlots={totalSlots - (localUsedSlots - quantity)}
               />
             ))}
-
-            {emptySlots > 0 && (
-              <div className="empty-slots">
-                {emptySlots} empty {emptySlots === 1 ? 'slot' : 'slots'} remaining
-              </div>
-            )}
           </div>
         </div>
       )}

@@ -17,10 +17,14 @@
 }
 
 .meal-list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  padding: 5px 0;
   gap: $spacing-sm;
   margin-top: $spacing-sm;
+  overflow-y: auto;
+  .meal-item {
+    flex: 1 0 180px;
+  }
 }
 
 .meal-slots-container {

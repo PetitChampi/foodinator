@@ -101,6 +101,9 @@
     background-color: color.adjust($border-color, $lightness: 10%);
     cursor: not-allowed;
   }
+  &::placeholder {
+    color: $gray-4;
+  }
 }
 
 // Layout Mixins

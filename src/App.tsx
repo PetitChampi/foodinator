@@ -3,6 +3,7 @@ import { TabNavigation } from './components/TabNavigation';
 import { PlannerTab } from './components/tabs/PlannerTab';
 import { ScheduleTab } from './components/tabs/ScheduleTab';
 import { GroceryTab } from './components/tabs/GroceryTab';
+import { OfflineStatus } from './components/OfflineStatus';
 import { useWeeklyPlan } from './hooks/useWeeklyPlan';
 import { useGroceryList } from './hooks/useGroceryList';
 import { useIngredientSearch } from './hooks/useIngredientSearch';
@@ -73,6 +74,8 @@ function App() {
 
   return (
     <div>
+      <OfflineStatus />
+      
       {/*<header className="app-header">*/}
       {/*  <div className="app-logo"><img src="/foodinator-logo.svg" alt="Foodinator logo"/></div>*/}
       {/*  <button className="burger">*/}
