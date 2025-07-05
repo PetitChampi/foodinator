@@ -64,9 +64,6 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
     }
   };
 
-  // Calculate empty slots based on local used slots
-  const emptySlots = totalSlots - localUsedSlots;
-
   return (
     <section>
       <div className="section-header">
