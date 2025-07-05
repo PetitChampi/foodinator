@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import { TabNavigation } from './components/TabNavigation';
 import { PlannerTab } from './components/tabs/PlannerTab';
-import { SearchTab } from './components/tabs/SearchTab';
 import { ScheduleTab } from './components/tabs/ScheduleTab';
 import { GroceryTab } from './components/tabs/GroceryTab';
 import { useWeeklyPlan } from './hooks/useWeeklyPlan';
 import { useGroceryList } from './hooks/useGroceryList';
 import { useIngredientSearch } from './hooks/useIngredientSearch';
 
-type TabType = 'planner' | 'search' | 'grocery' | 'schedule';
+type TabType = 'planner' | 'grocery' | 'schedule';
 
 function App() {
   // Load active tab from localStorage or default to 'planner'
@@ -94,11 +93,6 @@ function App() {
             remainingSlots={remainingSlots}
             onAddMeal={addMeal}
             onResetPlan={handleResetPlan}
-          />
-        )}
-
-        {activeTab === 'search' && (
-          <SearchTab 
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
             selectedIngredients={selectedIngredients}
@@ -107,8 +101,6 @@ function App() {
             onAddIngredient={addIngredient}
             onRemoveIngredient={removeIngredient}
             onClearIngredients={clearIngredients}
-            onAddMeal={addMeal}
-            remainingSlots={remainingSlots}
           />
         )}
 

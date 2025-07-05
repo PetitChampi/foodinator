@@ -1,6 +1,6 @@
 import React from 'react';
 
-type TabType = 'planner' | 'search' | 'grocery' | 'schedule';
+type TabType = 'planner' | 'grocery' | 'schedule';
 
 interface TabNavigationProps {
   activeTab: TabType;
@@ -39,12 +39,6 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
             {groceryItemCount}
           </span>
         )}
-      </button>
-      <button
-        className={`tab ${activeTab === 'search' && 'tab-active'}`}
-        onClick={() => setActiveTab('search')}
-      >
-        Search
       </button>
     </div>
   );
