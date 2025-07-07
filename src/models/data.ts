@@ -68,6 +68,7 @@ export const meals: Meal[] = [
   {
     id: 'fishy-pasta',
     name: 'Fishy pasta',
+    imageUrl: './img-meals/fishy-pasta.jpg',
     ingredients: ['pasta', 'fish', 'creme-fraiche', "shallots", 'asparagus', 'white-wine', 'lemon'],
   },
   {
