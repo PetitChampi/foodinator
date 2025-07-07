@@ -75,7 +75,6 @@ Contains reusable mixins organized by category:
 
 ### Card Mixins
 - `@mixin card-base` - Base card styles
-- `@mixin card-hover` - Card hover effects
 
 ### Form Mixins
 - `@mixin form-control` - Base form control styles

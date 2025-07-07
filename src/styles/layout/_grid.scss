@@ -18,12 +18,13 @@
 
 .meal-list {
   display: flex;
-  padding: 5px 0;
+  padding: 10px;
+  margin: 0 -10px;
   gap: $spacing-sm;
-  margin-top: $spacing-sm;
   overflow-y: auto;
-  .meal-item {
+  > * {
     flex: 1 0 180px;
+    max-width: 280px;
   }
 }
 

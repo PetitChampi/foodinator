@@ -73,9 +73,9 @@
 // Card Mixins
 // ===========================
 @mixin card-base {
+  position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   background-color: $card-background;
   border-radius: $border-radius-xl;
   box-shadow: $shadow-md;
@@ -91,6 +91,7 @@
   font-size: $font-size-base;
   font-family: $font-family-base;
   color: $gray-1;
+  background-color: color.adjust($gray-6, $lightness: 2%);
   transition: border-color $transition-base, box-shadow $transition-base;
   &:focus {
     outline: none;

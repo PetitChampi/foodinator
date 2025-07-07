@@ -1,65 +1,132 @@
 import React, { useState } from 'react';
 import { Meal } from '../models/types';
-// import { getIngredientById } from '../models/data';
+import { getMealById } from '../models/data';
 
 interface MealItemProps {
-  meal: Meal;
-  onAddMeal: (mealId: string, quantity: number) => boolean;
-  remainingSlots: number;
+  meal?: Meal;
+  mealId?: string;
+  onAddMeal?: (mealId: string, quantity: number) => boolean;
+  remainingSlots?: number;
+  quantity?: number;
+  onRemoveMeal?: (mealId: string) => void;
+  onUpdateQuantity?: (mealId: string, quantity: number) => boolean;
+  availableSlots?: number;
+  showAddButton?: boolean;
+  showCloseButton?: boolean;
+  onClose?: (mealId: string) => void;
+  onIncrease?: (mealId: string, newQuantity: number) => void;
+  onDecrease?: (mealId: string, newQuantity: number) => void;
 }
 
-export const MealItem: React.FC<MealItemProps> = ({ meal, onAddMeal, remainingSlots }) => {
-  const [quantity, setQuantity] = useState(1);
+export const MealItem: React.FC<MealItemProps> = ({
+  meal: propMeal,
+  mealId,
+  onAddMeal,
+  remainingSlots = 0,
+  quantity: propQuantity,
+  onRemoveMeal,
+  onUpdateQuantity,
+  availableSlots = 0,
+  showAddButton = true,
+  showCloseButton = false,
+  onClose,
+  onIncrease,
+  onDecrease,
+}) => {
+  const meal = propMeal || (mealId ? getMealById(mealId) : null);
+  
+  const [localQuantity, setLocalQuantity] = useState(1);
   const [error, setError] = useState('');
 
+  const currentQuantity = propQuantity !== undefined ? propQuantity : localQuantity;
+  
+  if (!meal) return null;
+
   const handleIncreaseQuantity = () => {
-    if (quantity < remainingSlots) {
-      setQuantity(quantity + 1);
-      setError('');
+    const newQuantity = currentQuantity + 1;
+    
+    if (propQuantity !== undefined) {
+      // Dinner plan context
+      if (onUpdateQuantity && newQuantity <= availableSlots) {
+        const success = onUpdateQuantity(meal.id, newQuantity);
+        if (success && onIncrease) {
+          onIncrease(meal.id, newQuantity);
+        }
+      }
+    } else {
+      // Meal grid context
+      if (newQuantity <= remainingSlots) {
+        setLocalQuantity(newQuantity);
+        setError('');
+        if (onIncrease) {
+          onIncrease(meal.id, newQuantity);
+        }
+      }
     }
   };
 
   const handleDecreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-      setError('');
+    const newQuantity = currentQuantity - 1;
+    
+    if (propQuantity !== undefined) {
+      // Dinner plan context
+      if (onUpdateQuantity && newQuantity >= 1) {
+        const success = onUpdateQuantity(meal.id, newQuantity);
+        if (success && onDecrease) {
+          onDecrease(meal.id, newQuantity);
+        }
+      }
+    } else {
+      // Meal grid context
+      if (newQuantity >= 1) {
+        setLocalQuantity(newQuantity);
+        setError('');
+        if (onDecrease) {
+          onDecrease(meal.id, newQuantity);
+        }
+      }
     }
   };
 
   const handleAddMeal = () => {
-    if (quantity > remainingSlots) {
+    if (currentQuantity > remainingSlots) {
       setError(`Only ${remainingSlots} slots remaining`);
       return;
     }
 
-    const success = onAddMeal(meal.id, quantity);
-    if (!success) {
-      setError('Could not add meal to plan');
-    } else {
-      setQuantity(1); // Reset quantity after successful add
+    if (onAddMeal) {
+      const success = onAddMeal(meal.id, currentQuantity);
+      if (!success) {
+        setError('Could not add meal to plan');
+      } else {
+        setLocalQuantity(1);
+      }
     }
   };
 
-  // Determine if the Add button should be disabled
-  const isAddDisabled = remainingSlots === 0 || quantity > remainingSlots;
+  const handleClose = () => {
+    if (onRemoveMeal) {
+      onRemoveMeal(meal.id);
+    }
+    if (onClose) {
+      onClose(meal.id);
+    }
+  };
+
+  const isAddDisabled = remainingSlots === 0 || currentQuantity > remainingSlots;
+  const maxQuantity = propQuantity !== undefined ? availableSlots : remainingSlots;
 
   return (
     <div className="card">
+      {showCloseButton && (
+        <span className="card-close" onClick={handleClose}>✕</span>
+      )}
       <div className="meal-image">
         {meal?.imageUrl && <img src={meal.imageUrl} alt=""/>}
       </div>
       <div className="card-text">
         <h3 className="card-title">{meal.name}</h3>
         <div className="meal-ingredients">
-          {/*<p><strong>Ingredients:</strong></p>*/}
-          {/*<div className="ingredient-list">*/}
-          {/*  {meal.ingredients.map((ingredientId, i) => (*/}
-          {/*    <span key={ingredientId}>*/}
-          {/*      {getIngredientById(ingredientId)?.name || ingredientId}*/}
-          {/*      {i !== meal.ingredients.length - 1 && <span>, </span>}*/}
-          {/*    </span>*/}
-          {/*  ))}*/}
-          {/*</div>*/}
         </div>
         <div className="controls">
           <div className="quantity-controls">
@@ -67,26 +134,28 @@ export const MealItem: React.FC<MealItemProps> = ({ meal, onAddMeal, remainingSl
               type="button"
               className="btn btn-tertiary btn-sm quantifier"
               onClick={handleDecreaseQuantity}
-              disabled={quantity <= 1 || remainingSlots === 0}
+              disabled={currentQuantity <= 1 || maxQuantity === 0}
             >
               -
             </button>
-            <span className="quantity-display">{quantity}</span>
+            <span className="quantity-display">{currentQuantity}</span>
             <button
               type="button"
               className="btn btn-tertiary btn-sm quantifier"
               onClick={handleIncreaseQuantity}
-              disabled={quantity >= remainingSlots || remainingSlots === 0}
+              disabled={currentQuantity >= maxQuantity || maxQuantity === 0}
             >
               +
             </button>
           </div>
           {error && <p className="error-text">{error}</p>}
-          <button
-            className="btn btn-secondary btn-sm"
-            onClick={handleAddMeal}
-            disabled={isAddDisabled}
-          >Add</button>
+          {showAddButton && (
+            <button
+              className="btn btn-secondary btn-sm"
+              onClick={handleAddMeal}
+              disabled={isAddDisabled}
+            >Add</button>
+          )}
         </div>
       </div>
     </div>

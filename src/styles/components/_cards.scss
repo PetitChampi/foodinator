@@ -9,14 +9,30 @@
 .card {
   @include card-base;
 
-  // Saving that for later when we do need a card hover mixin
-  // &:hover {
-  //   @include card-hover;
-  // }
-
+  .card-close {
+    position: absolute;
+    top: -$spacing-sm;
+    right: -$spacing-sm;
+    width: 30px;
+    height: 30px;
+    background-color: $danger-color;
+    color: white;
+    line-height: 0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: .2s;
+    &:hover {
+      background-color: color.adjust($danger-color, $lightness: -10%);
+    }
+  }
   .meal-image {
     height: 100px;
     background-color: $gray-5;
+    border-radius: $border-radius-xl $border-radius-xl 0 0;
+    overflow: hidden;
     img {
       display: block;
       height: 100%;

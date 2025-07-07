@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SelectedMeal } from '../models/types';
-import { PlanMealItem } from './PlanMealItem';
+import { MealItem } from './MealItem';
 
 interface WeeklyPlanDisplayProps {
   selectedMeals: SelectedMeal[];
@@ -34,36 +34,6 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
   // This is the sum of all quantities in the localQuantities object
   const localUsedSlots = Object.values(localQuantities).reduce((total, quantity) => total + quantity, 0);
 
-  const handleIncreaseQuantity = (mealId: string, currentQuantity: number) => {
-    // Calculate remaining slots for this meal
-    // Total slots - (used slots - current quantity of this meal)
-    const availableSlots = totalSlots - (localUsedSlots - currentQuantity);
-
-    if (currentQuantity < availableSlots) {
-      const success = onUpdateQuantity(mealId, currentQuantity + 1);
-      if (success) {
-        // Update local quantity
-        setLocalQuantities(prev => ({
-          ...prev,
-          [mealId]: currentQuantity + 1
-        }));
-      }
-    }
-  };
-
-  const handleDecreaseQuantity = (mealId: string, currentQuantity: number) => {
-    if (currentQuantity > 1) {
-      const success = onUpdateQuantity(mealId, currentQuantity - 1);
-      if (success) {
-        // Update local quantity immediately to reflect the change
-        setLocalQuantities(prev => ({
-          ...prev,
-          [mealId]: currentQuantity - 1
-        }));
-      }
-    }
-  };
-
   return (
     <section>
       <div className="section-header">
@@ -76,28 +46,34 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
       {selectedMeals.length === 0 ? (
         <div className="empty">No meals selected yet. Start by adding meals from the list below.</div>
       ) : (
-        <div>
+        <>
           <div className="meal-list">
             {selectedMeals.map(({ mealId, quantity }) => (
-              <PlanMealItem
+              <MealItem
                 key={mealId}
                 mealId={mealId}
                 quantity={quantity}
                 onRemoveMeal={onRemoveMeal}
-                onUpdateQuantity={(id, qty) => {
-                  const success = onUpdateQuantity(id, qty);
-                  if (success && qty > quantity) {
-                    handleIncreaseQuantity(id, quantity);
-                  } else if (success && qty < quantity) {
-                    handleDecreaseQuantity(id, quantity);
-                  }
-                  return success;
-                }}
+                onUpdateQuantity={onUpdateQuantity}
                 availableSlots={totalSlots - (localUsedSlots - quantity)}
+                showAddButton={false}
+                showCloseButton={true}
+                onIncrease={(id: string, newQuantity: number) => {
+                  setLocalQuantities(prev => ({
+                    ...prev,
+                    [id]: newQuantity
+                  }));
+                }}
+                onDecrease={(id: string, newQuantity: number) => {
+                  setLocalQuantities(prev => ({
+                    ...prev,
+                    [id]: newQuantity
+                  }));
+                }}
               />
             ))}
           </div>
-        </div>
+        </>
       )}
     </section>
   );

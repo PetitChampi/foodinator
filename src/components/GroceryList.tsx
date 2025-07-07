@@ -128,24 +128,23 @@ export const GroceryList: React.FC<GroceryListProps> = ({
               </ul>
             </div>
           )}
-          
-          {/* Notes section */}
-          <div className="grocery-notes">
-            <h3 className="grocery-notes__title">Notes</h3>
-            <textarea
-              className="form-control"
-              value={notes}
-              onChange={(e) => onUpdateNotes && onUpdateNotes(e.target.value)}
-              placeholder="Add notes for your grocery list here..."
-              rows={4}
-              maxLength={1000}
-            />
-            <div className="grocery-notes__counter">
-              {notes.length}/1000
-            </div>
-          </div>
         </>
       )}
+      {/* Notes section */}
+      <div className="grocery-notes">
+        <h3 className="grocery-notes__title">Notes</h3>
+        <textarea
+          className="form-control"
+          value={notes}
+          onChange={(e) => onUpdateNotes && onUpdateNotes(e.target.value)}
+          placeholder="Add notes for your grocery list here..."
+          rows={4}
+          maxLength={1000}
+        />
+        <div className="grocery-notes__counter">
+          {notes.length}/1000
+        </div>
+      </div>
     </section>
   );
 };

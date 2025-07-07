@@ -45,10 +45,6 @@
 // Meal Item
 .meal-item {
   @include meal-item-base;
-  &__header {
-    //display: flex;
-    //margin-bottom: $spacing-sm;
-  }
   &__title {
     margin: 0;
     font-weight: 500;

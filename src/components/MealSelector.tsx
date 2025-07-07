@@ -45,9 +45,8 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
         <h2 className="section-title">Meals</h2>
       </div>
       
-      {/* Search functionality */}
       {onSearchChange && (
-        <div className="form-group">
+        <div className="form-group search">
           <input
             type="text"
             className="form-control"
