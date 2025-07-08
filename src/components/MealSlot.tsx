@@ -59,7 +59,7 @@ export const MealSlot: React.FC<MealSlotProps> = ({
       {meal ? (
         <>
           <div className="meal-slot__img">
-            <img src={meal.imageUrl} alt={meal.name} />
+            {meal?.imageUrl && <img src={meal.imageUrl} alt={meal.name} />}
           </div>
           <div className="meal-slot__header">
             <h3 className="meal-slot__title">
@@ -76,7 +76,7 @@ export const MealSlot: React.FC<MealSlotProps> = ({
         </>
       ) : (
         <div className="empty-slot-content">
-          Empty Slot
+          Empty slot
         </div>
       )}
     </div>

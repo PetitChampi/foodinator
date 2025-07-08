@@ -122,7 +122,7 @@ export const MealItem: React.FC<MealItemProps> = ({
         <span className="card-close" onClick={handleClose}>✕</span>
       )}
       <div className="meal-image">
-        {meal?.imageUrl && <img src={meal.imageUrl} alt=""/>}
+        {meal?.imageUrl && <img src={meal.imageUrl} alt={meal.name} />}
       </div>
       <div className="card-text">
         <h3 className="card-title">{meal.name}</h3>
