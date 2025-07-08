@@ -80,6 +80,7 @@ export const meals: Meal[] = [
   {
     id: 'mexican-style-bean-casserole',
     name: 'Mexican-style bean casserole',
+    imageUrl: './img-meals/mex-bean-casserole.jpg',
     ingredients: ['eggs', 'black-beans', 'avocados', 'bell-pepper', 'lime', 'diced-beef'],
   },
   {

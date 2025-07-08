@@ -237,24 +237,44 @@
 }
 
 @mixin meal-cooked-toggle {
+  width: 28px;
+  height: 28px;
+  position: relative;
+  align-self: baseline;
   cursor: pointer;
   padding: $spacing-xs $spacing-sm;
-  border-radius: $border-radius-sm;
-  background-color: #f0f0f0;
+  border: 1px dashed $gray-4;
+  border-radius: $border-radius-max;
+  background-color: $gray-6;
   color: $gray-1;
-  font-size: 0.8rem;
-  font-weight: $font-weight-semibold;
+  font-size: 0.75rem;
+  font-weight: $font-weight-medium;
   user-select: none;
   transition: all $transition-base;
-
-  &:hover {
-    transform: scale(1.05);
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 9px;
+    height: 4px;
+    border: 2px solid $gray-4;
+    border-top: none;
+    border-right: none;
+    transform: translate(-50%, -60%) rotate(-45deg);
+    transition: all $transition-base;
   }
-
+  &:hover {
+    background-color: $gray-5;
+  }
   &.cooked {
+    border: 1px solid $success-color;
     background-color: $success-color;
     color: white;
     box-shadow: $shadow-sm;
+    &::after {
+      border-color: white;
+    }
   }
 }
 

@@ -58,6 +58,9 @@ export const MealSlot: React.FC<MealSlotProps> = ({
 
       {meal ? (
         <>
+          <div className="meal-slot__img">
+            <img src={meal.imageUrl} alt={meal.name} />
+          </div>
           <div className="meal-slot__header">
             <h3 className="meal-slot__title">
               {meal.name}
@@ -68,9 +71,7 @@ export const MealSlot: React.FC<MealSlotProps> = ({
                 e.stopPropagation();
                 onToggleCooked(index);
               }}
-            >
-              {isCooked ? '✓ Cooked' : 'Mark Cooked'}
-            </div>
+            ></div>
           </div>
         </>
       ) : (
