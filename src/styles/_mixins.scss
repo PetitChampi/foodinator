@@ -131,7 +131,7 @@
 @mixin grid-auto-fill($min-width: 300px, $gap: $grid-gap) {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
-  gap: $spacing-md;
+  gap: $spacing-sm;
 }
 
 // Typography Mixins
@@ -237,6 +237,7 @@
 }
 
 @mixin meal-cooked-toggle {
+  flex-shrink: 0;
   width: 28px;
   height: 28px;
   position: relative;

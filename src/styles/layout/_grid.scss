@@ -29,6 +29,6 @@
 }
 
 .meal-slots-container {
-  @include grid-auto-fill(200px, $spacing-lg);
+  @include grid-auto-fill(250px, $spacing-lg);
   margin: $spacing-xl 0;
 }
