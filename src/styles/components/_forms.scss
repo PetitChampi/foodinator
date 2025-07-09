@@ -6,7 +6,6 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
-// Form Labels
 .form-label {
   display: block;
   margin-bottom: $spacing-xs;
@@ -15,7 +14,6 @@
   color: $gray-1;
 }
 
-// Form Controls
 .form-control {
   @include form-control;
   width: 100%;
@@ -34,14 +32,12 @@
   }
 }
 
-// Controls
 .controls {
   @include flex-between;
   flex-wrap: wrap;
   gap: $spacing-sm;
 }
 
-// Form Groups
 .form-group {
   margin-bottom: $spacing-md;
   &--inline {
@@ -52,14 +48,12 @@
   }
 }
 
-// Error Text
 .error-text {
   color: $danger-color;
   font-size: $font-size-sm;
   margin-top: $spacing-xs;
 }
 
-// Controls and Filters
 .controls-group {
   display: flex;
   align-items: center;

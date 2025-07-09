@@ -17,7 +17,7 @@ export const ScheduleControls: React.FC<ScheduleControlsProps> = ({
     <div className="schedule-controls">
       <div className="schedule-controls__date-group">
         <label htmlFor="start-date">
-          Start Date:
+          Start date:
         </label>
         <input
           id="start-date"

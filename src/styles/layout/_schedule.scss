@@ -6,16 +6,12 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
-// Schedule Controls
 .schedule-controls {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
-  margin-bottom: $spacing-xl;
-  @include mobile {
-    flex-direction: column;
-    align-items: baseline;
-  }
+  margin: $spacing-xl 0;
+  justify-content: space-between;
   &__date-group {
     display: flex;
     align-items: center;
@@ -30,6 +26,8 @@
 .meal-slot {
   @include draggable;
   @include drop-target;
+  user-select: none;
+  -webkit-user-select: none;
   height: 80px;
   position: relative;
   display: flex;

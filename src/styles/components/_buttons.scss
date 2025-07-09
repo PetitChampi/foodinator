@@ -29,6 +29,23 @@
   &-danger {
     @include button-variant($danger-color, $danger-hover);
   }
+  &-danger-secondary {
+    color: $danger-color;
+    background-color: rgba($danger-color, .15);
+    &:hover:not(:disabled) {
+      background-color: rgba($danger-color, .25) !important;
+      color: color.adjust($danger-color, $lightness: -10%);
+    }
+  }
+  &-danger-tertiary {
+    color: $danger-color;
+    background-color: white;
+    border: 1px solid rgba($danger-color, .4);
+    &:hover:not(:disabled) {
+      background-color: rgba($danger-color, .1) !important;
+      color: color.adjust($danger-color, $lightness: -10%);
+    }
+  }
   &-sm {
     @include button-size($spacing-xs, $spacing-md, $font-size-sm);
   }

@@ -41,24 +41,13 @@ export const PlannerTab: React.FC<PlannerTabProps> = ({
 }) => {
   return (
     <div>
-      <div className="section-header">
-        <div>
-          {selectedMeals.length > 0 && (
-            <>
-              <button className="btn btn-danger" onClick={onResetPlan}>
-                Reset
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-
       <div className="app-view">
         <WeeklyPlanDisplay
           selectedMeals={selectedMeals}
           onRemoveMeal={onRemoveMeal}
           onUpdateQuantity={onUpdateQuantity}
           totalSlots={totalSlots}
+          onResetPlan={onResetPlan}
         />
 
         <MealSelector

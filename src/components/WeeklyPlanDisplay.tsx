@@ -7,6 +7,7 @@ interface WeeklyPlanDisplayProps {
   onRemoveMeal: (mealId: string) => void;
   onUpdateQuantity: (mealId: string, quantity: number) => boolean;
   totalSlots: number;
+  onResetPlan: () => void;
 }
 
 export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
@@ -14,6 +15,7 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
   onRemoveMeal,
   onUpdateQuantity,
   totalSlots,
+  onResetPlan,
 }) => {
   // Local state to track the current quantities of meals
   const [localQuantities, setLocalQuantities] = useState<Record<string, number>>({});
@@ -38,8 +40,15 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
     <section>
       <div className="section-header">
         <div className="flex-between">
-          <h2 className="section-title">Dinner plan</h2>
-          <div className="badge">{localUsedSlots}/{totalSlots}</div>
+          <div className="header-with-badge">
+            <h2 className="section-title">Dinner plan</h2>
+            <div className="badge">{localUsedSlots}/{totalSlots}</div>
+          </div>
+          {selectedMeals.length > 0 && (
+            <button className="btn btn-sm btn-danger-secondary" onClick={onResetPlan}>
+              Reset
+            </button>
+          )}
         </div>
       </div>
 

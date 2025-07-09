@@ -6,13 +6,14 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
-// Date Input Styling
 .date-input {
   padding: $spacing-xs $spacing-sm;
   border-radius: $border-radius-max;
-  border: 1px solid $border-color;
+  border: 1px solid $gray-4;
   font-size: $font-size-sm;
-
+  color: inherit;
+  background-color: color.adjust($gray-6, $lightness: 2%);
+  transition: $transition-base;
   &:focus {
     outline: none;
     border-color: $primary-color;
