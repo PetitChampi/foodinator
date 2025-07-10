@@ -71,7 +71,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({
       {!isEmpty && (
         <div className="controls-group">
           <select
-            className="form-control"
+            className="form-control select-sm"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'name' | 'portions' | 'meal')}
           >
@@ -80,7 +80,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({
             <option value="meal">Group by Meal</option>
           </select>
           <button
-            className="btn btn-secondary"
+            className="btn btn-sm btn-secondary"
             onClick={() => setShowChecked(!showChecked)}
           >
             {showChecked ? 'Hide checked' : 'Show All'}
