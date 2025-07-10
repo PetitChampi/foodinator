@@ -140,14 +140,6 @@
   .modal-overlay {
     padding: $spacing-sm;
   }
-  .modal-body {
-    // On small screens, all modal sizes should be responsive
-    &.modal-sm,
-    &.modal-md,
-    &.modal-lg {
-      max-width: 95vw;
-    }
-  }
   .modal-content {
     padding: $spacing-lg;
     max-height: calc(95vh - #{$spacing-lg} * 2);
