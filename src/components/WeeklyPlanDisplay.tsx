@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { SelectedMeal } from '../models/types';
 import { MealItem } from './MealItem';
+import { useConfirmationModal } from './ConfirmationModal';
+import { getMealById } from '../models/data';
 
 interface WeeklyPlanDisplayProps {
   selectedMeals: SelectedMeal[];
@@ -17,6 +19,8 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
   totalSlots,
   onResetPlan,
 }) => {
+  const { openConfirmation } = useConfirmationModal();
+  
   // Local state to track the current quantities of meals
   const [localQuantities, setLocalQuantities] = useState<Record<string, number>>({});
 
@@ -36,6 +40,31 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
   // This is the sum of all quantities in the localQuantities object
   const localUsedSlots = Object.values(localQuantities).reduce((total, quantity) => total + quantity, 0);
 
+  // Confirmation modal for resetting plan
+  const handleResetPlanConfirmation = () => {
+    openConfirmation({
+      title: "Reset Dinner Plan",
+      message: "Are you sure you want to reset your entire dinner plan? This will remove all selected meals.",
+      confirmText: "Reset Plan",
+      confirmButtonClass: "btn btn-danger",
+      onConfirm: onResetPlan
+    });
+  };
+
+  // Confirmation modal for removing a meal
+  const handleRemoveMealConfirmation = (mealId: string) => {
+    const meal = getMealById(mealId);
+    const mealName = meal ? meal.name : "this meal";
+    
+    openConfirmation({
+      title: `Remove ${mealName}`,
+      message: `Are you sure you want to remove ${mealName} from your dinner plan?`,
+      confirmText: "Remove Meal",
+      confirmButtonClass: "btn btn-danger",
+      onConfirm: () => onRemoveMeal(mealId)
+    });
+  };
+
   return (
     <section>
       <div className="section-header">
@@ -45,7 +74,7 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
             <div className="badge">{localUsedSlots}/{totalSlots}</div>
           </div>
           {selectedMeals.length > 0 && (
-            <button className="btn btn-sm btn-danger-secondary" onClick={onResetPlan}>
+            <button className="btn btn-sm btn-danger-secondary" onClick={handleResetPlanConfirmation}>
               Reset
             </button>
           )}
@@ -62,7 +91,7 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
                 key={mealId}
                 mealId={mealId}
                 quantity={quantity}
-                onRemoveMeal={onRemoveMeal}
+                onRemoveMeal={handleRemoveMealConfirmation}
                 onUpdateQuantity={onUpdateQuantity}
                 availableSlots={totalSlots - (localUsedSlots - quantity)}
                 showAddButton={false}
