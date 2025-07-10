@@ -42,7 +42,7 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
   return (
     <section>
       <div className="section-header">
-        <h2 className="section-title">Meals</h2>
+        <h2 className="section-title">All meals</h2>
       </div>
       
       {onSearchChange && (

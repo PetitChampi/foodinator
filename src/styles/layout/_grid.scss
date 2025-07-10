@@ -19,7 +19,7 @@
 .meal-list {
   display: flex;
   padding: $spacing-sm;
-  margin: 0 -$spacing-sm;
+  margin: 0 (-$spacing-sm);
   gap: $spacing-sm;
   overflow-y: auto;
   > * {

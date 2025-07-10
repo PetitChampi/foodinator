@@ -9,11 +9,10 @@
 .date-input {
   appearance: none;
   -webkit-appearance: none;
-  padding: $spacing-xs $spacing-sm;
+  padding: $spacing-xs $spacing-md;
   border-radius: $border-radius-max;
   border: 1px solid $gray-4;
   font-size: $font-size-sm;
-  line-height: 1.5;
   color: inherit;
   background-color: color.adjust($gray-6, $lightness: 2%);
   transition: $transition-base;

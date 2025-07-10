@@ -281,5 +281,5 @@
 
 @mixin section-header {
   @include flex-between;
-  margin-bottom: $spacing-md;
+  margin-bottom: $spacing-lg;
 }

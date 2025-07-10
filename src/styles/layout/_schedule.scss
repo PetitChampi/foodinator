@@ -8,9 +8,8 @@
 
 .schedule-controls {
   display: flex;
-  align-items: center;
   gap: $spacing-sm;
-  margin: $spacing-xl 0;
+  margin: $spacing-xxl 0;
   justify-content: space-between;
   &__date-group {
     display: flex;
@@ -31,10 +30,12 @@
   height: 80px;
   position: relative;
   display: flex;
+  border: 1px solid $gray-5;
   border-radius: $border-radius-lg;
   overflow: hidden;
   background-color: $card-background;
   box-shadow: $shadow-md;
+  transition: background-color $transition-base, opacity $transition-base, border-color $transition-base;
   touch-action: none; /* Prevent all scrolling during drag operations */
   .drag-locked & {
     touch-action: auto; /* Allow scrolling when the schedule is locked */
@@ -54,7 +55,8 @@
   }
   &.cooked {
     opacity: 0.7;
-    background-color: rgba($success-color, 0.05) !important;
+    background-color: rgba($success-color, 0.1) !important;
+    border-color: rgba($success-color, 0.4);
   }
   &__img {
     background-color: $gray-5;
