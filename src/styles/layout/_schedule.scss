@@ -9,7 +9,7 @@
 .schedule-controls {
   display: flex;
   gap: $spacing-sm;
-  margin: $spacing-xxl 0;
+  margin: 0 0 $spacing-xxl;
   justify-content: space-between;
   &__date-group {
     display: flex;
@@ -19,6 +19,9 @@
       font-size: $font-size-sm;
       font-weight: $font-weight-semibold;
     }
+  }
+  .btn {
+    line-height: 1;
   }
 }
 
