@@ -33,6 +33,16 @@
   &.modal-closing {
     animation: modalSlideOut $transition-base;
   }
+  
+  &.modal-sm {
+    max-width: 500px;
+  }
+  &.modal-md {
+    max-width: 650px;
+  }
+  &.modal-lg {
+    max-width: 780px;
+  }
 }
 
 .modal-close-button {
@@ -68,8 +78,9 @@
   max-height: calc(90vh - #{$spacing-xxl} * 2);
   .modal-title {
     padding-right: $spacing-xxl;
-    margin-bottom: $spacing-sm;
+    margin-bottom: $spacing-md;
     font-weight: 500;
+    line-height: 1.4;
   }
   .modal-subtitle {
     color: $gray-2;
@@ -128,6 +139,14 @@
 @media (max-width: $breakpoint-sm) {
   .modal-overlay {
     padding: $spacing-sm;
+  }
+  .modal-body {
+    // On small screens, all modal sizes should be responsive
+    &.modal-sm,
+    &.modal-md,
+    &.modal-lg {
+      max-width: 95vw;
+    }
   }
   .modal-content {
     padding: $spacing-lg;

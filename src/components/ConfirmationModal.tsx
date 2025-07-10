@@ -1,4 +1,4 @@
-import { useModal } from "../contexts/ModalContext";
+import { useModal, ModalSize } from "../contexts/ModalContext";
 
 interface ConfirmationModalProps {
   title: string;
@@ -6,6 +6,7 @@ interface ConfirmationModalProps {
   confirmText?: string;
   cancelText?: string;
   confirmButtonClass?: string;
+  size?: ModalSize;
   onConfirm: () => void;
   onCancel?: () => void;
 }
@@ -51,7 +52,8 @@ export function useConfirmationModal() {
   const { openModal } = useModal();
 
   const openConfirmation = (props: ConfirmationModalProps) => {
-    openModal(<ConfirmationModal {...props} />);
+    const { size = "sm", ...modalProps } = props;
+    openModal(<ConfirmationModal {...modalProps} />, size);
   };
 
   return { openConfirmation };

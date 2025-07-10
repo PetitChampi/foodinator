@@ -1,10 +1,13 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
+export type ModalSize = "sm" | "md" | "lg";
+
 interface ModalContextType {
   isOpen: boolean;
   isClosing: boolean;
   content: ReactNode | null;
-  openModal: (content: ReactNode) => void;
+  size: ModalSize;
+  openModal: (content: ReactNode, size?: ModalSize) => void;
   closeModal: () => void;
 }
 
@@ -18,9 +21,11 @@ export function ModalProvider({ children }: ModalProviderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [content, setContent] = useState<ReactNode | null>(null);
+  const [size, setSize] = useState<ModalSize>("md");
 
-  const openModal = (content: ReactNode) => {
+  const openModal = (content: ReactNode, size: ModalSize = "md") => {
     setContent(content);
+    setSize(size);
     setIsOpen(true);
     setIsClosing(false);
     document.body.style.overflow = "hidden";
@@ -32,12 +37,13 @@ export function ModalProvider({ children }: ModalProviderProps) {
       setIsOpen(false);
       setIsClosing(false);
       setContent(null);
+      setSize("md");
       document.body.style.overflow = "unset";
     }, 200); // Match the transition duration
   };
 
   return (
-    <ModalContext.Provider value={{ isOpen, isClosing, content, openModal, closeModal }}>
+    <ModalContext.Provider value={{ isOpen, isClosing, content, size, openModal, closeModal }}>
       {children}
     </ModalContext.Provider>
   );

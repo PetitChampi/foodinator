@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useModal } from "../contexts/ModalContext";
 
 export function Modal() {
-  const { isOpen, isClosing, content, closeModal } = useModal();
+  const { isOpen, isClosing, content, size, closeModal } = useModal();
 
   // Handle escape key press
   useEffect(() => {
@@ -33,7 +33,7 @@ export function Modal() {
 
   return (
     <div className={`modal-overlay ${isClosing ? 'modal-closing' : ''}`} onClick={handleOverlayClick}>
-      <div className={`modal-body ${isClosing ? 'modal-closing' : ''}`}>
+      <div className={`modal-body modal-${size} ${isClosing ? 'modal-closing' : ''}`}>
         <button 
           className="modal-close-button" 
           onClick={closeModal}
