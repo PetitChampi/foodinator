@@ -1,12 +1,7 @@
-// ===========================
-// MEAL COMPONENTS
-// ===========================
-
 @use "sass:color";
 @use "../variables" as *;
 @use "../mixins" as *;
 
-// Meal Ingredients
 .meal-ingredients {
   font-size: $font-size-sm;
   p {
@@ -14,7 +9,6 @@
   }
 }
 
-// Quantity Controls
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -42,7 +36,6 @@
   }
 }
 
-// Meal Item
 .meal-item {
   @include meal-item-base;
   &__title {
@@ -57,7 +50,6 @@
   }
 }
 
-// Meal Actions
 .meal-actions {
   display: flex;
   align-items: center;
@@ -68,24 +60,14 @@
   }
 }
 
-// Grocery List
 .grocery-section {
   padding-top: $spacing-lg;
   &__title {
+    @include title-delimiter;
     font-size: $font-size-md;
-    font-weight: 500;
+    font-weight: 600;
     padding-bottom: $spacing-xs;
     margin-bottom: $spacing-sm;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    text-wrap: nowrap;
-    &::after {
-      content: "";
-      height: 1px;
-      width: 100%;
-      background-color: $gray-5;
-    }
   }
   &__list {
     list-style: none;
@@ -93,7 +75,6 @@
   }
 }
 
-// Grocery Notes - Component specific styles
 .grocery-notes {
   margin-top: $spacing-xxxl;
   &__title {

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Meal } from '../models/types';
 import { getMealById } from '../models/data';
+import { useModal } from '../contexts/ModalContext';
+import { MealDetailsModal } from './MealDetailsModal';
 
 interface MealItemProps {
   meal?: Meal;
@@ -34,6 +36,7 @@ export const MealItem: React.FC<MealItemProps> = ({
   onDecrease,
 }) => {
   const meal = propMeal || (mealId ? getMealById(mealId) : null);
+  const { openModal } = useModal();
   
   const [localQuantity, setLocalQuantity] = useState(1);
   const [error, setError] = useState('');
@@ -41,6 +44,14 @@ export const MealItem: React.FC<MealItemProps> = ({
   const currentQuantity = propQuantity !== undefined ? propQuantity : localQuantity;
   
   if (!meal) return null;
+
+  const handleCardClick = () => {
+    openModal(<MealDetailsModal mealId={meal.id} />, "sm");
+  };
+
+  const stopPropagation = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
 
   const handleIncreaseQuantity = () => {
     const newQuantity = currentQuantity + 1;
@@ -117,9 +128,9 @@ export const MealItem: React.FC<MealItemProps> = ({
   const maxQuantity = propQuantity !== undefined ? availableSlots : remainingSlots;
 
   return (
-    <div className="card">
+    <div className="card" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
       {showCloseButton && (
-        <span className="card-close" onClick={handleClose}>✕</span>
+        <span className="card-close" onClick={(e) => { stopPropagation(e); handleClose(); }}>✕</span>
       )}
       <div className="meal-image">
         {meal?.imageUrl && <img src={meal.imageUrl} alt={meal.name} />}
@@ -128,7 +139,7 @@ export const MealItem: React.FC<MealItemProps> = ({
         <h3 className="card-title">{meal.name}</h3>
         <div className="meal-ingredients">
         </div>
-        <div className="controls">
+        <div className="controls" onClick={stopPropagation}>
           <div className="quantity-controls">
             <button
               type="button"

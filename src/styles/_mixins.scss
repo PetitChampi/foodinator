@@ -150,6 +150,19 @@
   overflow: hidden;
 }
 
+@mixin title-delimiter {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  text-wrap: nowrap;
+  &::after {
+    content: "";
+    height: 1px;
+    width: 100%;
+    background-color: $gray-5;
+  }
+}
+
 // Utility Mixins
 // ===========================
 @mixin clearfix {

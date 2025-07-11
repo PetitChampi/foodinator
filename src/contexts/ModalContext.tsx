@@ -21,9 +21,9 @@ export function ModalProvider({ children }: ModalProviderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [content, setContent] = useState<ReactNode | null>(null);
-  const [size, setSize] = useState<ModalSize>("md");
+  const [size, setSize] = useState<ModalSize>("sm");
 
-  const openModal = (content: ReactNode, size: ModalSize = "md") => {
+  const openModal = (content: ReactNode, size: ModalSize = "sm") => {
     setContent(content);
     setSize(size);
     setIsOpen(true);
@@ -37,7 +37,7 @@ export function ModalProvider({ children }: ModalProviderProps) {
       setIsOpen(false);
       setIsClosing(false);
       setContent(null);
-      setSize("md");
+      setSize("sm");
       document.body.style.overflow = "unset";
     }, 200); // Match the transition duration
   };
