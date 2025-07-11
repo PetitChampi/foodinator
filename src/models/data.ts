@@ -44,6 +44,10 @@ export const ingredients: Ingredient[] = [
   { id: 'sauce', name: 'Sauce' },
   { id: 'lettuce', name: 'Lettuce' },
   { id: 'chard', name: 'Chard' },
+  { id: 'gnocchi', name: 'Gnocchi' },
+  { id: 'spinach', name: 'Spinach' },
+  { id: 'basil', name: 'Basil' },
+  { id: 'pine-nuts', name: 'Pine nuts' },
 ];
 
 export const meals: Meal[] = [
@@ -52,18 +56,6 @@ export const meals: Meal[] = [
     name: 'Creamy Chic Broc',
     imageUrl: './img-meals/chic-broc.jpg',
     ingredients: ['chicken', 'broccoli', 'mushrooms', 'creme-fraiche', 'rice'],
-  },
-  {
-    id: 'pasta-bolognese',
-    name: 'Pasta bolognese',
-    imageUrl: './img-meals/pasta-bolognese.jpg',
-    ingredients: ['pasta', 'tomato-sauce', 'ground-beef'],
-  },
-  {
-    id: 'pasta-carbonara',
-    name: 'Pasta carbonara',
-    imageUrl: './img-meals/pasta-carbonara.jpg',
-    ingredients: ['pasta', 'eggs', 'grana-padano', "parmesan", 'lardons', 'mushrooms'],
   },
   {
     id: 'fishy-pasta',
@@ -90,17 +82,6 @@ export const meals: Meal[] = [
     ingredients: ['brown-bread', 'avocados', 'lime', 'eggs', 'hummus', 'mint-sauce'],
   },
   {
-    id: 'fish-n-mash',
-    name: 'Fish n mash',
-    imageUrl: './img-meals/fisn-n-mash.jpg',
-    ingredients: ['fish', 'potatoes', 'shallots', 'bell-pepper', 'milk'],
-  },
-  {
-    id: 'pan-seared-lamb',
-    name: 'Pan-seared lamb',
-    ingredients: ['lamb', 'potatoes', 'green-veg', 'mint-sauce'],
-  },
-  {
     id: 'burgers',
     name: 'Burgers',
     imageUrl: './img-meals/burgers.jpg',
@@ -111,6 +92,35 @@ export const meals: Meal[] = [
     name: 'Chickpea chard pork',
     imageUrl: './img-meals/chickpea-chard-pork.jpg',
     ingredients: ['pork-fillet', 'chickpeas', 'chard', 'pickled-peppers', 'fennel-seeds'],
+  },
+  {
+    id: 'pesto-chicken-gnocchi',
+    name: 'Pesto chicken gnocchi',
+    imageUrl: './img-meals/pesto-chicken-gnocchi.jpg',
+    ingredients: ['chicken', 'gnocchi', 'spinach', 'basil', 'pine-nuts', 'parmesan'],
+  },
+  {
+    id: 'pasta-bolognese',
+    name: 'Pasta bolognese',
+    imageUrl: './img-meals/pasta-bolognese.jpg',
+    ingredients: ['pasta', 'tomato-sauce', 'ground-beef'],
+  },
+  {
+    id: 'pasta-carbonara',
+    name: 'Pasta carbonara',
+    imageUrl: './img-meals/pasta-carbonara.jpg',
+    ingredients: ['pasta', 'eggs', 'grana-padano', "parmesan", 'lardons', 'mushrooms'],
+  },
+  {
+    id: 'fish-n-mash',
+    name: 'Fish n mash',
+    imageUrl: './img-meals/fisn-n-mash.jpg',
+    ingredients: ['fish', 'potatoes', 'shallots', 'bell-pepper', 'milk'],
+  },
+  {
+    id: 'pan-seared-lamb',
+    name: 'Pan-seared lamb',
+    ingredients: ['lamb', 'potatoes', 'green-veg', 'mint-sauce'],
   },
 ];
 
