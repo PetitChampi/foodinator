@@ -36,6 +36,17 @@
 .search {
   max-width: 500px;
 }
+.search-results {
+  margin: $spacing-md 0 $spacing-lg;
+}
+.selected-ingredients {
+  margin: $spacing-md 0 $spacing-lg;
+  .selected-title {
+    font-weight: 500;
+    font-size: $font-size-base;
+    margin-bottom: $spacing-sm;
+  }
+}
 
 .grocery-notes {
   textarea {

@@ -12,20 +12,24 @@
   cursor: pointer;
   background-color: color.adjust($border-color, $lightness: 5%);
   color: $gray-3;
-  padding: $spacing-xs $spacing-sm;
-  border-radius: $border-radius-sm;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $border-radius-max;
   margin-right: $spacing-xs;
   margin-bottom: $spacing-xs;
   font-size: $font-size-sm;
-
+  transition: background-color $transition-fast, color $transition-fast;
+  &:hover:not(:has(.close)) {
+    background-color: color.adjust($border-color, $lightness: -2%);
+    color: $gray-1;
+  }
   .close {
-    margin-left: $spacing-xs;
+    margin-left: $spacing-sm;
     font-size: $font-size-base;
     line-height: 0.5;
     cursor: pointer;
     transition: color $transition-fast;
     &:hover {
-      color: $danger-color;
+      color: $gray-1;
     }
   }
 }

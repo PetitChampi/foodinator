@@ -7,8 +7,7 @@ import { Ingredient } from '../models/types';
 interface MealSelectorProps {
   onAddMeal: (mealId: string, quantity: number) => boolean;
   remainingSlots: number;
-  searchResults?: string[]; // Optional array of meal IDs that match search criteria
-  // Search functionality props
+  searchResults?: string[];
   searchTerm?: string;
   onSearchChange?: (term: string) => void;
   selectedIngredients?: string[];
@@ -78,13 +77,11 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
       {selectedIngredients.length > 0 && onRemoveIngredient && onClearIngredients && (
         <div className="selected-ingredients">
           <div className="flex-between">
-            <p><strong>Selected ingredients:</strong></p>
+            <p className="selected-title">Selected ingredients</p>
             <button
-              className="btn btn-sm btn-danger"
+              className="btn btn-sm btn-danger-tertiary"
               onClick={onClearIngredients}
-            >
-              Clear All
-            </button>
+            >Clear all</button>
           </div>
           <div>
             {selectedIngredients.map((ingredientId) => {
