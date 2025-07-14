@@ -10,6 +10,7 @@
   left: 0;
   right: 0;
   bottom: 0;
+  overflow: auto;
   background-color: rgba($gray-1, 0.6);
   backdrop-filter: blur(2px);
   display: flex;
@@ -28,6 +29,10 @@
   border-radius: $border-radius-xl;
   box-shadow: $shadow-xl;
   position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   animation: modalSlideIn $transition-base;
   z-index: $z-index-modal;
@@ -77,7 +82,6 @@
 .modal-content {
   padding: $spacing-xxl;
   overflow-y: auto;
-  max-height: calc(90vh - #{$spacing-xxl} * 2);
   .modal-img {
     margin: (-$spacing-xxl) (-$spacing-xxl) $spacing-md;
     height: 200px;
@@ -172,7 +176,6 @@
   }
   .modal-content {
     padding: $spacing-lg;
-    max-height: calc(95vh - #{$spacing-lg} * 2);
     .modal-img {
       margin: (-$spacing-lg) (-$spacing-lg) $spacing-sm;
       height: 150px;

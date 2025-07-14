@@ -11,13 +11,11 @@ const CHECKED_ITEMS_KEY = 'foodinator_checked_items';
 const GROCERY_NOTES_KEY = 'foodinator_grocery_notes';
 
 export const useGroceryList = (selectedMeals: SelectedMeal[], mealOrder?: Array<string | null>) => {
-  // Load checked state from localStorage
   const loadCheckedState = (): CheckedState => {
     const savedState = localStorage.getItem(CHECKED_ITEMS_KEY);
     return savedState ? JSON.parse(savedState) : {};
   };
 
-  // Load notes from localStorage
   const loadNotes = (): string => {
     const savedNotes = localStorage.getItem(GROCERY_NOTES_KEY);
     return savedNotes || '';
@@ -149,8 +147,6 @@ export const useGroceryList = (selectedMeals: SelectedMeal[], mealOrder?: Array<
     return result;
   }, [groceryList.items, selectedMeals, mealOrder]);
 
-  // The updateNotes function now only updates the local state.
-  // The debounced effect will handle saving to localStorage.
   const updateNotes = (newNotes: string) => {
     setNotes(newNotes);
   };

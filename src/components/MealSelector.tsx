@@ -1,8 +1,7 @@
 import React from 'react';
-import { MealItem } from './MealItem';
-import { meals } from '../models/data';
-import { getIngredientById } from '../models/data';
+import { meals, getIngredientById } from '../models/data';
 import { Ingredient } from '../models/types';
+import { SelectableMealItem } from './SelectableMealItem';
 
 interface MealSelectorProps {
   onAddMeal: (mealId: string, quantity: number) => boolean;
@@ -29,13 +28,11 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
   onRemoveIngredient,
   onClearIngredients
 }) => {
-  // Filter meals based on search results when ingredients are selected
   const displayedMeals = selectedIngredients.length > 0
     ? (searchResults || []).filter(mealId => meals.some(meal => meal.id === mealId))
         .map(mealId => meals.find(meal => meal.id === mealId)!)
     : meals;
 
-  // Show "No meals found" only if we have selected ingredients but no matching meals
   const showNoResultsMessage = selectedIngredients.length > 0 && displayedMeals.length === 0;
 
   return (
@@ -56,7 +53,6 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
         </div>
       )}
 
-      {/* Display search results for ingredients */}
       {searchTerm.trim() !== "" && filteredIngredients.length > 0 && onAddIngredient && (
         <div className="search-results">
           <div>
@@ -73,7 +69,6 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
         </div>
       )}
 
-      {/* Display selected ingredients */}
       {selectedIngredients.length > 0 && onRemoveIngredient && onClearIngredients && (
         <div className="selected-ingredients">
           <div className="flex-between">
@@ -95,7 +90,7 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
                     className="close"
                     onClick={() => onRemoveIngredient(ingredientId)}
                   >
-                    &times;
+                    ×
                   </span>
                 </span>
               );
@@ -119,7 +114,7 @@ export const MealSelector: React.FC<MealSelectorProps> = ({
       ) : (
         <div className="meal-grid">
           {displayedMeals.map((meal) => (
-            <MealItem
+            <SelectableMealItem
               key={meal.id}
               meal={meal}
               onAddMeal={onAddMeal}
