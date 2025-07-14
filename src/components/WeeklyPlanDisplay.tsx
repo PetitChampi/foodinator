@@ -1,48 +1,35 @@
 import React from 'react';
-import { SelectedMeal } from '../models/types';
 import { useConfirmationModal } from './ConfirmationModal';
 import { getMealById } from '../models/data';
 import { PlannedMealItem } from './PlannedMealItem';
+import { useFoodinatorStore } from '../store/useFoodinatorStore';
 
-interface WeeklyPlanDisplayProps {
-  selectedMeals: SelectedMeal[];
-  onRemoveMeal: (mealId: string) => void;
-  onUpdateQuantity: (mealId: string, quantity: number) => boolean;
-  totalSlots: number;
-  onResetPlan: () => void;
-}
-
-export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
-  selectedMeals,
-  onRemoveMeal,
-  onUpdateQuantity,
-  totalSlots,
-  onResetPlan,
-}) => {
+export const WeeklyPlanDisplay: React.FC = () => {
   const { openConfirmation } = useConfirmationModal();
-
-  const usedSlots = selectedMeals.reduce((total, meal) => total + meal.quantity, 0);
+  
+  const { weeklyPlan, removeMeal, updateMealQuantity, resetPlan } = useFoodinatorStore();
+  const { selectedMeals, totalSlots } = weeklyPlan;
+  
+  const usedSlots = selectedMeals.reduce((sum, meal) => sum + meal.quantity, 0);
 
   const handleResetPlanConfirmation = () => {
     openConfirmation({
       title: "Reset Dinner Plan",
-      message: "Are you sure you want to reset your entire dinner plan? This will remove all selected meals.",
+      message: "Are you sure you want to reset your entire dinner plan?",
       confirmText: "Reset Plan",
       confirmButtonClass: "btn btn-danger",
-      onConfirm: onResetPlan,
+      onConfirm: resetPlan
     });
   };
 
   const handleRemoveMealConfirmation = (mealId: string) => {
     const meal = getMealById(mealId);
-    const mealName = meal ? meal.name : "this meal";
-    
     openConfirmation({
-      title: `Remove ${mealName}`,
-      message: `Are you sure you want to remove ${mealName} from your dinner plan?`,
+      title: `Remove ${meal?.name || 'this meal'}`,
+      message: `Are you sure you want to remove ${meal?.name || 'this meal'} from your plan?`,
       confirmText: "Remove Meal",
       confirmButtonClass: "btn btn-danger",
-      onConfirm: () => onRemoveMeal(mealId),
+      onConfirm: () => removeMeal(mealId)
     });
   };
 
@@ -61,7 +48,6 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
           )}
         </div>
       </div>
-
       {selectedMeals.length === 0 ? (
         <div className="empty">No meals selected yet. Start by adding meals from the list below.</div>
       ) : (
@@ -72,7 +58,7 @@ export const WeeklyPlanDisplay: React.FC<WeeklyPlanDisplayProps> = ({
               mealId={mealId}
               quantity={quantity}
               onRemoveMeal={handleRemoveMealConfirmation}
-              onUpdateQuantity={onUpdateQuantity}
+              onUpdateQuantity={updateMealQuantity}
               availableSlots={totalSlots - (usedSlots - quantity)}
             />
           ))}

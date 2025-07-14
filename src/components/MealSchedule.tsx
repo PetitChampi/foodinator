@@ -1,63 +1,37 @@
-import React from 'react';
-import { SelectedMeal } from '../models/types';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { MealSlot } from './MealSlot';
 import { ScheduleControls } from './ScheduleControls';
 import { useDragDrop } from '../hooks/useDragDrop';
+import { useFoodinatorStore } from '../store/useFoodinatorStore';
 
-interface MealScheduleProps {
-  selectedMeals: SelectedMeal[];
-  totalSlots: number;
-  onReorderMeals: (mealSlots: Array<string | null>) => void;
-  initialMealOrder?: Array<string | null>;
-  cookedMeals?: boolean[];
-  dragLocked?: boolean;
-  onToggleMealCooked?: (index: number) => void;
-  onToggleDragLock?: () => void;
-  startDate?: string;
-  onUpdateStartDate?: (date: string) => void;
-  getSlotDate?: (index: number) => string;
-}
+export const MealSchedule: React.FC = () => {
+  const {
+    mealOrder,
+    dragLocked,
+    startDate,
+    reorderMeals,
+    toggleMealCooked,
+    toggleDragLock,
+    updateStartDate,
+    mealInstances,
+    cookedMeals: cookedMealsMap,
+  } = useFoodinatorStore();
+  
+  const cookedMeals = useMemo(() => 
+    mealInstances.map(instanceId => instanceId ? !!cookedMealsMap[instanceId] : false),
+    [mealInstances, cookedMealsMap]
+  );
 
-export const MealSchedule: React.FC<MealScheduleProps> = ({
-  selectedMeals,
-  totalSlots,
-  onReorderMeals,
-  initialMealOrder,
-  cookedMeals = Array(7).fill(false),
-  dragLocked = true,
-  onToggleMealCooked,
-  onToggleDragLock,
-  startDate,
-  onUpdateStartDate,
-  getSlotDate,
-}) => {
-  // Initialize meal slots based on initial order or selected meals
-  const initialSlots = (() => {
-    // If we have an initial meal order, use it
-    if (initialMealOrder && initialMealOrder.some(id => id !== null)) {
-      return [...initialMealOrder];
-    }
+  const getSlotDate = useCallback((slotIndex: number) => {
+    const date = new Date(startDate);
+    date.setDate(date.getDate() + slotIndex);
+    return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  }, [startDate]);
 
-    // Otherwise, initialize slots based on selected meals
-    const slots: Array<string | null> = Array(totalSlots).fill(null);
-    let slotIndex = 0;
 
-    // Fill slots with meal IDs
-    selectedMeals.forEach(({ mealId, quantity }) => {
-      for (let i = 0; i < quantity; i++) {
-        if (slotIndex < totalSlots) {
-          slots[slotIndex] = mealId;
-          slotIndex++;
-        }
-      }
-    });
-
-    return slots;
-  })();
-
-  // Use the drag and drop hook
   const {
     mealSlots,
+    setMealSlots,
     handleDragStart,
     handleDragOver,
     handleDragEnter,
@@ -67,17 +41,16 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
     handleTouchEnd,
     handleDrop
   } = useDragDrop({
-    initialSlots,
+    initialSlots: mealOrder,
     dragLocked,
-    onReorder: onReorderMeals
+    onReorder: reorderMeals
   });
 
-  // Handle toggling a meal's cooked status
-  const handleToggleCooked = (index: number) => {
-    if (onToggleMealCooked) {
-      onToggleMealCooked(index);
-    }
-  };
+  // Sync the local state of the dnd hook if the global state changes
+  useEffect(() => {
+    setMealSlots(mealOrder);
+  }, [mealOrder, setMealSlots]);
+
 
   return (
     <>
@@ -86,10 +59,10 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
       </div>
 
       <ScheduleControls
-        startDate={startDate || new Date().toISOString().split('T')[0]}
-        onUpdateStartDate={onUpdateStartDate || (() => {})}
+        startDate={startDate}
+        onUpdateStartDate={updateStartDate}
         dragLocked={dragLocked}
-        onToggleDragLock={onToggleDragLock || (() => {})}
+        onToggleDragLock={toggleDragLock}
       />
 
       <div className={`meal-slots-container ${dragLocked ? 'drag-locked' : ''}`}>
@@ -100,7 +73,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
             index={index}
             isCooked={cookedMeals[index]}
             isDraggable={!dragLocked}
-            dateLabel={getSlotDate ? getSlotDate(index) : ''}
+            dateLabel={getSlotDate(index)}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
             onDragEnter={handleDragEnter}
@@ -109,7 +82,7 @@ export const MealSchedule: React.FC<MealScheduleProps> = ({
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            onToggleCooked={handleToggleCooked}
+            onToggleCooked={toggleMealCooked}
           />
         ))}
       </div>
