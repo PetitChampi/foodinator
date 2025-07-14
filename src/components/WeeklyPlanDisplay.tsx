@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useConfirmationModal } from './ConfirmationModal';
 import { getMealById } from '../models/data';
 import { PlannedMealItem } from './PlannedMealItem';
 import { useFoodinatorStore } from '../store/useFoodinatorStore';
+import { SelectedMeal } from '../models/types';
 
 export const WeeklyPlanDisplay: React.FC = () => {
   const { openConfirmation } = useConfirmationModal();
   
-  const { weeklyPlan, removeMeal, updateMealQuantity, resetPlan } = useFoodinatorStore();
-  const { selectedMeals, totalSlots } = weeklyPlan;
-  
-  const usedSlots = selectedMeals.reduce((sum, meal) => sum + meal.quantity, 0);
+  const mealOrder = useFoodinatorStore(state => state.mealOrder);
+  const totalSlots = useFoodinatorStore(state => state.weeklyPlan.totalSlots);
+  const removeMeal = useFoodinatorStore(state => state.removeMeal);
+  const updateMealQuantity = useFoodinatorStore(state => state.updateMealQuantity);
+  const resetPlan = useFoodinatorStore(state => state.resetPlan);
+
+  const { selectedMeals, usedSlots } = useMemo(() => {
+    const mealCounts = new Map<string, number>();
+    let slotsUsed = 0;
+    
+    mealOrder.forEach(mealId => {
+      if (mealId) {
+        slotsUsed++;
+        mealCounts.set(mealId, (mealCounts.get(mealId) || 0) + 1);
+      }
+    });
+
+    const meals: SelectedMeal[] = Array.from(mealCounts.entries()).map(([mealId, quantity]) => ({
+      mealId,
+      quantity,
+    }));
+
+    return { selectedMeals: meals, usedSlots: slotsUsed };
+  }, [mealOrder]);
 
   const handleResetPlanConfirmation = () => {
     openConfirmation({
@@ -26,8 +47,8 @@ export const WeeklyPlanDisplay: React.FC = () => {
     const meal = getMealById(mealId);
     openConfirmation({
       title: `Remove ${meal?.name || 'this meal'}`,
-      message: `Are you sure you want to remove ${meal?.name || 'this meal'} from your plan?`,
-      confirmText: "Remove Meal",
+      message: `Are you sure you want to remove all instances of ${meal?.name || 'this meal'} from your plan?`,
+      confirmText: "Remove All",
       confirmButtonClass: "btn btn-danger",
       onConfirm: () => removeMeal(mealId)
     });

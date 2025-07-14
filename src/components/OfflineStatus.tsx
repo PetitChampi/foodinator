@@ -32,7 +32,7 @@ export const OfflineStatus: React.FC<OfflineStatusProps> = ({ className = '' }) 
             onClick={forceUpdate}
             type="button"
           >
-            Update Now
+            Update now
           </button>
         </div>
       )}
@@ -44,7 +44,7 @@ export const OfflineStatus: React.FC<OfflineStatusProps> = ({ className = '' }) 
           type="button"
           title="Check for updates"
         >
-          Check for Updates
+          Check for updates
         </button>
       )}
     </div>

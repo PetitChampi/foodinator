@@ -7,35 +7,32 @@ type TabType = 'planner' | 'grocery' | 'schedule';
 interface TabNavigationProps {
   activeTab: TabType;
   setActiveTab: (tab: TabType) => void;
-  // Note: groceryItemCount and isEmpty are no longer passed in as props.
 }
 
 export const TabNavigation: React.FC<TabNavigationProps> = ({
   activeTab,
   setActiveTab,
 }) => {
-  // Select the raw data needed for the calculation directly from the store.
-  const selectedMeals = useFoodinatorStore(state => state.weeklyPlan.selectedMeals);
+  const mealOrder = useFoodinatorStore(state => state.mealOrder);
 
-  // Use `useMemo` to calculate the derived state (the grocery count).
-  // This calculation only runs when `selectedMeals` changes, preventing infinite loops.
   const { groceryItemCount, isEmpty } = useMemo(() => {
-    if (selectedMeals.length === 0) {
+    if (!mealOrder.some(slot => slot !== null)) {
       return { groceryItemCount: 0, isEmpty: true };
     }
 
-    // Use a Set to efficiently count unique ingredients.
     const ingredientSet = new Set<string>();
-    selectedMeals.forEach(({ mealId }) => {
-      const meal = getMealById(mealId);
-      meal?.ingredients.forEach(ingredientId => {
-        ingredientSet.add(ingredientId);
-      });
+    mealOrder.forEach((mealId) => {
+      if (mealId) {
+        const meal = getMealById(mealId);
+        meal?.ingredients.forEach(ingredientId => {
+          ingredientSet.add(ingredientId);
+        });
+      }
     });
 
     const count = ingredientSet.size;
     return { groceryItemCount: count, isEmpty: count === 0 };
-  }, [selectedMeals]);
+  }, [mealOrder]);
 
   return (
     <div className="tabs">

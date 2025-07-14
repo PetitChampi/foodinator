@@ -47,5 +47,5 @@ export default defineConfig({
       },
     }),
   ],
-  base: process.env.NODE_ENV === 'production' ? '/foodinator/' : '/',
+  base: '/foodinator/',
 })

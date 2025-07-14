@@ -16,7 +16,7 @@ A weekly meal and grocery planner app built with React and TypeScript.
 
 ## Live Demo
 
-Check out the live demo at [https://yourusername.github.io/foodinator/](https://yourusername.github.io/foodinator/)
+Check out the live demo at [https://petitchampi.github.io/foodinator/](https://petitchampi.github.io/foodinator/)
 
 ## Tech Stack
 

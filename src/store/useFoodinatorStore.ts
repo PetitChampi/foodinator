@@ -1,23 +1,20 @@
 import { create, StateCreator } from 'zustand';
 import { produce } from 'immer';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { SelectedMeal } from '../models/types';
 import { TOTAL_SLOTS } from '../config/constants';
 
 interface FoodinatorState {
-  // Weekly plan
   weeklyPlan: {
-    selectedMeals: SelectedMeal[];
     totalSlots: number;
   };
-
+  
   // Schedule
   mealOrder: (string | null)[];
   cookedMeals: Record<string, boolean>;
   mealInstances: (string | null)[];
   dragLocked: boolean;
   startDate: string;
-
+  
   // Grocery list
   checkedItems: Record<string, boolean>;
   notes: string;
@@ -30,9 +27,9 @@ interface FoodinatorState {
 }
 
 interface FoodinatorActions {
-  // Meal plan
+  // Meal plan actions (with order)
   addMeal: (mealId: string, quantity: number) => boolean;
-  removeMeal: (mealId: string) => void;
+  removeMeal: (mealId:string) => void;
   updateMealQuantity: (mealId: string, newQuantity: number) => boolean;
   resetPlan: () => void;
   
@@ -56,40 +53,12 @@ interface FoodinatorActions {
 
 type StoreType = FoodinatorState & FoodinatorActions;
 
+const generateInstanceId = () => `instance_${crypto.randomUUID()}`;
+
 const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
-  // --- HELPER FUNCTIONS ---
-  const getRemainingSlots = () => {
-    const { weeklyPlan } = get();
-    const usedSlots = weeklyPlan.selectedMeals.reduce((total, meal) => total + meal.quantity, 0);
-    return weeklyPlan.totalSlots - usedSlots;
-  };
-
-  const syncMealOrder = () => {
-    set(produce((state: FoodinatorState) => {
-      const newOrder: Array<string | null> = Array(TOTAL_SLOTS).fill(null);
-      let slotIndex = 0;
-      state.weeklyPlan.selectedMeals.forEach(({ mealId, quantity }) => {
-        for (let i = 0; i < quantity && slotIndex < TOTAL_SLOTS; i++) {
-          newOrder[slotIndex] = mealId;
-          slotIndex++;
-        }
-      });
-      state.mealOrder = newOrder;
-      state.mealInstances = newOrder.map(mealId => mealId ? `instance_${Date.now()}_${Math.random()}` : null);
-      state.cookedMeals = {};
-    }));
-  };
-  
-  const removeMealAction = (mealId: string) => {
-    set(produce((state: FoodinatorState) => {
-      state.weeklyPlan.selectedMeals = state.weeklyPlan.selectedMeals.filter(m => m.mealId !== mealId);
-    }));
-    syncMealOrder();
-  };
-
   return {
     // --- INITIAL STATE ---
-    weeklyPlan: { selectedMeals: [], totalSlots: TOTAL_SLOTS },
+    weeklyPlan: { totalSlots: TOTAL_SLOTS },
     mealOrder: Array(TOTAL_SLOTS).fill(null),
     cookedMeals: {},
     mealInstances: Array(TOTAL_SLOTS).fill(null),
@@ -98,81 +67,127 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
     checkedItems: {},
     notes: '',
     searchState: { searchTerm: '', selectedIngredients: [] },
-
+    
     // --- ACTIONS ---
     addMeal: (mealId, quantity) => {
-      if (quantity <= 0 || quantity > getRemainingSlots()) return false;
+      const { mealOrder } = get();
+      const availableSlots = mealOrder.filter(slot => slot === null).length;
+      
+      if (quantity <= 0 || quantity > availableSlots) return false;
+      
       set(produce((state: FoodinatorState) => {
-        const existingMeal = state.weeklyPlan.selectedMeals.find(m => m.mealId === mealId);
-        if (existingMeal) {
-          existingMeal.quantity += quantity;
-        } else {
-          state.weeklyPlan.selectedMeals.push({ mealId, quantity });
+        let addedCount = 0;
+        for (let i = 0; i < state.mealOrder.length && addedCount < quantity; i++) {
+          if (state.mealOrder[i] === null) {
+            state.mealOrder[i] = mealId;
+            state.mealInstances[i] = generateInstanceId();
+            addedCount++;
+          }
         }
       }));
-      syncMealOrder();
       return true;
     },
-
-    removeMeal: removeMealAction,
-
+    
+    removeMeal: (mealId: string) => {
+      set(produce((state: FoodinatorState) => {
+        const instancesToRemove: string[] = [];
+        state.mealOrder.forEach((id, index) => {
+          if (id === mealId) {
+            const instanceId = state.mealInstances[index];
+            if (instanceId) instancesToRemove.push(instanceId);
+            state.mealOrder[index] = null;
+            state.mealInstances[index] = null;
+          }
+        });
+        // Clean up cooked status for removed instances
+        instancesToRemove.forEach(instanceId => {
+          delete state.cookedMeals[instanceId];
+        });
+      }));
+    },
+    
     updateMealQuantity: (mealId, newQuantity) => {
-      const meal = get().weeklyPlan.selectedMeals.find(m => m.mealId === mealId);
-      if (!meal) return false;
-
-      const additionalSlots = newQuantity - meal.quantity;
-      if (additionalSlots > getRemainingSlots()) return false;
-
       if (newQuantity <= 0) {
-        removeMealAction(mealId);
+        get().removeMeal(mealId);
         return true;
       }
-
-      set(produce((state: FoodinatorState) => {
-        const mealToUpdate = state.weeklyPlan.selectedMeals.find(m => m.mealId === mealId);
-        if (mealToUpdate) mealToUpdate.quantity = newQuantity;
-      }));
-      syncMealOrder();
-      return true;
+      
+      const currentQuantity = get().mealOrder.filter(id => id === mealId).length;
+      const delta = newQuantity - currentQuantity;
+      
+      if (delta === 0) return true;
+      
+      // ADDING more meals
+      if (delta > 0) {
+        return get().addMeal(mealId, delta);
+      }
+      
+      // REMOVING meals
+      if (delta < 0) {
+        set(produce((state: FoodinatorState) => {
+          let removedCount = 0;
+          const numToRemove = Math.abs(delta);
+          // Iterate backwards to remove the most recently added meals first
+          for (let i = state.mealOrder.length - 1; i >= 0 && removedCount < numToRemove; i--) {
+            if (state.mealOrder[i] === mealId) {
+              const instanceId = state.mealInstances[i];
+              if (instanceId) delete state.cookedMeals[instanceId];
+              state.mealOrder[i] = null;
+              state.mealInstances[i] = null;
+              removedCount++;
+            }
+          }
+        }));
+        return true;
+      }
+      return false;
     },
     
     resetPlan: () => {
       set(produce((state: FoodinatorState) => {
-        state.weeklyPlan.selectedMeals = [];
         state.mealOrder = Array(TOTAL_SLOTS).fill(null);
         state.mealInstances = Array(TOTAL_SLOTS).fill(null);
         state.cookedMeals = {};
         state.checkedItems = {};
       }));
     },
-
+    
     reorderMeals: (newOrder) => {
       set(produce((state: FoodinatorState) => {
         const newInstances = Array(TOTAL_SLOTS).fill(null);
-        const oldInstances = state.mealInstances;
-        const oldOrder = state.mealOrder;
-        const usedInstances = new Set<string>();
-
-        newOrder.forEach((newMealId, newIndex) => {
-          if (newMealId) {
-            for (let oldIndex = 0; oldIndex < oldOrder.length; oldIndex++) {
-              if (oldOrder[oldIndex] === newMealId && oldInstances[oldIndex] && !usedInstances.has(oldInstances[oldIndex]!)) {
-                newInstances[newIndex] = oldInstances[oldIndex];
-                usedInstances.add(oldInstances[oldIndex]!);
-                break;
+        const oldInstances = [...state.mealInstances]; 
+        const oldOrder = [...state.mealOrder];
+        const cookedStatusByInstance = { ...state.cookedMeals };
+        const newCookedStatus: Record<string, boolean> = {};
+        
+        const instancePool = oldOrder.reduce((pool, mealId, index) => {
+          if (mealId && oldInstances[index]) {
+            if (!pool[mealId]) pool[mealId] = [];
+            pool[mealId].push(oldInstances[index]!);
+          }
+          return pool;
+        }, {} as Record<string, string[]>);
+        
+        newOrder.forEach((mealId, index) => {
+          if (mealId) {
+            const instance = instancePool[mealId]?.pop();
+            if (instance) {
+              newInstances[index] = instance;
+              if (cookedStatusByInstance[instance]) {
+                newCookedStatus[instance] = true;
               }
-            }
-            if (!newInstances[newIndex]) {
-              newInstances[newIndex] = `instance_${Date.now()}_${Math.random()}`;
+            } else {
+              newInstances[index] = generateInstanceId();
             }
           }
         });
-
+        
         state.mealOrder = newOrder;
         state.mealInstances = newInstances;
+        state.cookedMeals = newCookedStatus;
       }));
     },
-
+    
     toggleMealCooked: (slotIndex) => {
       const instanceId = get().mealInstances[slotIndex];
       if (!instanceId) return;
@@ -182,42 +197,14 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
     },
     
     toggleDragLock: () => set(state => ({ dragLocked: !state.dragLocked })),
-    
     updateStartDate: (date) => set({ startDate: date }),
-    
-    toggleItemChecked: (ingredientId) => {
-      set(produce((state: FoodinatorState) => {
-        state.checkedItems[ingredientId] = !state.checkedItems[ingredientId];
-      }));
-    },
-    
+    toggleItemChecked: (ingredientId) => set(produce((state: FoodinatorState) => { state.checkedItems[ingredientId] = !state.checkedItems[ingredientId]; })),
     clearAllCheckedItems: () => set({ checkedItems: {} }),
-
     updateNotes: (notes) => set({ notes }),
-
     setSearchTerm: (term) => set(produce(state => { state.searchState.searchTerm = term; })),
-    
-    addIngredient: (ingredientId) => {
-      set(produce((state: FoodinatorState) => {
-        if (!state.searchState.selectedIngredients.includes(ingredientId)) {
-          state.searchState.selectedIngredients.push(ingredientId);
-        }
-        state.searchState.searchTerm = '';
-      }));
-    },
-
-    removeIngredient: (ingredientId) => {
-      set(produce((state: FoodinatorState) => {
-        state.searchState.selectedIngredients = state.searchState.selectedIngredients.filter(id => id !== ingredientId);
-      }));
-    },
-
-    clearIngredients: () => {
-      set(produce(state => {
-        state.searchState.selectedIngredients = [];
-        state.searchState.searchTerm = '';
-      }));
-    },
+    addIngredient: (ingredientId) => set(produce((state: FoodinatorState) => { if (!state.searchState.selectedIngredients.includes(ingredientId)) { state.searchState.selectedIngredients.push(ingredientId); } state.searchState.searchTerm = ''; })),
+    removeIngredient: (ingredientId) => set(produce((state: FoodinatorState) => { state.searchState.selectedIngredients = state.searchState.selectedIngredients.filter(id => id !== ingredientId); })),
+    clearIngredients: () => set(produce(state => { state.searchState.selectedIngredients = []; state.searchState.searchTerm = ''; })),
   };
 };
 
@@ -232,6 +219,6 @@ export const useFoodinatorStore = create<StoreType>()(
 );
 
 export const useRemainingSlots = () => useFoodinatorStore(state => {
-  const usedSlots = state.weeklyPlan.selectedMeals.reduce((total, meal) => total + meal.quantity, 0);
+  const usedSlots = state.mealOrder.filter(slot => slot !== null).length;
   return state.weeklyPlan.totalSlots - usedSlots;
 });
