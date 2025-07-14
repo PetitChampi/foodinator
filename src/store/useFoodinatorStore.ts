@@ -2,6 +2,7 @@ import { create, StateCreator } from 'zustand';
 import { produce } from 'immer';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { SelectedMeal } from '../models/types';
+import { TOTAL_SLOTS } from '../config/constants';
 
 interface FoodinatorState {
   // Weekly plan
@@ -52,8 +53,6 @@ interface FoodinatorActions {
   removeIngredient: (ingredientId: string) => void;
   clearIngredients: () => void;
 }
-
-const TOTAL_SLOTS = 7;
 
 type StoreType = FoodinatorState & FoodinatorActions;
 

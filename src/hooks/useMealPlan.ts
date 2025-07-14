@@ -1,9 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 import { WeeklyPlan } from '../models/types';
-
-const STORAGE_KEY = 'foodinator_weekly_plan';
-const TOTAL_SLOTS = 7; // 7 days in a week
+import { STORAGE_KEY, TOTAL_SLOTS } from '../config/constants';
 
 export const useMealPlan = () => {
   // Weekly plan state
