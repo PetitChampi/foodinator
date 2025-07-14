@@ -1,17 +1,16 @@
 import { useMemo, useState, useEffect } from 'react';
-import { GroceryItem, GroceryList } from '../models/types';
+import { GroceryItem, GroceryList as GroceryListType, SelectedMeal } from '../models/types';
 import { getMealById } from '../models/data';
+import { useDebounce } from './useDebounce';
 
-// Type for storing checked state in localStorage
 interface CheckedState {
   [ingredientId: string]: boolean;
 }
 
-// Storage keys
 const CHECKED_ITEMS_KEY = 'foodinator_checked_items';
 const GROCERY_NOTES_KEY = 'foodinator_grocery_notes';
 
-export const useGroceryList = (selectedMeals: { mealId: string; quantity: number }[], mealOrder?: Array<string | null>) => {
+export const useGroceryList = (selectedMeals: SelectedMeal[], mealOrder?: Array<string | null>) => {
   // Load checked state from localStorage
   const loadCheckedState = (): CheckedState => {
     const savedState = localStorage.getItem(CHECKED_ITEMS_KEY);
@@ -24,42 +23,34 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
     return savedNotes || '';
   };
 
-  // State to track checked items and notes
   const [checkedItems, setCheckedItems] = useState<CheckedState>(loadCheckedState);
   const [notes, setNotes] = useState<string>(loadNotes);
+  const debouncedNotes = useDebounce(notes, 500);
 
-  // Generate the grocery list based on the selected meals and checked state
-  const groceryList = useMemo<GroceryList>(() => {
+  const groceryList = useMemo<GroceryListType>(() => {
     const ingredientMap = new Map<string, number>();
     const mealIngredientMap = new Map<string, Map<string, number>>();
 
-    // Calculate the total portions needed for each ingredient
     selectedMeals.forEach(({ mealId, quantity }) => {
       const meal = getMealById(mealId);
       if (!meal) return;
 
-      // Track ingredients per meal for grouping
       const mealMap = mealIngredientMap.get(mealId) || new Map<string, number>();
       
       meal.ingredients.forEach((ingredientId) => {
-        // Update total ingredients
         const currentPortions = ingredientMap.get(ingredientId) || 0;
         ingredientMap.set(ingredientId, currentPortions + quantity);
-        
-        // Update meal-specific ingredients
         mealMap.set(ingredientId, quantity);
       });
       
       mealIngredientMap.set(mealId, mealMap);
     });
 
-    // Convert the map to an array of grocery items
     const items: GroceryItem[] = Array.from(ingredientMap.entries()).map(
       ([ingredientId, portions]) => ({
         ingredientId,
         portions,
         checked: checkedItems[ingredientId] || false,
-        // Store which meals use this ingredient for grouping
         meals: Array.from(mealIngredientMap.entries())
           .filter(([, ingredients]) => ingredients.has(ingredientId))
           .map(([mealId]) => mealId)
@@ -72,22 +63,19 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
     };
   }, [selectedMeals, checkedItems, notes]);
 
-  // Save checked state to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem(CHECKED_ITEMS_KEY, JSON.stringify(checkedItems));
   }, [checkedItems]);
 
-  // Save notes to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem(GROCERY_NOTES_KEY, notes);
-  }, [notes]);
+    localStorage.setItem(GROCERY_NOTES_KEY, debouncedNotes);
+  }, [debouncedNotes]);
 
   // Clear checked items for ingredients that are no longer in any meal
   useEffect(() => {
     const currentIngredientIds = new Set(groceryList.items.map(item => item.ingredientId));
     const checkedIngredientIds = Object.keys(checkedItems);
     
-    // Find checked ingredients that are no longer in the grocery list
     const ingredientsToRemove = checkedIngredientIds.filter(
       ingredientId => !currentIngredientIds.has(ingredientId)
     );
@@ -103,7 +91,6 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
     }
   }, [groceryList.items, checkedItems]);
 
-  // Toggle the checked status of a grocery item
   const toggleItemChecked = (ingredientId: string) => {
     setCheckedItems(prev => ({
       ...prev,
@@ -111,30 +98,20 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
     }));
   };
 
-  // Clear all checked items (useful for reset functionality)
   const clearAllCheckedItems = () => {
     setCheckedItems({});
   };
-
-  // Check if all grocery items are checked
-  const allItemsChecked = groceryList.items.length > 0 && 
-    groceryList.items.every((item) => item.checked);
-
-  // Check if the grocery list is empty
+  
   const isEmpty = groceryList.items.length === 0;
 
-  // Group items by meal, ordered according to the meal schedule
   const groupedByMeal = useMemo(() => {
     const result = new Map<string, GroceryItem[]>();
     
-    // Initialize with all meals
     selectedMeals.forEach(({ mealId }) => {
       result.set(mealId, []);
     });
     
-    // Add items to their respective meals
     groceryList.items.forEach(item => {
-      // Find the first meal that uses this ingredient
       const firstMealId = item.meals && item.meals.length > 0 ? item.meals[0] : null;
       
       if (firstMealId) {
@@ -144,11 +121,9 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
       }
     });
     
-    // If we have a meal order, reorder the map to match the schedule order
     if (mealOrder && mealOrder.length > 0) {
       const orderedResult = new Map<string, GroceryItem[]>();
       
-      // Get unique meal IDs in the order they appear in the schedule
       const uniqueMealIds: string[] = [];
       mealOrder.forEach(mealId => {
         if (mealId && !uniqueMealIds.includes(mealId)) {
@@ -156,14 +131,12 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
         }
       });
       
-      // Add meals in schedule order
       uniqueMealIds.forEach(mealId => {
         if (result.has(mealId)) {
           orderedResult.set(mealId, result.get(mealId)!);
         }
       });
       
-      // Add any remaining meals that weren't in the schedule (shouldn't happen normally)
       result.forEach((items, mealId) => {
         if (!orderedResult.has(mealId)) {
           orderedResult.set(mealId, items);
@@ -176,7 +149,8 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
     return result;
   }, [groceryList.items, selectedMeals, mealOrder]);
 
-  // Update notes
+  // The updateNotes function now only updates the local state.
+  // The debounced effect will handle saving to localStorage.
   const updateNotes = (newNotes: string) => {
     setNotes(newNotes);
   };
@@ -185,7 +159,6 @@ export const useGroceryList = (selectedMeals: { mealId: string; quantity: number
     groceryList,
     toggleItemChecked,
     clearAllCheckedItems,
-    allItemsChecked,
     isEmpty,
     groupedByMeal,
     notes,

@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 combine
+./combined.txt
 
 # Editor directories and files
 .vscode/*
