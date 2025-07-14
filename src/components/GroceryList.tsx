@@ -5,49 +5,47 @@ import { useFoodinatorStore } from '../store/useFoodinatorStore';
 import { useDebounce } from '../hooks/useDebounce';
 
 export const GroceryList: React.FC = () => {
-  const { 
-    weeklyPlan: { selectedMeals }, 
-    checkedItems, 
-    mealOrder, 
-    notes, 
-    toggleItemChecked, 
-    updateNotes 
-  } = useFoodinatorStore(state => state);
+  const mealOrder = useFoodinatorStore(state => state.mealOrder);
+  const checkedItems = useFoodinatorStore(state => state.checkedItems);
+  const notes = useFoodinatorStore(state => state.notes);
+  const toggleItemChecked = useFoodinatorStore(state => state.toggleItemChecked);
+  const updateNotes = useFoodinatorStore(state => state.updateNotes);
   
   const { items, isEmpty, groupedByMeal } = useMemo(() => {
     const ingredientPortions = new Map<string, number>();
-    selectedMeals.forEach(({ mealId, quantity }) => {
+    mealOrder.forEach(mealId => {
+      if (!mealId) return;
       const meal = getMealById(mealId);
       if (!meal) return;
+
       meal.ingredients.forEach(ingredientId => {
         const currentPortions = ingredientPortions.get(ingredientId) || 0;
-        ingredientPortions.set(ingredientId, currentPortions + quantity);
+        ingredientPortions.set(ingredientId, currentPortions + 1);
       });
     });
 
+    if (ingredientPortions.size === 0) {
+      return { items: [], isEmpty: true, groupedByMeal: new Map() };
+    }
+
     const allItems: GroceryItem[] = Array.from(ingredientPortions.entries()).map(([id, portions]) => ({
       ingredientId: id,
-      portions: portions,
+      portions,
       checked: checkedItems[id] || false,
     }));
 
     const groupedByMeal = new Map<string, GroceryItem[]>();
     const assignedIngredients = new Set<string>();
-    
-    const orderedMealIds = mealOrder.filter((id, index) => id && mealOrder.indexOf(id) === index) as string[];
-    selectedMeals.forEach(({ mealId }) => {
-      if (!orderedMealIds.includes(mealId)) {
-        orderedMealIds.push(mealId);
-      }
-    });
-    
-    orderedMealIds.forEach(mealId => {
+
+    const uniqueMealsInOrder = [...new Set(mealOrder.filter(id => id !== null) as string[])];
+
+    uniqueMealsInOrder.forEach(mealId => {
       const meal = getMealById(mealId);
       if (!meal) return;
 
       const mealGroupItems: GroceryItem[] = [];
       meal.ingredients.forEach(ingredientId => {
-        if (!assignedIngredients.has(ingredientId) && ingredientPortions.has(ingredientId)) {
+        if (ingredientPortions.has(ingredientId) && !assignedIngredients.has(ingredientId)) {
           mealGroupItems.push({
             ingredientId: ingredientId,
             portions: ingredientPortions.get(ingredientId)!,
@@ -67,7 +65,7 @@ export const GroceryList: React.FC = () => {
       isEmpty: allItems.length === 0,
       groupedByMeal,
     };
-  }, [selectedMeals, checkedItems, mealOrder]);
+  }, [mealOrder, checkedItems]);
   
   const [sortBy, setSortBy] = useState<'name' | 'portions' | 'meal'>('meal');
   const [showChecked, setShowChecked] = useState(true);
@@ -102,7 +100,7 @@ export const GroceryList: React.FC = () => {
     const ingredient = getIngredientById(item.ingredientId);
     if (!ingredient) return null;
     return (
-      <li key={`${item.ingredientId}-${item.meals?.join('-')}`}>
+      <li key={`${item.ingredientId}`}>
         <div className={`checkbox-container ${item.checked ? 'checked' : ''}`}>
           <input type="checkbox" checked={item.checked} onChange={() => toggleItemChecked(item.ingredientId)} id={`ingredient-${item.ingredientId}`} />
           <label htmlFor={`ingredient-${item.ingredientId}`}>
@@ -138,7 +136,7 @@ export const GroceryList: React.FC = () => {
           {sortBy === 'meal' && groupedByMeal ? (
             <div>
               {Array.from(groupedByMeal.entries()).map(([mealId, mealItems]) => {
-                const filteredMealItems = showChecked ? mealItems : mealItems.filter(item => !item.checked);
+                const filteredMealItems = showChecked ? mealItems : mealItems.filter((item: GroceryItem) => !item.checked);
                 if (filteredMealItems.length === 0) return null;
                 const meal = getMealById(mealId);
                 if (!meal) return null;
