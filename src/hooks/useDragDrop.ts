@@ -1,15 +1,15 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import type { MealSlot } from '../store/useFoodinatorStore';
 
 interface UseDragDropOptions {
-  initialSlots: Array<string | null>;
+  initialSlots: MealSlot[];
   dragLocked: boolean;
-  onReorder: (newSlots: Array<string | null>) => void;
+  onReorder: (newSlots: MealSlot[]) => void;
 }
 
 export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDropOptions) => {
-  const [mealSlots, setMealSlots] = useState<Array<string | null>>(initialSlots);
-  
-  // Sync with external state changes
+  const [mealSlots, setMealSlots] = useState<MealSlot[]>(initialSlots);
+
   useEffect(() => {
     setMealSlots(initialSlots);
   }, [initialSlots]);
@@ -20,7 +20,7 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
   const touchCurrentSlot = useRef<number | null>(null);
 
   const handleDragStart = useCallback((index: number) => {
-    if (mealSlots[index] === null || dragLocked) return;
+    if (mealSlots[index].mealId === null || dragLocked) return;
     draggedMeal.current = index;
     const slotElements = document.querySelectorAll('.meal-slot');
     if (slotElements[index]) {
@@ -49,7 +49,7 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
   }, []);
 
   const handleTouchStart = useCallback((index: number, e: React.TouchEvent) => {
-    if (mealSlots[index] === null || dragLocked) return;
+    if (mealSlots[index].mealId === null || dragLocked) return;
     draggedMeal.current = index;
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
@@ -105,7 +105,7 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
     
     const newMealSlots = [...mealSlots];
     const sourceIndex = draggedMeal.current;
-    [newMealSlots[sourceIndex], newMealSlots[index]] = [newMealSlots[index], newMealSlots[sourceIndex]]; // Swap
+    [newMealSlots[sourceIndex], newMealSlots[index]] = [newMealSlots[index], newMealSlots[sourceIndex]];
     
     setMealSlots(newMealSlots);
     onReorder(newMealSlots);

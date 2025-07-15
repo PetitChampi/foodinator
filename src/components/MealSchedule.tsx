@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
+import React, { useMemo, useEffect, useCallback } from 'react';
 import { MealSlot } from './MealSlot';
 import { ScheduleControls } from './ScheduleControls';
 import { useDragDrop } from '../hooks/useDragDrop';
@@ -6,20 +6,19 @@ import { useFoodinatorStore } from '../store/useFoodinatorStore';
 
 export const MealSchedule: React.FC = () => {
   const {
-    mealOrder,
+    mealSlots: storeMealSlots,
+    cookedMeals,
     dragLocked,
     startDate,
     reorderMeals,
     toggleMealCooked,
     toggleDragLock,
     updateStartDate,
-    mealInstances,
-    cookedMeals: cookedMealsMap,
   } = useFoodinatorStore();
   
-  const cookedMeals = useMemo(() => 
-    mealInstances.map(instanceId => instanceId ? !!cookedMealsMap[instanceId] : false),
-    [mealInstances, cookedMealsMap]
+  const cookedStatus = useMemo(() => 
+    storeMealSlots.map(slot => slot.instanceId ? !!cookedMeals[slot.instanceId] : false),
+    [storeMealSlots, cookedMeals]
   );
 
   const getSlotDate = useCallback((slotIndex: number) => {
@@ -41,15 +40,14 @@ export const MealSchedule: React.FC = () => {
     handleTouchEnd,
     handleDrop
   } = useDragDrop({
-    initialSlots: mealOrder,
+    initialSlots: storeMealSlots,
     dragLocked,
     onReorder: reorderMeals
   });
 
-  // Sync the local state of the dnd hook if the global state changes
   useEffect(() => {
-    setMealSlots(mealOrder);
-  }, [mealOrder, setMealSlots]);
+    setMealSlots(storeMealSlots);
+  }, [storeMealSlots, setMealSlots]);
 
 
   return (
@@ -66,12 +64,12 @@ export const MealSchedule: React.FC = () => {
       />
 
       <div className={`meal-slots-container ${dragLocked ? 'drag-locked' : ''}`}>
-        {mealSlots.map((mealId, index) => (
+        {mealSlots.map((slot, index) => (
           <MealSlot
-            key={`slot-${index}`}
-            mealId={mealId}
+            key={slot.instanceId || `empty-${index}`}
+            mealId={slot.mealId}
             index={index}
-            isCooked={cookedMeals[index]}
+            isCooked={cookedStatus[index]}
             isDraggable={!dragLocked}
             dateLabel={getSlotDate(index)}
             onDragStart={handleDragStart}

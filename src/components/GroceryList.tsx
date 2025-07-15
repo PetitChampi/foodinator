@@ -5,15 +5,17 @@ import { useFoodinatorStore } from '../store/useFoodinatorStore';
 import { useDebounce } from '../hooks/useDebounce';
 
 export const GroceryList: React.FC = () => {
-  const mealOrder = useFoodinatorStore(state => state.mealOrder);
+  const mealSlots = useFoodinatorStore(state => state.mealSlots);
   const checkedItems = useFoodinatorStore(state => state.checkedItems);
   const notes = useFoodinatorStore(state => state.notes);
   const toggleItemChecked = useFoodinatorStore(state => state.toggleItemChecked);
   const updateNotes = useFoodinatorStore(state => state.updateNotes);
   
   const { items, isEmpty, groupedByMeal } = useMemo(() => {
+    const mealIdsInOrder = mealSlots.map(slot => slot.mealId);
+
     const ingredientPortions = new Map<string, number>();
-    mealOrder.forEach(mealId => {
+    mealIdsInOrder.forEach(mealId => {
       if (!mealId) return;
       const meal = getMealById(mealId);
       if (!meal) return;
@@ -37,7 +39,7 @@ export const GroceryList: React.FC = () => {
     const groupedByMeal = new Map<string, GroceryItem[]>();
     const assignedIngredients = new Set<string>();
 
-    const uniqueMealsInOrder = [...new Set(mealOrder.filter(id => id !== null) as string[])];
+    const uniqueMealsInOrder = [...new Set(mealIdsInOrder.filter(id => id !== null) as string[])];
 
     uniqueMealsInOrder.forEach(mealId => {
       const meal = getMealById(mealId);
@@ -65,7 +67,7 @@ export const GroceryList: React.FC = () => {
       isEmpty: allItems.length === 0,
       groupedByMeal,
     };
-  }, [mealOrder, checkedItems]);
+  }, [mealSlots, checkedItems]);
   
   const [sortBy, setSortBy] = useState<'name' | 'portions' | 'meal'>('meal');
   const [showChecked, setShowChecked] = useState(true);

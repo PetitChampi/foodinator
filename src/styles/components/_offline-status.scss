@@ -1,18 +1,26 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
 .offline-status {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
-  background: var(--color-warning);
-  color: var(--color-text-inverse);
+  z-index: $z-index-modal;
   padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  font-size: 0.875rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: $font-size-sm;
+  box-shadow: $shadow-md;
+  background: $info-color;
+  color: #ffffff;
+
+  &.offline {
+    background: $warning-color;
+    color: $gray-1;
+  }
 
   .offline-indicator {
     display: flex;
@@ -25,16 +33,16 @@
   }
 
   .offline-text {
-    font-weight: 500;
+    font-weight: $font-weight-medium;
   }
 
   .update-available {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: var(--color-success);
+    background: $success-color;
     padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
+    border-radius: $border-radius-max;
   }
 
   .update-icon {
@@ -43,22 +51,22 @@
   }
 
   .update-text {
-    font-weight: 500;
+    font-weight: $font-weight-medium;
   }
 
   .update-button {
-    background: var(--color-background);
-    color: var(--color-success);
+    background: $card-background;
+    color: $success-color;
     border: none;
     padding: 0.25rem 0.75rem;
-    border-radius: 0.5rem;
+    border-radius: $border-radius-sm;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all $transition-base;
 
     &:hover {
-      background: var(--color-background-hover);
+      background: $gray-6;
       transform: translateY(-1px);
     }
 
@@ -69,31 +77,21 @@
 
   .check-updates-button {
     background: transparent;
-    color: var(--color-text-inverse);
-    border: 1px solid var(--color-text-inverse);
+    color: #ffffff;
+    border: 1px solid #ffffff;
     padding: 0.25rem 0.75rem;
-    border-radius: 0.5rem;
+    border-radius: $border-radius-sm;
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all $transition-base;
 
     &:hover {
-      background: var(--color-text-inverse);
-      color: var(--color-warning);
+      background: #ffffff;
+      color: $info-color;
     }
   }
 
-  // Different background colors based on status
-  &.offline {
-    background: var(--color-error);
-  }
-
-  &.update-available {
-    background: var(--color-info);
-  }
-
-  // Animation for the update icon
   @keyframes spin {
     from {
       transform: rotate(0deg);
@@ -103,8 +101,7 @@
     }
   }
 
-  // Responsive design
-  @media (max-width: 768px) {
+  @include tablet {
     flex-direction: column;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
@@ -119,31 +116,7 @@
     }
   }
 
-  // Ensure content doesn't get hidden behind the status bar
-  & + * {
-    margin-top: 3rem;
-
-    @media (max-width: 768px) {
-      margin-top: 4rem;
-    }
-  }
-}
-
-// Add some default color variables if they don't exist
-:root {
-  --color-warning: #f59e0b;
-  --color-success: #10b981;
-  --color-error: #ef4444;
-  --color-info: #3b82f6;
-  --color-text-inverse: #ffffff;
-  --color-background: #ffffff;
-  --color-background-hover: #f3f4f6;
-}
-
-// Dark mode support
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: #1f2937;
-    --color-background-hover: #374151;
+  & + .container {
+    padding-top: $spacing-lg;
   }
 }

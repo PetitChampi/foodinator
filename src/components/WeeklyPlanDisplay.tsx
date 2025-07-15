@@ -8,7 +8,7 @@ import { SelectedMeal } from '../models/types';
 export const WeeklyPlanDisplay: React.FC = () => {
   const { openConfirmation } = useConfirmationModal();
   
-  const mealOrder = useFoodinatorStore(state => state.mealOrder);
+  const mealSlots = useFoodinatorStore(state => state.mealSlots);
   const totalSlots = useFoodinatorStore(state => state.weeklyPlan.totalSlots);
   const removeMeal = useFoodinatorStore(state => state.removeMeal);
   const updateMealQuantity = useFoodinatorStore(state => state.updateMealQuantity);
@@ -18,10 +18,10 @@ export const WeeklyPlanDisplay: React.FC = () => {
     const mealCounts = new Map<string, number>();
     let slotsUsed = 0;
     
-    mealOrder.forEach(mealId => {
-      if (mealId) {
+    mealSlots.forEach(slot => {
+      if (slot.mealId) {
         slotsUsed++;
-        mealCounts.set(mealId, (mealCounts.get(mealId) || 0) + 1);
+        mealCounts.set(slot.mealId, (mealCounts.get(slot.mealId) || 0) + 1);
       }
     });
 
@@ -31,13 +31,13 @@ export const WeeklyPlanDisplay: React.FC = () => {
     }));
 
     return { selectedMeals: meals, usedSlots: slotsUsed };
-  }, [mealOrder]);
+  }, [mealSlots]);
 
   const handleResetPlanConfirmation = () => {
     openConfirmation({
-      title: "Reset Dinner Plan",
+      title: "Reset dinner plan",
       message: "Are you sure you want to reset your entire dinner plan?",
-      confirmText: "Reset Plan",
+      confirmText: "Reset plan",
       confirmButtonClass: "btn btn-danger",
       onConfirm: resetPlan
     });
@@ -48,7 +48,7 @@ export const WeeklyPlanDisplay: React.FC = () => {
     openConfirmation({
       title: `Remove ${meal?.name || 'this meal'}`,
       message: `Are you sure you want to remove all instances of ${meal?.name || 'this meal'} from your plan?`,
-      confirmText: "Remove All",
+      confirmText: "Remove meal",
       confirmButtonClass: "btn btn-danger",
       onConfirm: () => removeMeal(mealId)
     });

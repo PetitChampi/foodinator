@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 /**
  * A custom hook for managing state that is persisted in localStorage
@@ -37,41 +37,4 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
   }, [key, storedValue]);
 
   return [storedValue, setStoredValue];
-}
-
-/**
- * Enhanced localStorage hook with offline sync capabilities
- */
-export function useOfflineLocalStorage<T>(key: string, initialValue: T) {
-  const [storedValue, setStoredValue] = useLocalStorage(key, initialValue);
-  const [lastSyncTime, setLastSyncTime] = useState<number>(0);
-  const [hasPendingChanges, setHasPendingChanges] = useState(false);
-
-  // Track when data changes for sync purposes
-  const setValue = useCallback((value: T | ((val: T) => T)) => {
-    setStoredValue(value);
-    setHasPendingChanges(true);
-    setLastSyncTime(Date.now());
-  }, [setStoredValue]);
-
-  // Mark as synced when online
-  const markAsSynced = useCallback(() => {
-    setHasPendingChanges(false);
-  }, []);
-
-  // Get sync status
-  const getSyncStatus = useCallback(() => {
-    return {
-      lastSyncTime,
-      hasPendingChanges,
-      isStale: Date.now() - lastSyncTime > 5 * 60 * 1000 // 5 minutes
-    };
-  }, [lastSyncTime, hasPendingChanges]);
-
-  return {
-    value: storedValue,
-    setValue,
-    markAsSynced,
-    getSyncStatus
-  };
 }

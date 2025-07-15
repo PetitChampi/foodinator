@@ -3,23 +3,26 @@ import { produce } from 'immer';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { TOTAL_SLOTS } from '../config/constants';
 
+export interface MealSlot {
+  mealId: string | null;
+  instanceId: string | null;
+}
+
 interface FoodinatorState {
   weeklyPlan: {
     totalSlots: number;
   };
-  
-  // Schedule
-  mealOrder: (string | null)[];
+
+  mealSlots: MealSlot[];
   cookedMeals: Record<string, boolean>;
-  mealInstances: (string | null)[];
   dragLocked: boolean;
   startDate: string;
-  
+
   // Grocery list
   checkedItems: Record<string, boolean>;
   notes: string;
-  
-  // Ingredient search
+
+  // Search
   searchState: {
     searchTerm: string;
     selectedIngredients: string[];
@@ -27,24 +30,19 @@ interface FoodinatorState {
 }
 
 interface FoodinatorActions {
-  // Meal plan actions (with order)
   addMeal: (mealId: string, quantity: number) => boolean;
-  removeMeal: (mealId:string) => void;
+  removeMeal: (mealId: string) => void;
   updateMealQuantity: (mealId: string, newQuantity: number) => boolean;
   resetPlan: () => void;
-  
-  // Schedule
-  reorderMeals: (newOrder: (string | null)[]) => void;
+  reorderMeals: (newSlots: MealSlot[]) => void;
   toggleMealCooked: (slotIndex: number) => void;
   toggleDragLock: () => void;
   updateStartDate: (date: string) => void;
-  
-  // Grocery list
+
+  // Grocery + Search actions
   toggleItemChecked: (ingredientId: string) => void;
   clearAllCheckedItems: () => void;
   updateNotes: (notes: string) => void;
-  
-  // Search
   setSearchTerm: (term: string) => void;
   addIngredient: (ingredientId: string) => void;
   removeIngredient: (ingredientId: string) => void;
@@ -54,148 +52,101 @@ interface FoodinatorActions {
 type StoreType = FoodinatorState & FoodinatorActions;
 
 const generateInstanceId = () => `instance_${crypto.randomUUID()}`;
+const createEmptySlot = (): MealSlot => ({ mealId: null, instanceId: null });
 
 const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
   return {
     // --- INITIAL STATE ---
     weeklyPlan: { totalSlots: TOTAL_SLOTS },
-    mealOrder: Array(TOTAL_SLOTS).fill(null),
+    mealSlots: Array(TOTAL_SLOTS).fill(null).map(createEmptySlot),
     cookedMeals: {},
-    mealInstances: Array(TOTAL_SLOTS).fill(null),
     dragLocked: true,
     startDate: new Date().toISOString().split('T')[0],
     checkedItems: {},
     notes: '',
     searchState: { searchTerm: '', selectedIngredients: [] },
-    
+
     // --- ACTIONS ---
     addMeal: (mealId, quantity) => {
-      const { mealOrder } = get();
-      const availableSlots = mealOrder.filter(slot => slot === null).length;
-      
+      const { mealSlots } = get();
+      const availableSlots = mealSlots.filter(slot => slot.mealId === null).length;
+
       if (quantity <= 0 || quantity > availableSlots) return false;
-      
+
       set(produce((state: FoodinatorState) => {
         let addedCount = 0;
-        for (let i = 0; i < state.mealOrder.length && addedCount < quantity; i++) {
-          if (state.mealOrder[i] === null) {
-            state.mealOrder[i] = mealId;
-            state.mealInstances[i] = generateInstanceId();
+        for (let i = 0; i < state.mealSlots.length && addedCount < quantity; i++) {
+          if (state.mealSlots[i].mealId === null) {
+            state.mealSlots[i] = { mealId, instanceId: generateInstanceId() };
             addedCount++;
           }
         }
       }));
       return true;
     },
-    
+
     removeMeal: (mealId: string) => {
       set(produce((state: FoodinatorState) => {
         const instancesToRemove: string[] = [];
-        state.mealOrder.forEach((id, index) => {
-          if (id === mealId) {
-            const instanceId = state.mealInstances[index];
-            if (instanceId) instancesToRemove.push(instanceId);
-            state.mealOrder[index] = null;
-            state.mealInstances[index] = null;
+        state.mealSlots.forEach((slot, index) => {
+          if (slot.mealId === mealId) {
+            if (slot.instanceId) instancesToRemove.push(slot.instanceId);
+            state.mealSlots[index] = createEmptySlot();
           }
         });
-        // Clean up cooked status for removed instances
         instancesToRemove.forEach(instanceId => {
           delete state.cookedMeals[instanceId];
         });
       }));
     },
-    
+
     updateMealQuantity: (mealId, newQuantity) => {
       if (newQuantity <= 0) {
         get().removeMeal(mealId);
         return true;
       }
-      
-      const currentQuantity = get().mealOrder.filter(id => id === mealId).length;
+
+      const currentQuantity = get().mealSlots.filter(slot => slot.mealId === mealId).length;
       const delta = newQuantity - currentQuantity;
-      
+
       if (delta === 0) return true;
-      
-      // ADDING more meals
-      if (delta > 0) {
-        return get().addMeal(mealId, delta);
-      }
-      
-      // REMOVING meals
-      if (delta < 0) {
-        set(produce((state: FoodinatorState) => {
-          let removedCount = 0;
-          const numToRemove = Math.abs(delta);
-          // Iterate backwards to remove the most recently added meals first
-          for (let i = state.mealOrder.length - 1; i >= 0 && removedCount < numToRemove; i--) {
-            if (state.mealOrder[i] === mealId) {
-              const instanceId = state.mealInstances[i];
-              if (instanceId) delete state.cookedMeals[instanceId];
-              state.mealOrder[i] = null;
-              state.mealInstances[i] = null;
-              removedCount++;
-            }
+      if (delta > 0) return get().addMeal(mealId, delta);
+
+      set(produce((state: FoodinatorState) => {
+        let removedCount = 0;
+        const numToRemove = Math.abs(delta);
+        for (let i = state.mealSlots.length - 1; i >= 0 && removedCount < numToRemove; i--) {
+          const slot = state.mealSlots[i];
+          if (slot.mealId === mealId) {
+            if (slot.instanceId) delete state.cookedMeals[slot.instanceId];
+            state.mealSlots[i] = createEmptySlot();
+            removedCount++;
           }
-        }));
-        return true;
-      }
-      return false;
+        }
+      }));
+      return true;
     },
-    
+
     resetPlan: () => {
       set(produce((state: FoodinatorState) => {
-        state.mealOrder = Array(TOTAL_SLOTS).fill(null);
-        state.mealInstances = Array(TOTAL_SLOTS).fill(null);
+        state.mealSlots = Array(TOTAL_SLOTS).fill(null).map(createEmptySlot);
         state.cookedMeals = {};
         state.checkedItems = {};
       }));
     },
-    
+
     reorderMeals: (newOrder) => {
-      set(produce((state: FoodinatorState) => {
-        const newInstances = Array(TOTAL_SLOTS).fill(null);
-        const oldInstances = [...state.mealInstances]; 
-        const oldOrder = [...state.mealOrder];
-        const cookedStatusByInstance = { ...state.cookedMeals };
-        const newCookedStatus: Record<string, boolean> = {};
-        
-        const instancePool = oldOrder.reduce((pool, mealId, index) => {
-          if (mealId && oldInstances[index]) {
-            if (!pool[mealId]) pool[mealId] = [];
-            pool[mealId].push(oldInstances[index]!);
-          }
-          return pool;
-        }, {} as Record<string, string[]>);
-        
-        newOrder.forEach((mealId, index) => {
-          if (mealId) {
-            const instance = instancePool[mealId]?.pop();
-            if (instance) {
-              newInstances[index] = instance;
-              if (cookedStatusByInstance[instance]) {
-                newCookedStatus[instance] = true;
-              }
-            } else {
-              newInstances[index] = generateInstanceId();
-            }
-          }
-        });
-        
-        state.mealOrder = newOrder;
-        state.mealInstances = newInstances;
-        state.cookedMeals = newCookedStatus;
-      }));
+      set({ mealSlots: newOrder });
     },
-    
+
     toggleMealCooked: (slotIndex) => {
-      const instanceId = get().mealInstances[slotIndex];
-      if (!instanceId) return;
+      const slot = get().mealSlots[slotIndex];
+      if (!slot?.instanceId) return;
       set(produce((state: FoodinatorState) => {
-        state.cookedMeals[instanceId] = !state.cookedMeals[instanceId];
+        state.cookedMeals[slot.instanceId!] = !state.cookedMeals[slot.instanceId!];
       }));
     },
-    
+
     toggleDragLock: () => set(state => ({ dragLocked: !state.dragLocked })),
     updateStartDate: (date) => set({ startDate: date }),
     toggleItemChecked: (ingredientId) => set(produce((state: FoodinatorState) => { state.checkedItems[ingredientId] = !state.checkedItems[ingredientId]; })),
@@ -209,9 +160,7 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
 };
 
 export const useFoodinatorStore = create<StoreType>()(
-  persist(
-    foodinatorStoreCreator,
-    {
+  persist(foodinatorStoreCreator, {
       name: 'foodinator-storage',
       storage: createJSONStorage(() => localStorage),
     }
@@ -219,6 +168,6 @@ export const useFoodinatorStore = create<StoreType>()(
 );
 
 export const useRemainingSlots = () => useFoodinatorStore(state => {
-  const usedSlots = state.mealOrder.filter(slot => slot !== null).length;
+  const usedSlots = state.mealSlots.filter(slot => slot.mealId !== null).length;
   return state.weeklyPlan.totalSlots - usedSlots;
 });

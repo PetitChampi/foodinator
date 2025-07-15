@@ -13,17 +13,17 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
   activeTab,
   setActiveTab,
 }) => {
-  const mealOrder = useFoodinatorStore(state => state.mealOrder);
+  const mealSlots = useFoodinatorStore(state => state.mealSlots);
 
   const { groceryItemCount, isEmpty } = useMemo(() => {
-    if (!mealOrder.some(slot => slot !== null)) {
+    if (!mealSlots.some(slot => slot.mealId !== null)) {
       return { groceryItemCount: 0, isEmpty: true };
     }
 
     const ingredientSet = new Set<string>();
-    mealOrder.forEach((mealId) => {
-      if (mealId) {
-        const meal = getMealById(mealId);
+    mealSlots.forEach((slot) => {
+      if (slot.mealId) {
+        const meal = getMealById(slot.mealId);
         meal?.ingredients.forEach(ingredientId => {
           ingredientSet.add(ingredientId);
         });
@@ -32,7 +32,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
 
     const count = ingredientSet.size;
     return { groceryItemCount: count, isEmpty: count === 0 };
-  }, [mealOrder]);
+  }, [mealSlots]);
 
   return (
     <div className="tabs">
