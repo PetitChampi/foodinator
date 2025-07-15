@@ -16,26 +16,35 @@ export const MealSelector: React.FC = () => {
   
   const remainingSlots = useRemainingSlots();
 
-  // Compute derived state using useMemo
   const { filteredIngredients, matchingMeals } = useMemo(() => {
     const { searchTerm, selectedIngredients } = searchState;
+    const lowercasedSearchTerm = searchTerm.toLowerCase().trim();
     
-    const filteredIngredients = searchTerm.trim() 
+    const filteredIngredients = lowercasedSearchTerm
       ? ingredients.filter(i => 
-          i.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
+          i.name.toLowerCase().includes(lowercasedSearchTerm) && 
           !selectedIngredients.includes(i.id)
         ) 
       : [];
 
-    const matchingMeals = selectedIngredients.length > 0
-      ? meals.filter((meal: Meal) => selectedIngredients.every((ingId: string) => meal.ingredients.includes(ingId)))
-      : meals;
+    let filteredMeals = meals;
 
-    return { filteredIngredients, matchingMeals };
+    if (lowercasedSearchTerm) {
+      filteredMeals = filteredMeals.filter((meal: Meal) => 
+        meal.name.toLowerCase().includes(lowercasedSearchTerm)
+      );
+    }
+    
+    if (selectedIngredients.length > 0) {
+      filteredMeals = filteredMeals.filter((meal: Meal) => 
+        selectedIngredients.every((ingId: string) => meal.ingredients.includes(ingId))
+      );
+    }
+
+    return { filteredIngredients, matchingMeals: filteredMeals };
   }, [searchState]);
 
-
-  const showNoResultsMessage = searchState.selectedIngredients.length > 0 && matchingMeals.length === 0;
+  const showNoResultsMessage = (searchState.searchTerm.trim() !== '' || searchState.selectedIngredients.length > 0) && matchingMeals.length === 0;
 
   return (
     <section>
