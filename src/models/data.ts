@@ -6,6 +6,11 @@ export const ingredients: Ingredient[] = [
   { id: 'ground-beef', name: 'Ground beef' },
   { id: 'diced-beef', name: 'Diced beef' },
   { id: 'pork-fillet', name: 'Pork fillet' },
+  { id: 'prawns', name: 'Prawns' },
+  { id: 'large-tortillas', name: 'Large tortillas' },
+  { id: 'red-onion', name: 'Red onion' },
+  { id: 'tomato', name: 'Tomato' },
+  { id: 'beans', name: 'Beans' },
   { id: 'broccoli', name: 'Broccoli' },
   { id: 'mushrooms', name: 'Mushrooms' },
   { id: 'creme-fraiche', name: 'Creme fraiche' },
@@ -121,6 +126,11 @@ export const meals: Meal[] = [
     id: 'pan-seared-lamb',
     name: 'Pan-seared lamb',
     ingredients: ['lamb', 'potatoes', 'green-veg', 'mint-sauce'],
+  },
+  {
+    id: 'prawn-burritos',
+    name: 'Prawn burritos',
+    ingredients: ['prawns', 'large-tortillas', 'avocados', 'tomato', 'red-onion', 'lime', 'beans'],
   },
 ];
 
