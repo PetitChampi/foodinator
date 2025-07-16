@@ -39,18 +39,21 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
       <button
         className={`tab ${activeTab === 'planner' && 'tab-active'}`}
         onClick={() => setActiveTab('planner')}
+        data-testid="tab-planner"
       >
         Planner
       </button>
       <button
         className={`tab ${activeTab === 'schedule' && 'tab-active'}`}
         onClick={() => setActiveTab('schedule')}
+        data-testid="tab-schedule"
       >
         Schedule
       </button>
       <button
         className={`tab ${activeTab === 'grocery' && 'tab-active'}`}
         onClick={() => setActiveTab('grocery')}
+        data-testid="tab-grocery"
       >
         Groceries
         {!isEmpty && (

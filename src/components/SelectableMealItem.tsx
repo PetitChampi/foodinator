@@ -57,6 +57,7 @@ export const SelectableMealItem: React.FC<SelectableMealItemProps> = ({
             className="btn btn-secondary btn-sm"
             onClick={handleAddMeal}
             disabled={remainingSlots === 0 || quantity > remainingSlots}
+            data-testid={`add-meal-${meal.id}`}
           >
             Add
           </button>

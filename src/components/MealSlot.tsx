@@ -40,6 +40,7 @@ export const MealSlot: React.FC<MealSlotProps> = ({
     <div 
       className={`meal-slot ${!meal ? 'meal-slot--empty' : ''} ${meal && isCooked ? 'cooked' : ''}`}
       data-index={index}
+      data-testid={`meal-slot-${index}`}
       draggable={!!meal && isDraggable}
       onDragStart={() => onDragStart(index)}
       onDragOver={onDragOver}

@@ -60,7 +60,7 @@ export const WeeklyPlanDisplay: React.FC = () => {
         <div className="flex-between">
           <div className="header-with-badge">
             <h2 className="section-title">Dinner plan</h2>
-            <div className="badge">{usedSlots}/{totalSlots}</div>
+            <div className="badge" data-testid="planner-meal-count">{usedSlots}/{totalSlots}</div>
           </div>
           {selectedMeals.length > 0 && (
             <button className="btn btn-sm btn-danger-secondary" onClick={handleResetPlanConfirmation}>

@@ -24,3 +24,8 @@ combined.txt
 *.njsproj
 *.sln
 *.sw?
+
+# tests
+tests/artifacts
+tests/reports
+tests/screenshots
