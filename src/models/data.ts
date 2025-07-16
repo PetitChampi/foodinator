@@ -45,6 +45,7 @@ export const ingredients: Ingredient[] = [
   { id: 'pickled-peppers', name: 'Pickled peppers' },
   { id: 'fennel-seeds', name: 'Fennel seeds' },
   { id: 'cheese', name: 'Cheese' },
+  { id: 'shredded-cheese', name: 'Shredded cheese' },
   { id: 'buns', name: 'Buns' },
   { id: 'sauce', name: 'Sauce' },
   { id: 'lettuce', name: 'Lettuce' },
@@ -130,7 +131,7 @@ export const meals: Meal[] = [
   {
     id: 'prawn-burritos',
     name: 'Prawn burritos',
-    ingredients: ['prawns', 'large-tortillas', 'avocados', 'tomato', 'red-onion', 'lime', 'beans'],
+    ingredients: ['prawns', 'large-tortillas', 'avocados', 'tomato', 'red-onion', 'lime', 'beans', 'shredded-cheese'],
   },
 ];
 
