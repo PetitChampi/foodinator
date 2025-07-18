@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { QuantitySelector } from "@/components/QuantitySelector";
+import { quantitySelectorTestIds } from "@/utils/testUtils";
 
 describe("QuantitySelector", () => {
   const user = userEvent.setup();
@@ -15,7 +16,7 @@ describe("QuantitySelector", () => {
         ariaLabelPrefix="Test Item"
       />,
     );
-    expect(screen.getByText("5")).toBeInTheDocument();
+    expect(screen.getByTestId(quantitySelectorTestIds.quantityDisplay("Test Item"))).toHaveTextContent("5");
   });
 
   it("calls onIncrease when the increase button is clicked", async () => {
@@ -29,7 +30,7 @@ describe("QuantitySelector", () => {
       />,
     );
 
-    const increaseButton = screen.getByRole("button", { name: /Increase quantity/i });
+    const increaseButton = screen.getByTestId(quantitySelectorTestIds.increaseButton("Test Item"));
     await user.click(increaseButton);
 
     expect(handleIncrease).toHaveBeenCalledTimes(1);
@@ -46,7 +47,7 @@ describe("QuantitySelector", () => {
       />,
     );
 
-    const decreaseButton = screen.getByRole("button", { name: /Decrease quantity/i });
+    const decreaseButton = screen.getByTestId(quantitySelectorTestIds.decreaseButton("Test Item"));
     await user.click(decreaseButton);
 
     expect(handleDecrease).toHaveBeenCalledTimes(1);
@@ -62,7 +63,7 @@ describe("QuantitySelector", () => {
         ariaLabelPrefix="Test Item"
       />,
     );
-    const increaseButton = screen.getByRole("button", { name: /Increase quantity/i });
+    const increaseButton = screen.getByTestId(quantitySelectorTestIds.increaseButton("Test Item"));
     expect(increaseButton).toBeDisabled();
   });
 
@@ -76,7 +77,7 @@ describe("QuantitySelector", () => {
         ariaLabelPrefix="Test Item"
       />,
     );
-    const decreaseButton = screen.getByRole("button", { name: /Decrease quantity/i });
+    const decreaseButton = screen.getByTestId(quantitySelectorTestIds.decreaseButton("Test Item"));
     expect(decreaseButton).toBeDisabled();
   });
 });

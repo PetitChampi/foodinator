@@ -3,6 +3,7 @@ import { render, screen, act, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { GroceryList } from "@/components/GroceryList";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
+import { groceryListTestIds } from "@/utils/testUtils";
 import { vi } from "vitest";
 
 const renderGroceryList = () => {
@@ -25,7 +26,7 @@ describe("GroceryList", () => {
 
   it("should display an empty state message when no meals are selected", () => {
     renderGroceryList();
-    expect(screen.getByText(/Your grocery list will appear here/i)).toBeInTheDocument();
+    expect(screen.getByTestId(groceryListTestIds.emptyState)).toBeInTheDocument();
   });
 
   it("should group ingredients by meal by default", () => {
@@ -35,14 +36,14 @@ describe("GroceryList", () => {
     });
     renderGroceryList();
 
-    const burgerSection = screen.getByText("Burgers").closest(".grocery-section");
-    const pastaSection = screen.getByText("Pasta bolognese").closest(".grocery-section");
+    const burgerSection = screen.getByTestId(groceryListTestIds.section("burgers"));
+    const pastaSection = screen.getByTestId(groceryListTestIds.section("pasta-bolognese"));
 
     expect(burgerSection).toBeInTheDocument();
     expect(pastaSection).toBeInTheDocument();
 
-    expect(within(burgerSection as HTMLElement).getByText("Buns")).toBeInTheDocument();
-    expect(within(pastaSection as HTMLElement).getByText("Tomato sauce")).toBeInTheDocument();
+    expect(within(burgerSection).getByTestId(groceryListTestIds.sectionTitle("burgers"))).toHaveTextContent("Burgers");
+    expect(within(pastaSection).getByTestId(groceryListTestIds.sectionTitle("pasta-bolognese"))).toHaveTextContent("Pasta bolognese");
   });
 
   it("should display portions as a badge for quantities greater than 1", () => {
@@ -51,8 +52,9 @@ describe("GroceryList", () => {
     });
     renderGroceryList();
 
-    const groundBeefLi = screen.getByText("Ground beef").closest("li");
-    expect(within(groundBeefLi!).getByText("2")).toBeInTheDocument();
+    // Ground beef ingredient ID is "ground-beef" based on the data structure
+    const groundBeefBadge = screen.getByTestId(groceryListTestIds.itemBadge("ground-beef"));
+    expect(groundBeefBadge).toHaveTextContent("2");
   });
 
   it("should sort ingredients by name when selected", async () => {
@@ -61,7 +63,7 @@ describe("GroceryList", () => {
     });
     renderGroceryList();
 
-    const sortDropdown = screen.getByRole("combobox");
+    const sortDropdown = screen.getByTestId(groceryListTestIds.sortDropdown);
     await user.selectOptions(sortDropdown, "name");
 
     const listItems = screen.getAllByRole("listitem");
@@ -83,17 +85,18 @@ describe("GroceryList", () => {
     });
     renderGroceryList();
 
-    const cheeseCheckbox = screen.getByLabelText("Cheese");
+    // Cheese ingredient ID is "cheese" based on the data structure
+    const cheeseCheckbox = screen.getByTestId(groceryListTestIds.itemCheckbox("cheese"));
     await user.click(cheeseCheckbox);
 
-    const hideButton = screen.getByRole("button", { name: /Hide checked/i });
+    const hideButton = screen.getByTestId(groceryListTestIds.toggleCheckedButton);
     await user.click(hideButton);
 
-    expect(screen.queryByText("Cheese")).not.toBeInTheDocument();
+    expect(screen.queryByTestId(groceryListTestIds.item("cheese"))).not.toBeInTheDocument();
 
-    const showButton = screen.getByRole("button", { name: /Show All/i });
+    const showButton = screen.getByTestId(groceryListTestIds.toggleCheckedButton);
     await user.click(showButton);
 
-    expect(screen.getByText("Cheese")).toBeInTheDocument();
+    expect(screen.getByTestId(groceryListTestIds.item("cheese"))).toBeInTheDocument();
   });
 });

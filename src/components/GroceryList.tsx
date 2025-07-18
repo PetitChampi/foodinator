@@ -3,6 +3,7 @@ import { GroceryItem } from "@/models/types";
 import { getIngredientById, getMealById } from "@/models/data";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 import { useDebounce } from "@/hooks/useDebounce";
+import { groceryListTestIds } from "@/utils/testUtils";
 
 export const GroceryList: React.FC = () => {
   const mealSlots = useFoodinatorStore(state => state.mealSlots);
@@ -102,12 +103,28 @@ export const GroceryList: React.FC = () => {
     const ingredient = getIngredientById(item.ingredientId);
     if (!ingredient) return null;
     return (
-      <li key={`${item.ingredientId}`}>
+      <li key={`${item.ingredientId}`} data-testid={groceryListTestIds.item(item.ingredientId)}>
         <div className={`checkbox-container ${item.checked ? "checked" : ""}`}>
-          <input type="checkbox" checked={item.checked} onChange={() => toggleItemChecked(item.ingredientId)} id={`ingredient-${item.ingredientId}`} />
-          <label htmlFor={`ingredient-${item.ingredientId}`}>
+          <input
+            type="checkbox"
+            checked={item.checked}
+            onChange={() => toggleItemChecked(item.ingredientId)}
+            id={`ingredient-${item.ingredientId}`}
+            data-testid={groceryListTestIds.itemCheckbox(item.ingredientId)}
+          />
+          <label
+            htmlFor={`ingredient-${item.ingredientId}`}
+            data-testid={groceryListTestIds.itemLabel(item.ingredientId)}
+          >
             {ingredient.name}
-            {item.portions > 1 && (<span className="badge badge-neutral">{item.portions}</span>)}
+            {item.portions > 1 && (
+              <span
+                className="badge badge-neutral"
+                data-testid={groceryListTestIds.itemBadge(item.ingredientId)}
+              >
+                {item.portions}
+              </span>
+            )}
           </label>
         </div>
       </li>
@@ -115,24 +132,35 @@ export const GroceryList: React.FC = () => {
   };
 
   return (
-    <section>
+    <section data-testid={groceryListTestIds.container}>
       <div className="section-header">
         <h2 className="section-title">Groceries</h2>
       </div>
       {!isEmpty && (
         <div className="controls-group">
-          <select className="form-control select-sm" value={sortBy} onChange={(e) => setSortBy(e.target.value as "name" | "portions" | "meal")}>
+          <select
+            className="form-control select-sm"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as "name" | "portions" | "meal")}
+            data-testid={groceryListTestIds.sortDropdown}
+          >
             <option value="meal">Group by Meal</option>
             <option value="name">Sort by Name</option>
             <option value="portions">Sort by Quantity</option>
           </select>
-          <button className="btn btn-sm btn-secondary" onClick={() => setShowChecked(!showChecked)}>
+          <button
+            className="btn btn-sm btn-secondary"
+            onClick={() => setShowChecked(!showChecked)}
+            data-testid={groceryListTestIds.toggleCheckedButton}
+          >
             {showChecked ? "Hide checked" : "Show All"}
           </button>
         </div>
       )}
       {isEmpty ? (
-        <div className="empty">Your grocery list will appear here once you select meals.</div>
+        <div className="empty" data-testid={groceryListTestIds.emptyState}>
+          Your grocery list will appear here once you select meals.
+        </div>
       ) : (
         <>
           {sortBy === "meal" && groupedByMeal ? (
@@ -143,9 +171,21 @@ export const GroceryList: React.FC = () => {
                 const meal = getMealById(mealId);
                 if (!meal) return null;
                 return (
-                  <div key={mealId} className="grocery-section">
-                    <h3 className="grocery-section__title">{meal.name}</h3>
-                    <ul className="grocery-section__list">
+                  <div
+                    key={mealId}
+                    className="grocery-section"
+                    data-testid={groceryListTestIds.section(mealId)}
+                  >
+                    <h3
+                      className="grocery-section__title"
+                      data-testid={groceryListTestIds.sectionTitle(mealId)}
+                    >
+                      {meal.name}
+                    </h3>
+                    <ul
+                      className="grocery-section__list"
+                      data-testid={groceryListTestIds.sectionList(mealId)}
+                    >
                       {filteredMealItems.map(renderGroceryItem)}
                     </ul>
                   </div>
@@ -153,18 +193,26 @@ export const GroceryList: React.FC = () => {
               })}
             </div>
           ) : (
-            <div className="grocery-section">
-              <ul className="grocery-section__list">
+            <div className="grocery-section" data-testid={groceryListTestIds.section()}>
+              <ul className="grocery-section__list" data-testid={groceryListTestIds.sectionList()}>
                 {sortedItems.map(renderGroceryItem)}
               </ul>
             </div>
           )}
         </>
       )}
-      <div className="grocery-notes">
+      <div className="grocery-notes" data-testid={groceryListTestIds.notesContainer}>
         <h3 className="grocery-notes__title">Notes</h3>
-        <textarea className="form-control" value={localNotes} onChange={(e) => setLocalNotes(e.target.value)} placeholder="Add notes for your grocery list here..." rows={4} maxLength={1000} />
-        <div className="grocery-notes__counter">
+        <textarea
+          className="form-control"
+          value={localNotes}
+          onChange={(e) => setLocalNotes(e.target.value)}
+          placeholder="Add notes for your grocery list here..."
+          rows={4}
+          maxLength={1000}
+          data-testid={groceryListTestIds.notesTextarea}
+        />
+        <div className="grocery-notes__counter" data-testid={groceryListTestIds.notesCounter}>
           {localNotes.length}/1000
         </div>
       </div>
