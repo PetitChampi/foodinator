@@ -1,11 +1,11 @@
-import React from 'react';
-import { useOffline } from '../hooks/useOffline';
+import React from "react";
+import { useOffline } from "@/hooks/useOffline";
 
 interface OfflineStatusProps {
   className?: string;
 }
 
-export const OfflineStatus: React.FC<OfflineStatusProps> = ({ className = '' }) => {
+export const OfflineStatus: React.FC<OfflineStatusProps> = ({ className = "" }) => {
   const { isOnline, isOfflineReady, hasUpdate, checkForUpdates, forceUpdate } = useOffline();
 
   if (isOnline && !hasUpdate) {
@@ -18,16 +18,16 @@ export const OfflineStatus: React.FC<OfflineStatusProps> = ({ className = '' }) 
         <div className="offline-indicator">
           <span className="offline-icon">📱</span>
           <span className="offline-text">
-            {isOfflineReady ? 'Offline - Using cached data' : 'Offline - Limited functionality'}
+            {isOfflineReady ? "Offline - Using cached data" : "Offline - Limited functionality"}
           </span>
         </div>
       )}
-      
+
       {hasUpdate && (
         <div className="update-available">
           <span className="update-icon">🔄</span>
           <span className="update-text">Update available</span>
-          <button 
+          <button
             className="update-button"
             onClick={forceUpdate}
             type="button"
@@ -36,9 +36,9 @@ export const OfflineStatus: React.FC<OfflineStatusProps> = ({ className = '' }) 
           </button>
         </div>
       )}
-      
+
       {isOnline && (
-        <button 
+        <button
           className="check-updates-button"
           onClick={checkForUpdates}
           type="button"

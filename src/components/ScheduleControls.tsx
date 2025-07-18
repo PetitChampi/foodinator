@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface ScheduleControlsProps {
   startDate: string;
@@ -22,13 +22,13 @@ export const ScheduleControls: React.FC<ScheduleControlsProps> = ({
         <input
           id="start-date"
           type="date"
-          value={startDate || new Date().toISOString().split('T')[0]}
+          value={startDate || new Date().toISOString().split("T")[0]}
           onChange={(e) => onUpdateStartDate?.(e.target.value)}
           className="date-input"
         />
       </div>
-      <button 
-        className={`btn btn-sm ${dragLocked ? 'btn-secondary' : 'btn-tertiary'}`}
+      <button
+        className={`btn btn-sm ${dragLocked ? "btn-secondary" : "btn-tertiary"}`}
         onClick={onToggleDragLock}
         title={dragLocked ? "Unlock drag and drop" : "Lock drag and drop"}
       >

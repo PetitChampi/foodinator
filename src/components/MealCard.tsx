@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface MealCardProps {
   imageUrl?: string;
@@ -14,7 +14,7 @@ export const MealCard: React.FC<MealCardProps> = ({
   children,
 }) => {
   return (
-    <div className="card" onClick={onClick} style={{ cursor: 'pointer' }}>
+    <div className="card" onClick={onClick} style={{ cursor: "pointer" }}>
       <div className="meal-image">
         {imageUrl && <img src={imageUrl} alt={title} />}
       </div>

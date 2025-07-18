@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
-import { useFoodinatorStore } from '../store/useFoodinatorStore';
-import { getMealById } from '../models/data';
+import React, { useMemo } from "react";
+import { useFoodinatorStore } from "@/store/useFoodinatorStore";
+import { getMealById } from "@/models/data";
 
-type TabType = 'planner' | 'grocery' | 'schedule';
+type TabType = "planner" | "grocery" | "schedule";
 
 interface TabNavigationProps {
   activeTab: TabType;
@@ -37,22 +37,22 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
   return (
     <div className="tabs">
       <button
-        className={`tab ${activeTab === 'planner' && 'tab-active'}`}
-        onClick={() => setActiveTab('planner')}
+        className={`tab ${activeTab === "planner" && "tab-active"}`}
+        onClick={() => setActiveTab("planner")}
         data-testid="tab-planner"
       >
         Planner
       </button>
       <button
-        className={`tab ${activeTab === 'schedule' && 'tab-active'}`}
-        onClick={() => setActiveTab('schedule')}
+        className={`tab ${activeTab === "schedule" && "tab-active"}`}
+        onClick={() => setActiveTab("schedule")}
         data-testid="tab-schedule"
       >
         Schedule
       </button>
       <button
-        className={`tab ${activeTab === 'grocery' && 'tab-active'}`}
-        onClick={() => setActiveTab('grocery')}
+        className={`tab ${activeTab === "grocery" && "tab-active"}`}
+        onClick={() => setActiveTab("grocery")}
         data-testid="tab-grocery"
       >
         Groceries

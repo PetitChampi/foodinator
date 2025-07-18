@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import type { MealSlot } from '../store/useFoodinatorStore';
+import { useState, useRef, useCallback, useEffect } from "react";
+import type { MealSlot } from "@/store/useFoodinatorStore";
 
 interface UseDragDropOptions {
   initialSlots: MealSlot[];
@@ -22,9 +22,9 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
   const handleDragStart = useCallback((index: number) => {
     if (mealSlots[index].mealId === null || dragLocked) return;
     draggedMeal.current = index;
-    const slotElements = document.querySelectorAll('.meal-slot');
+    const slotElements = document.querySelectorAll(".meal-slot");
     if (slotElements[index]) {
-      slotElements[index].classList.add('dragging');
+      slotElements[index].classList.add("dragging");
     }
   }, [mealSlots, dragLocked]);
 
@@ -34,16 +34,16 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
 
   const handleDragEnter = useCallback((index: number) => {
     if (draggedMeal.current === null || dragLocked) return;
-    document.querySelectorAll('.meal-slot').forEach(el => el.classList.remove('drop-target'));
-    const slotElements = document.querySelectorAll('.meal-slot');
+    document.querySelectorAll(".meal-slot").forEach(el => el.classList.remove("drop-target"));
+    const slotElements = document.querySelectorAll(".meal-slot");
     if (slotElements[index]) {
-      slotElements[index].classList.add('drop-target');
+      slotElements[index].classList.add("drop-target");
     }
   }, [dragLocked]);
 
   const handleDragEnd = useCallback(() => {
-    document.querySelectorAll('.meal-slot').forEach(el => {
-      el.classList.remove('dragging', 'drop-target');
+    document.querySelectorAll(".meal-slot").forEach(el => {
+      el.classList.remove("dragging", "drop-target");
     });
     draggedMeal.current = null;
   }, []);
@@ -54,12 +54,12 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
     touchCurrentSlot.current = index;
-    const slotElements = document.querySelectorAll('.meal-slot');
+    const slotElements = document.querySelectorAll(".meal-slot");
     if (slotElements[index]) {
-      slotElements[index].classList.add('dragging');
+      slotElements[index].classList.add("dragging");
     }
   }, [mealSlots, dragLocked]);
-  
+
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (draggedMeal.current === null) return;
     const touch = e.touches[0];
@@ -67,17 +67,17 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
     let slotElement = null;
 
     for (const element of elements) {
-      if (element.classList.contains('meal-slot')) {
+      if (element.classList.contains("meal-slot")) {
         slotElement = element;
         break;
       }
     }
-    
+
     if (!slotElement) {
       for (const element of elements) {
         let parent = element.parentElement;
         while (parent) {
-          if (parent.classList.contains('meal-slot')) {
+          if (parent.classList.contains("meal-slot")) {
             slotElement = parent;
             break;
           }
@@ -88,11 +88,11 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
     }
 
     if (slotElement) {
-      const index = parseInt(slotElement.getAttribute('data-index') || '-1');
+      const index = parseInt(slotElement.getAttribute("data-index") || "-1");
       if (index !== -1 && index !== touchCurrentSlot.current) {
         touchCurrentSlot.current = index;
-        document.querySelectorAll('.meal-slot').forEach(el => el.classList.remove('drop-target'));
-        slotElement.classList.add('drop-target');
+        document.querySelectorAll(".meal-slot").forEach(el => el.classList.remove("drop-target"));
+        slotElement.classList.add("drop-target");
       }
     }
   }, []);
@@ -102,24 +102,24 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
       draggedMeal.current = null;
       return;
     }
-    
+
     const newMealSlots = [...mealSlots];
     const sourceIndex = draggedMeal.current;
     [newMealSlots[sourceIndex], newMealSlots[index]] = [newMealSlots[index], newMealSlots[sourceIndex]];
-    
+
     setMealSlots(newMealSlots);
     onReorder(newMealSlots);
     draggedMeal.current = null;
   }, [mealSlots, onReorder]);
-  
+
   const handleTouchEnd = useCallback(() => {
-    document.querySelectorAll('.meal-slot').forEach(el => el.classList.remove('dragging', 'drop-target'));
+    document.querySelectorAll(".meal-slot").forEach(el => el.classList.remove("dragging", "drop-target"));
     if (draggedMeal.current === null || touchCurrentSlot.current === null || draggedMeal.current === touchCurrentSlot.current) {
       draggedMeal.current = null;
       touchCurrentSlot.current = null;
       return;
     }
-    
+
     handleDrop(touchCurrentSlot.current);
     touchCurrentSlot.current = null;
   }, [handleDrop]);
@@ -134,6 +134,6 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
-    handleDrop
+    handleDrop,
   };
 };

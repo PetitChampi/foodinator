@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
-import { getIngredientById, ingredients, meals } from '../models/data';
-import { SelectableMealItem } from './SelectableMealItem';
-import { useFoodinatorStore, useRemainingSlots } from '../store/useFoodinatorStore';
-import { Ingredient, Meal } from '../models/types';
+import React, { useMemo } from "react";
+import { getIngredientById, ingredients, meals } from "@/models/data";
+import { SelectableMealItem } from "./SelectableMealItem";
+import { useFoodinatorStore, useRemainingSlots } from "@/store/useFoodinatorStore";
+import { Ingredient, Meal } from "@/models/types";
 
 export const MealSelector: React.FC = () => {
   const {
@@ -13,38 +13,38 @@ export const MealSelector: React.FC = () => {
     removeIngredient,
     clearIngredients,
   } = useFoodinatorStore();
-  
+
   const remainingSlots = useRemainingSlots();
 
   const { filteredIngredients, matchingMeals } = useMemo(() => {
     const { searchTerm, selectedIngredients } = searchState;
     const lowercasedSearchTerm = searchTerm.toLowerCase().trim();
-    
+
     const filteredIngredients = lowercasedSearchTerm
-      ? ingredients.filter(i => 
-          i.name.toLowerCase().includes(lowercasedSearchTerm) && 
-          !selectedIngredients.includes(i.id)
-        ) 
+      ? ingredients.filter(i =>
+        i.name.toLowerCase().includes(lowercasedSearchTerm) &&
+          !selectedIngredients.includes(i.id),
+      )
       : [];
 
     let filteredMeals = meals;
 
     if (lowercasedSearchTerm) {
-      filteredMeals = filteredMeals.filter((meal: Meal) => 
-        meal.name.toLowerCase().includes(lowercasedSearchTerm)
+      filteredMeals = filteredMeals.filter((meal: Meal) =>
+        meal.name.toLowerCase().includes(lowercasedSearchTerm),
       );
     }
-    
+
     if (selectedIngredients.length > 0) {
-      filteredMeals = filteredMeals.filter((meal: Meal) => 
-        selectedIngredients.every((ingId: string) => meal.ingredients.includes(ingId))
+      filteredMeals = filteredMeals.filter((meal: Meal) =>
+        selectedIngredients.every((ingId: string) => meal.ingredients.includes(ingId)),
       );
     }
 
     return { filteredIngredients, matchingMeals: filteredMeals };
   }, [searchState]);
 
-  const showNoResultsMessage = (searchState.searchTerm.trim() !== '' || searchState.selectedIngredients.length > 0) && matchingMeals.length === 0;
+  const showNoResultsMessage = (searchState.searchTerm.trim() !== "" || searchState.selectedIngredients.length > 0) && matchingMeals.length === 0;
 
   return (
     <section>
@@ -99,7 +99,7 @@ export const MealSelector: React.FC = () => {
       ) : (
         <div className="alert"><strong>{remainingSlots} slots</strong> remaining to fill.</div>
       )}
-      
+
       {showNoResultsMessage ? (
         <div className="empty">No meals found matching your criteria.</div>
       ) : (

@@ -1,6 +1,6 @@
-import React from 'react';
-import { WeeklyPlanDisplay } from '../WeeklyPlanDisplay';
-import { MealSelector } from '../MealSelector';
+import React from "react";
+import { WeeklyPlanDisplay } from "@/components/WeeklyPlanDisplay";
+import { MealSelector } from "@/components/MealSelector";
 
 export const PlannerTab: React.FC = () => {
   return (

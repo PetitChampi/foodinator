@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Meal } from '../models/types';
-import { useModal } from '../contexts/ModalContext';
-import { MealDetailsModal } from './MealDetailsModal';
-import { MealCard } from './MealCard';
-import { QuantitySelector } from './QuantitySelector';
+import React, { useState } from "react";
+import { Meal } from "@/models/types";
+import { useModal } from "@/contexts/ModalContext";
+import { MealDetailsModal } from "./MealDetailsModal";
+import { MealCard } from "./MealCard";
+import { QuantitySelector } from "./QuantitySelector";
 
 interface SelectableMealItemProps {
   meal: Meal;
@@ -18,24 +18,24 @@ export const SelectableMealItem: React.FC<SelectableMealItemProps> = ({
 }) => {
   const { openModal } = useModal();
   const [quantity, setQuantity] = useState(1);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleCardClick = () => {
-    openModal(<MealDetailsModal mealId={meal.id} />, 'sm');
+    openModal(<MealDetailsModal mealId={meal.id} />, "sm");
   };
-  
+
   const handleAddMeal = () => {
     if (quantity > remainingSlots) {
       setError(`Only ${remainingSlots} slots remaining`);
       return;
     }
-    
+
     const success = onAddMeal(meal.id, quantity);
     if (success) {
       setQuantity(1);
-      setError('');
+      setError("");
     } else {
-      setError('Could not add meal.');
+      setError("Could not add meal.");
     }
   };
 
@@ -63,7 +63,7 @@ export const SelectableMealItem: React.FC<SelectableMealItemProps> = ({
           </button>
         </div>
       </MealCard>
-      {error && <p className="error-text" style={{marginTop: '8px'}}>{error}</p>}
+      {error && <p className="error-text" style={{ marginTop: "8px" }}>{error}</p>}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 /**
  * A custom hook for managing state that is persisted in localStorage
@@ -22,13 +22,13 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
   useEffect(() => {
     try {
       localStorage.setItem(key, JSON.stringify(storedValue));
-      
+
       // Also cache in service worker for offline access
-      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage({
-          type: 'CACHE_UPDATE',
+          type: "CACHE_UPDATE",
           url: `/cache/localStorage/${key}`,
-          data: storedValue
+          data: storedValue,
         });
       }
     } catch (error) {

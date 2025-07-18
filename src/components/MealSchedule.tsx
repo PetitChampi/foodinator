@@ -1,8 +1,8 @@
-import React, { useMemo, useEffect, useCallback } from 'react';
-import { MealSlot } from './MealSlot';
-import { ScheduleControls } from './ScheduleControls';
-import { useDragDrop } from '../hooks/useDragDrop';
-import { useFoodinatorStore } from '../store/useFoodinatorStore';
+import React, { useMemo, useEffect, useCallback } from "react";
+import { MealSlot } from "./MealSlot";
+import { ScheduleControls } from "./ScheduleControls";
+import { useDragDrop } from "@/hooks/useDragDrop";
+import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 
 export const MealSchedule: React.FC = () => {
   const {
@@ -15,16 +15,16 @@ export const MealSchedule: React.FC = () => {
     toggleDragLock,
     updateStartDate,
   } = useFoodinatorStore();
-  
-  const cookedStatus = useMemo(() => 
+
+  const cookedStatus = useMemo(() =>
     storeMealSlots.map(slot => slot.instanceId ? !!cookedMeals[slot.instanceId] : false),
-    [storeMealSlots, cookedMeals]
+  [storeMealSlots, cookedMeals],
   );
 
   const getSlotDate = useCallback((slotIndex: number) => {
     const date = new Date(startDate);
     date.setDate(date.getDate() + slotIndex);
-    return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
   }, [startDate]);
 
 
@@ -38,11 +38,11 @@ export const MealSchedule: React.FC = () => {
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
-    handleDrop
+    handleDrop,
   } = useDragDrop({
     initialSlots: storeMealSlots,
     dragLocked,
-    onReorder: reorderMeals
+    onReorder: reorderMeals,
   });
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export const MealSchedule: React.FC = () => {
         onToggleDragLock={toggleDragLock}
       />
 
-      <div className={`meal-slots-container ${dragLocked ? 'drag-locked' : ''}`}>
+      <div className={`meal-slots-container ${dragLocked ? "drag-locked" : ""}`}>
         {mealSlots.map((slot, index) => (
           <MealSlot
             key={slot.instanceId || `empty-${index}`}

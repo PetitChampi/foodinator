@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 interface OfflineState {
   isOnline: boolean;
@@ -24,33 +24,33 @@ export function useOffline(): OfflineState & OfflineActions {
   useEffect(() => {
     const handleOnline = () => {
       setIsOnline(true);
-      console.log('App is now online');
+      console.log("App is now online");
     };
 
     const handleOffline = () => {
       setIsOnline(false);
-      console.log('App is now offline');
+      console.log("App is now offline");
     };
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 
   // Check if service worker is ready and app is cached
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
+    if ("serviceWorker" in navigator) {
       navigator.serviceWorker.ready.then(() => {
         setIsOfflineReady(true);
-        console.log('App is ready for offline use');
+        console.log("App is ready for offline use");
       });
 
       // Listen for service worker updates
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
         setHasUpdate(true);
       });
     }
@@ -58,49 +58,49 @@ export function useOffline(): OfflineState & OfflineActions {
 
   // Check for app updates
   const checkForUpdates = useCallback(async () => {
-    if ('serviceWorker' in navigator) {
+    if ("serviceWorker" in navigator) {
       try {
         const registration = await navigator.serviceWorker.getRegistration();
         if (registration) {
           await registration.update();
-          console.log('Checked for updates');
+          console.log("Checked for updates");
         }
       } catch (error) {
-        console.error('Failed to check for updates:', error);
+        console.error("Failed to check for updates:", error);
       }
     }
   }, []);
 
   // Force update the app
   const forceUpdate = useCallback(() => {
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+    if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({ type: "SKIP_WAITING" });
       window.location.reload();
     }
   }, []);
 
   // Clear all caches
   const clearCache = useCallback(async () => {
-    if ('caches' in window) {
+    if ("caches" in window) {
       try {
         const cacheNames = await caches.keys();
         await Promise.all(
-          cacheNames.map(cacheName => caches.delete(cacheName))
+          cacheNames.map(cacheName => caches.delete(cacheName)),
         );
-        console.log('All caches cleared');
-        
+        console.log("All caches cleared");
+
         // Unregister service worker
-        if ('serviceWorker' in navigator) {
+        if ("serviceWorker" in navigator) {
           const registrations = await navigator.serviceWorker.getRegistrations();
           await Promise.all(
-            registrations.map(registration => registration.unregister())
+            registrations.map(registration => registration.unregister()),
           );
         }
-        
+
         // Reload the page
         window.location.reload();
       } catch (error) {
-        console.error('Failed to clear cache:', error);
+        console.error("Failed to clear cache:", error);
       }
     }
   }, []);
@@ -111,6 +111,6 @@ export function useOffline(): OfflineState & OfflineActions {
     hasUpdate,
     checkForUpdates,
     forceUpdate,
-    clearCache
+    clearCache,
   };
 }

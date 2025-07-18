@@ -1,5 +1,5 @@
-import React from 'react';
-import { getMealById } from '../models/data';
+import React from "react";
+import { getMealById } from "@/models/data";
 
 interface MealSlotProps {
   mealId: string | null;
@@ -37,8 +37,8 @@ export const MealSlot: React.FC<MealSlotProps> = ({
   const meal = mealId ? getMealById(mealId) : null;
 
   return (
-    <div 
-      className={`meal-slot ${!meal ? 'meal-slot--empty' : ''} ${meal && isCooked ? 'cooked' : ''}`}
+    <div
+      className={`meal-slot ${!meal ? "meal-slot--empty" : ""} ${meal && isCooked ? "cooked" : ""}`}
       data-index={index}
       data-testid={`meal-slot-${index}`}
       draggable={!!meal && isDraggable}
@@ -66,8 +66,8 @@ export const MealSlot: React.FC<MealSlotProps> = ({
             <h3 className="meal-slot__title">
               {meal.name}
             </h3>
-            <div 
-              className={`meal-cooked-toggle ${isCooked ? 'cooked' : ''}`}
+            <div
+              className={`meal-cooked-toggle ${isCooked ? "cooked" : ""}`}
               onClick={(e) => {
                 e.stopPropagation();
                 onToggleCooked(index);

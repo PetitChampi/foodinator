@@ -1,9 +1,9 @@
-import React from 'react';
-import { getMealById } from '../models/data';
-import { useModal } from '../contexts/ModalContext';
-import { MealDetailsModal } from './MealDetailsModal';
-import { MealCard } from './MealCard';
-import { QuantitySelector } from './QuantitySelector';
+import React from "react";
+import { getMealById } from "@/models/data";
+import { useModal } from "@/contexts/ModalContext";
+import { MealDetailsModal } from "./MealDetailsModal";
+import { MealCard } from "./MealCard";
+import { QuantitySelector } from "./QuantitySelector";
 
 interface PlannedMealItemProps {
   mealId: string;
@@ -33,13 +33,13 @@ export const PlannedMealItem: React.FC<PlannedMealItemProps> = ({
 
   return (
     <MealCard imageUrl={meal.imageUrl} title={meal.name} onClick={handleCardClick}>
-      <span 
-        className="card-close" 
+      <span
+        className="card-close"
         onClick={(e) => { e.stopPropagation(); onRemoveMeal(meal.id); }}
         role="button"
         tabIndex={0}
         aria-label={`Remove ${meal.name} from plan`}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onRemoveMeal(meal.id); }}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onRemoveMeal(meal.id); }}
       >
         ✕
       </span>

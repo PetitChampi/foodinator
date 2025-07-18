@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { GroceryItem } from '../models/types';
-import { getIngredientById, getMealById } from '../models/data';
-import { useFoodinatorStore } from '../store/useFoodinatorStore';
-import { useDebounce } from '../hooks/useDebounce';
+import React, { useState, useEffect, useMemo } from "react";
+import { GroceryItem } from "@/models/types";
+import { getIngredientById, getMealById } from "@/models/data";
+import { useFoodinatorStore } from "@/store/useFoodinatorStore";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export const GroceryList: React.FC = () => {
   const mealSlots = useFoodinatorStore(state => state.mealSlots);
@@ -10,7 +10,7 @@ export const GroceryList: React.FC = () => {
   const notes = useFoodinatorStore(state => state.notes);
   const toggleItemChecked = useFoodinatorStore(state => state.toggleItemChecked);
   const updateNotes = useFoodinatorStore(state => state.updateNotes);
-  
+
   const { items, isEmpty, groupedByMeal } = useMemo(() => {
     const mealIdsInOrder = mealSlots.map(slot => slot.mealId);
 
@@ -68,10 +68,10 @@ export const GroceryList: React.FC = () => {
       groupedByMeal,
     };
   }, [mealSlots, checkedItems]);
-  
-  const [sortBy, setSortBy] = useState<'name' | 'portions' | 'meal'>('meal');
+
+  const [sortBy, setSortBy] = useState<"name" | "portions" | "meal">("meal");
   const [showChecked, setShowChecked] = useState(true);
-  
+
   const [localNotes, setLocalNotes] = useState(notes);
   const debouncedNotes = useDebounce(localNotes, 500);
 
@@ -88,11 +88,11 @@ export const GroceryList: React.FC = () => {
   const filteredItems = showChecked ? items : items.filter(item => !item.checked);
 
   const sortedItems = [...filteredItems].sort((a, b) => {
-    if (sortBy === 'name') {
-      const nameA = getIngredientById(a.ingredientId)?.name || '';
-      const nameB = getIngredientById(b.ingredientId)?.name || '';
+    if (sortBy === "name") {
+      const nameA = getIngredientById(a.ingredientId)?.name || "";
+      const nameB = getIngredientById(b.ingredientId)?.name || "";
       return nameA.localeCompare(nameB);
-    } else if (sortBy === 'portions') {
+    } else if (sortBy === "portions") {
       return b.portions - a.portions;
     }
     return 0;
@@ -103,7 +103,7 @@ export const GroceryList: React.FC = () => {
     if (!ingredient) return null;
     return (
       <li key={`${item.ingredientId}`}>
-        <div className={`checkbox-container ${item.checked ? 'checked' : ''}`}>
+        <div className={`checkbox-container ${item.checked ? "checked" : ""}`}>
           <input type="checkbox" checked={item.checked} onChange={() => toggleItemChecked(item.ingredientId)} id={`ingredient-${item.ingredientId}`} />
           <label htmlFor={`ingredient-${item.ingredientId}`}>
             {ingredient.name}
@@ -121,13 +121,13 @@ export const GroceryList: React.FC = () => {
       </div>
       {!isEmpty && (
         <div className="controls-group">
-          <select className="form-control select-sm" value={sortBy} onChange={(e) => setSortBy(e.target.value as 'name' | 'portions' | 'meal')}>
+          <select className="form-control select-sm" value={sortBy} onChange={(e) => setSortBy(e.target.value as "name" | "portions" | "meal")}>
             <option value="meal">Group by Meal</option>
             <option value="name">Sort by Name</option>
             <option value="portions">Sort by Quantity</option>
           </select>
           <button className="btn btn-sm btn-secondary" onClick={() => setShowChecked(!showChecked)}>
-            {showChecked ? 'Hide checked' : 'Show All'}
+            {showChecked ? "Hide checked" : "Show All"}
           </button>
         </div>
       )}
@@ -135,7 +135,7 @@ export const GroceryList: React.FC = () => {
         <div className="empty">Your grocery list will appear here once you select meals.</div>
       ) : (
         <>
-          {sortBy === 'meal' && groupedByMeal ? (
+          {sortBy === "meal" && groupedByMeal ? (
             <div>
               {Array.from(groupedByMeal.entries()).map(([mealId, mealItems]) => {
                 const filteredMealItems = showChecked ? mealItems : mealItems.filter((item: GroceryItem) => !item.checked);

@@ -1,4 +1,4 @@
-import { useModal, ModalSize } from "../contexts/ModalContext";
+import { useModal, ModalSize } from "@/contexts/ModalContext";
 
 interface ConfirmationModalProps {
   title: string;
@@ -18,7 +18,7 @@ export function ConfirmationModal({
   cancelText = "Cancel",
   confirmButtonClass = "btn btn-danger",
   onConfirm,
-  onCancel
+  onCancel,
 }: ConfirmationModalProps) {
   const { closeModal } = useModal();
 

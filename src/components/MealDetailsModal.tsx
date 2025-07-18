@@ -1,4 +1,4 @@
-import { getMealById, getIngredientById } from '../models/data';
+import { getMealById, getIngredientById } from "@/models/data";
 
 interface MealDetailsModalProps {
   mealId: string;

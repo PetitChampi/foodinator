@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useModal } from "../contexts/ModalContext";
+import { useModal } from "@/contexts/ModalContext";
 
 export function Modal() {
   const { isOpen, isClosing, content, size, closeModal } = useModal();
@@ -32,14 +32,14 @@ export function Modal() {
   }
 
   return (
-    <div className={`modal-overlay ${isClosing ? 'modal-closing' : ''}`} onClick={handleOverlayClick}>
+    <div className={`modal-overlay ${isClosing ? "modal-closing" : ""}`} onClick={handleOverlayClick}>
       <div
-        className={`modal-body modal-${size} ${isClosing ? 'modal-closing' : ''}`}
+        className={`modal-body modal-${size} ${isClosing ? "modal-closing" : ""}`}
         role="dialog"
         aria-modal="true"
       >
-        <button 
-          className="modal-close-button" 
+        <button
+          className="modal-close-button"
           onClick={closeModal}
           aria-label="Close modal"
         >×</button>

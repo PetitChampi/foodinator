@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
-import { useConfirmationModal } from './ConfirmationModal';
-import { getMealById } from '../models/data';
-import { PlannedMealItem } from './PlannedMealItem';
-import { useFoodinatorStore } from '../store/useFoodinatorStore';
-import { SelectedMeal } from '../models/types';
+import React, { useMemo } from "react";
+import { useConfirmationModal } from "./ConfirmationModal";
+import { getMealById } from "@/models/data";
+import { PlannedMealItem } from "./PlannedMealItem";
+import { useFoodinatorStore } from "@/store/useFoodinatorStore";
+import { SelectedMeal } from "@/models/types";
 
 export const WeeklyPlanDisplay: React.FC = () => {
   const { openConfirmation } = useConfirmationModal();
-  
+
   const mealSlots = useFoodinatorStore(state => state.mealSlots);
   const totalSlots = useFoodinatorStore(state => state.weeklyPlan.totalSlots);
   const removeMeal = useFoodinatorStore(state => state.removeMeal);
@@ -17,7 +17,7 @@ export const WeeklyPlanDisplay: React.FC = () => {
   const { selectedMeals, usedSlots } = useMemo(() => {
     const mealCounts = new Map<string, number>();
     let slotsUsed = 0;
-    
+
     mealSlots.forEach(slot => {
       if (slot.mealId) {
         slotsUsed++;
@@ -39,18 +39,18 @@ export const WeeklyPlanDisplay: React.FC = () => {
       message: "Are you sure you want to reset your entire dinner plan?",
       confirmText: "Reset plan",
       confirmButtonClass: "btn btn-danger",
-      onConfirm: resetPlan
+      onConfirm: resetPlan,
     });
   };
 
   const handleRemoveMealConfirmation = (mealId: string) => {
     const meal = getMealById(mealId);
     openConfirmation({
-      title: `Remove ${meal?.name || 'this meal'}`,
-      message: `Are you sure you want to remove all instances of ${meal?.name || 'this meal'} from your plan?`,
+      title: `Remove ${meal?.name || "this meal"}`,
+      message: `Are you sure you want to remove all instances of ${meal?.name || "this meal"} from your plan?`,
       confirmText: "Remove meal",
       confirmButtonClass: "btn btn-danger",
-      onConfirm: () => removeMeal(mealId)
+      onConfirm: () => removeMeal(mealId),
     });
   };
 

@@ -1,7 +1,7 @@
-import { create, StateCreator } from 'zustand';
-import { produce } from 'immer';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import { TOTAL_SLOTS } from '../config/constants';
+import { create, StateCreator } from "zustand";
+import { produce } from "immer";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { TOTAL_SLOTS } from "@/config/constants";
 
 export interface MealSlot {
   mealId: string | null;
@@ -61,10 +61,10 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
     mealSlots: Array(TOTAL_SLOTS).fill(null).map(createEmptySlot),
     cookedMeals: {},
     dragLocked: true,
-    startDate: new Date().toISOString().split('T')[0],
+    startDate: new Date().toISOString().split("T")[0],
     checkedItems: {},
-    notes: '',
-    searchState: { searchTerm: '', selectedIngredients: [] },
+    notes: "",
+    searchState: { searchTerm: "", selectedIngredients: [] },
 
     // --- ACTIONS ---
     addMeal: (mealId, quantity) => {
@@ -153,18 +153,18 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
     clearAllCheckedItems: () => set({ checkedItems: {} }),
     updateNotes: (notes) => set({ notes }),
     setSearchTerm: (term) => set(produce(state => { state.searchState.searchTerm = term; })),
-    addIngredient: (ingredientId) => set(produce((state: FoodinatorState) => { if (!state.searchState.selectedIngredients.includes(ingredientId)) { state.searchState.selectedIngredients.push(ingredientId); } state.searchState.searchTerm = ''; })),
+    addIngredient: (ingredientId) => set(produce((state: FoodinatorState) => { if (!state.searchState.selectedIngredients.includes(ingredientId)) { state.searchState.selectedIngredients.push(ingredientId); } state.searchState.searchTerm = ""; })),
     removeIngredient: (ingredientId) => set(produce((state: FoodinatorState) => { state.searchState.selectedIngredients = state.searchState.selectedIngredients.filter(id => id !== ingredientId); })),
-    clearIngredients: () => set(produce(state => { state.searchState.selectedIngredients = []; state.searchState.searchTerm = ''; })),
+    clearIngredients: () => set(produce(state => { state.searchState.selectedIngredients = []; state.searchState.searchTerm = ""; })),
   };
 };
 
 export const useFoodinatorStore = create<StoreType>()(
   persist(foodinatorStoreCreator, {
-      name: 'foodinator-storage',
-      storage: createJSONStorage(() => localStorage),
-    }
-  )
+    name: "foodinator-storage",
+    storage: createJSONStorage(() => localStorage),
+  },
+  ),
 );
 
 export const useRemainingSlots = () => useFoodinatorStore(state => {
