@@ -40,6 +40,7 @@ export const PlannedMealItem: React.FC<PlannedMealItemProps> = ({
         tabIndex={0}
         aria-label={`Remove ${meal.name} from plan`}
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onRemoveMeal(meal.id); }}
+        data-testid={`remove-meal-${meal.name}`}
       >
         ✕
       </span>

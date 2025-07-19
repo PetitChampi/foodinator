@@ -32,18 +32,24 @@ export function Modal() {
   }
 
   return (
-    <div className={`modal-overlay ${isClosing ? "modal-closing" : ""}`} onClick={handleOverlayClick}>
+    <div
+      className={`modal-overlay ${isClosing ? "modal-closing" : ""}`}
+      onClick={handleOverlayClick}
+      data-testid="modal-overlay"
+    >
       <div
         className={`modal-body modal-${size} ${isClosing ? "modal-closing" : ""}`}
         role="dialog"
         aria-modal="true"
+        data-testid="modal-body"
       >
         <button
           className="modal-close-button"
           onClick={closeModal}
           aria-label="Close modal"
+          data-testid="modal-close-button"
         >×</button>
-        <div className="modal-content">
+        <div className="modal-content" data-testid="modal-content">
           {content}
         </div>
       </div>
