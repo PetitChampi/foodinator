@@ -131,6 +131,7 @@ export const meals: Meal[] = [
   {
     id: "prawn-burritos",
     name: "Prawn burritos",
+    imageUrl: "./img-meals/prawn-burritos.jpg",
     ingredients: ["prawns", "large-tortillas", "avocados", "tomato", "red-onion", "lime", "beans", "shredded-cheese"],
   },
 ];
