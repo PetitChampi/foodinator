@@ -7,6 +7,7 @@ export const ingredients: Ingredient[] = [
   { id: "diced-beef", name: "Diced beef" },
   { id: "pork-fillet", name: "Pork fillet" },
   { id: "prawns", name: "Prawns" },
+  { id: "tuna", name: "Tuna" },
   { id: "large-tortillas", name: "Large tortillas" },
   { id: "red-onion", name: "Red onion" },
   { id: "tomato", name: "Tomato" },
@@ -45,6 +46,8 @@ export const ingredients: Ingredient[] = [
   { id: "pickled-peppers", name: "Pickled peppers" },
   { id: "fennel-seeds", name: "Fennel seeds" },
   { id: "cheese", name: "Cheese" },
+  { id: "feta", name: "Feta" },
+  { id: "greek-yogurt", name: "Greek yogurt" },
   { id: "shredded-cheese", name: "Shredded cheese" },
   { id: "buns", name: "Buns" },
   { id: "sauce", name: "Sauce" },
@@ -133,6 +136,12 @@ export const meals: Meal[] = [
     name: "Prawn burritos",
     imageUrl: "./img-meals/prawn-burritos.jpg",
     ingredients: ["prawns", "large-tortillas", "avocados", "tomato", "red-onion", "lime", "beans", "shredded-cheese"],
+  },
+  {
+    id: "tuna-pita",
+    name: "Tuna pita sandwiches",
+    imageUrl: "./img-meals/tuna-pita.jpg",
+    ingredients: ["tuna", "pita-bread", "avocados", "pickled-peppers", "feta", "greek-yogurt"],
   },
 ];
 
