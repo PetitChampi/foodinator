@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 import { getMealById } from "@/models/data";
+import { Icon } from "./Icon";
 
 type TabType = "planner" | "grocery" | "schedule";
 
@@ -41,21 +42,30 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({
         onClick={() => setActiveTab("planner")}
         data-testid="tab-planner"
       >
-        Planner
+        <div className="tab-label">
+          <Icon name="list" className="icon" />
+          Planner
+        </div>
       </button>
       <button
         className={`tab ${activeTab === "schedule" && "tab-active"}`}
         onClick={() => setActiveTab("schedule")}
         data-testid="tab-schedule"
       >
-        Schedule
+        <div className="tab-label">
+          <Icon name="calendar-week" className="icon" />
+          Schedule
+        </div>
       </button>
       <button
         className={`tab ${activeTab === "grocery" && "tab-active"}`}
         onClick={() => setActiveTab("grocery")}
         data-testid="tab-grocery"
       >
-        Groceries
+        <div className="tab-label">
+          <Icon name="shopping-bag" className="icon" />
+          Groceries
+        </div>
         {!isEmpty && (
           <span className="badge badge-count">
             {groceryItemCount}

@@ -6,11 +6,6 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
-// Tabler icons for future ref:
-// Planner: list
-// Schedule: calendar
-// Groceries: shopping-bag
-
 .tabs {
   position: sticky;
   bottom: $spacing-xxl;
@@ -24,12 +19,15 @@
   background-color: $gray-6;
   border: 1px solid $gray-5;
   box-shadow: $shadow-md;
+  @include mobile {
+    border-radius: $border-radius-xl;
+  }
   button.tab {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex: 1;
-    gap: 5px;
+    gap: 7px;
     border: none;
     padding: 10px 20px;
     font-size: $font-size-sm;
@@ -45,6 +43,31 @@
     &:not(.tab-active) {
       &:hover {
         background-color: $gray-5;
+      }
+    }
+    @include mobile {
+      border-radius: $border-radius-xl;
+      padding: 7px 10px;
+    }
+    .tab-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      @include mobile {
+        flex-direction: column;
+      }
+      .icon {
+        width: 26px;
+        height: 26px;
+        stroke: currentColor;
+        color: inherit;
+      }
+    }
+    .badge {
+      @include mobile {
+        position: absolute;
+        top: $spacing-sm;
+        right: $spacing-sm;
       }
     }
   }

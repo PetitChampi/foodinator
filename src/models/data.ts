@@ -8,6 +8,10 @@ export const ingredients: Ingredient[] = [
   { id: "pork-fillet", name: "Pork fillet" },
   { id: "prawns", name: "Prawns" },
   { id: "tuna", name: "Tuna" },
+  { id: "smoked-salmon", name: "Smoked salmon" },
+  { id: "bagels", name: "Bagels" },
+  { id: "cream-cheese", name: "Cream cheese" },
+  { id: "radishes", name: "Radishes" },
   { id: "large-tortillas", name: "Large tortillas" },
   { id: "red-onion", name: "Red onion" },
   { id: "tomato", name: "Tomato" },
@@ -142,6 +146,13 @@ export const meals: Meal[] = [
     name: "Tuna pita sandwiches",
     imageUrl: "./img-meals/tuna-pita.jpg",
     ingredients: ["tuna", "pita-bread", "avocados", "pickled-peppers", "feta", "greek-yogurt"],
+  },
+  {
+    id: "salmon-bagels",
+    name: "Smoked salmon bagels",
+    imageUrl: "./img-meals/salmon-bagels.jpg",
+    ingredients: ["smoked-salmon", "bagels", "cream-cheese", "radishes", "spinach"],
+    // Recommended seasoning: dill, lemon juice, balsamic vinegar, pepper
   },
 ];
 
