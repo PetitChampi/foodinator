@@ -94,7 +94,6 @@
   }
   .modal-title {
     padding-right: $spacing-xxl;
-    margin-bottom: $spacing-md;
     font-weight: 500;
     line-height: 1.3;
   }
@@ -113,19 +112,48 @@
 }
 
 .modal-meal-details {
-  .modal-ingredients {
+  .meal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    margin-top: $spacing-sm;
+  }
+  .modal-split-2 {
+    display: flex;
+    gap: $spacing-md;
+  }
+  .modal-section {
+    flex: 1;
     margin: $spacing-xl 0 $spacing-sm;
     .modal-section-header {
       @include title-delimiter;
       font-size: $font-size-base;
       margin-bottom: $spacing-sm;
     }
-    ul {
-      list-style: circle;
+    ul, ol {
       padding-left: $spacing-xxl;
       li {
         font-size: $font-size-sm;
       }
+    }
+    ul {
+      list-style: circle;
+    }
+  }
+  .section-notes {
+    font-size: $font-size-xs;
+    margin-top: $spacing-sm;
+    line-height: 1.5;
+    // styles similar to the empty banner:
+    padding: 5px 10px;
+    border-radius: $border-radius-md;
+    background-color: $gray-6;
+    color: $gray-2;
+    border: 1px solid $gray-5;
+    .notes-title {
+      display: inline-block;
+      margin-right: $spacing-xs;
+      font-weight: 600;
     }
   }
 }

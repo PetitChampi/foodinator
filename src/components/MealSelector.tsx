@@ -68,7 +68,7 @@ export const MealSelector: React.FC = () => {
           {filteredIngredients.map((ingredient: Ingredient) => (
             <span
               key={ingredient.id}
-              className="tag"
+              className="tag clickable"
               onClick={() => addIngredient(ingredient.id)}
               data-testid={mealSelectorTestIds.suggestionItem(ingredient.id)}
             >
@@ -97,7 +97,7 @@ export const MealSelector: React.FC = () => {
               return (
                 <span
                   key={ingredientId}
-                  className="tag"
+                  className="tag clickable"
                   data-testid={mealSelectorTestIds.selectedTag(ingredientId)}
                 >
                   {ingredient.name}

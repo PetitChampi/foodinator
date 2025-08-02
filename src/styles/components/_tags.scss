@@ -9,18 +9,22 @@
 .tag {
   display: inline-flex;
   align-items: center;
-  cursor: pointer;
   background-color: color.adjust($border-color, $lightness: 5%);
-  color: $gray-3;
+  color: $gray-2;
   padding: $spacing-xs $spacing-md;
   border-radius: $border-radius-max;
-  margin-right: $spacing-xs;
-  margin-bottom: $spacing-xs;
   font-size: $font-size-sm;
-  transition: background-color $transition-fast, color $transition-fast;
-  &:hover:not(:has(.close)) {
-    background-color: color.adjust($border-color, $lightness: -2%);
-    color: $gray-1;
+  line-height: 1.5;
+  &.clickable {
+    cursor: pointer;
+    transition: background-color $transition-fast, color $transition-fast;
+    &:hover {
+      background-color: color.adjust($border-color, $lightness: -5%);
+      color: $gray-1;
+    }
+  }
+  &-sm {
+    font-size: $font-size-xs;
   }
   .close {
     margin-left: $spacing-sm;

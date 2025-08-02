@@ -1,5 +1,11 @@
 import { Ingredient, Meal } from "./types";
 
+// For future reference, tags:
+// Main cooking method (oven, stove, air fryer, stew cooker)
+// Carb base (rice, pasta, bread, etc.)
+// Protein source (chicken, beef, fish, etc.)
+// Extra additive tags: convenience bonus (sandwich, fridge-friendly, batch-friendly)
+
 export const ingredients: Ingredient[] = [
   { id: "chicken", name: "Chicken" },
   { id: "lamb", name: "Lamb" },
@@ -152,6 +158,7 @@ export const meals: Meal[] = [
     name: "Smoked salmon bagels",
     imageUrl: "./img-meals/salmon-bagels.jpg",
     ingredients: ["smoked-salmon", "bagels", "cream-cheese", "radishes", "spinach"],
+    // TODO: add seasoning staples prop. Will be in its own section of grocery list
     // Recommended seasoning: dill, lemon juice, balsamic vinegar, pepper
   },
 ];

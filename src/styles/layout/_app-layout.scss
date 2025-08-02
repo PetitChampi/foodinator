@@ -38,6 +38,9 @@
 }
 .search-results {
   margin: $spacing-md 0 $spacing-lg;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
 }
 .selected-ingredients {
   margin: $spacing-md 0 $spacing-lg;

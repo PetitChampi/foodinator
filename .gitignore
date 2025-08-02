@@ -13,6 +13,7 @@ dist-ssr
 *.local
 combine
 combined.txt
+todo.txt
 
 # Editor directories and files
 .vscode/*
