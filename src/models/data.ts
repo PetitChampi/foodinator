@@ -1,11 +1,5 @@
 import { Ingredient, Meal } from "./types";
 
-// For future reference, tags:
-// Main cooking method (oven, stove, air fryer, stew cooker)
-// Carb base (rice, pasta, bread, etc.)
-// Protein source (chicken, beef, fish, etc.)
-// Extra additive tags: convenience bonus (sandwich, fridge-friendly, batch-friendly)
-
 export const ingredients: Ingredient[] = [
   { id: "chicken", name: "Chicken" },
   { id: "lamb", name: "Lamb" },
@@ -67,6 +61,7 @@ export const ingredients: Ingredient[] = [
   { id: "spinach", name: "Spinach" },
   { id: "basil", name: "Basil" },
   { id: "pine-nuts", name: "Pine nuts" },
+  { id: "pita-bread", name: "Pita bread" },
 ];
 
 export const meals: Meal[] = [
@@ -75,89 +70,179 @@ export const meals: Meal[] = [
     name: "Creamy Chic Broc",
     imageUrl: "./img-meals/chic-broc.jpg",
     ingredients: ["chicken", "broccoli", "mushrooms", "creme-fraiche", "rice"],
+    tags: {
+      cookingMethod: "pot-pan",
+      base: "rice",
+      proteinSource: "chicken",
+      convenience: ["batchable", "fridge-friendly"],
+    },
   },
   {
     id: "fishy-pasta",
     name: "Fishy pasta",
     imageUrl: "./img-meals/fishy-pasta.jpg",
     ingredients: ["pasta", "fish", "creme-fraiche", "shallots", "asparagus", "white-wine", "lemon"],
+    tags: {
+      cookingMethod: "pot-pan",
+      base: "pasta",
+      proteinSource: "fish",
+      convenience: [],
+    },
   },
   {
     id: "epic-beans-and-steak",
     name: "Epic beans and steak",
     imageUrl: "./img-meals/epic-beans-steak.jpg",
     ingredients: ["steaks", "white-beans", "mushrooms", "garlic", "rosemary"],
+    tags: {
+      cookingMethod: "pan",
+      base: "beans",
+      proteinSource: "beef",
+      convenience: ["one-pot"],
+    },
   },
   {
     id: "mexican-style-bean-casserole",
     name: "Mexican-style bean casserole",
     imageUrl: "./img-meals/mex-bean-casserole.jpg",
     ingredients: ["eggs", "black-beans", "avocados", "bell-pepper", "lime", "diced-beef"],
+    tags: {
+      cookingMethod: "pan",
+      base: "beans",
+      proteinSource: "beef",
+      convenience: ["one-pot", "batchable", "fridge-friendly"],
+    },
   },
   {
     id: "avocado-toast",
     name: "Avocado toast",
     imageUrl: "./img-meals/avocado-toasts.jpg",
     ingredients: ["brown-bread", "avocados", "lime", "eggs", "hummus", "mint-sauce"],
+    tags: {
+      cookingMethod: "pot",
+      base: "bread",
+      proteinSource: "eggs",
+      convenience: ["one-pot"],
+    },
   },
   {
     id: "burgers",
     name: "Burgers",
     imageUrl: "./img-meals/burgers.jpg",
     ingredients: ["buns", "sauce", "ground-beef", "cheese", "lettuce", "potatoes"],
+    tags: {
+      cookingMethod: "pan",
+      base: "bread",
+      proteinSource: "beef",
+      convenience: ["one-pot"],
+    },
   },
   {
     id: "chickpea-chard-pork",
     name: "Chickpea chard pork",
     imageUrl: "./img-meals/chickpea-chard-pork.jpg",
     ingredients: ["pork-fillet", "chickpeas", "chard", "pickled-peppers", "fennel-seeds"],
+    tags: {
+      cookingMethod: "pan",
+      base: "chickpeas",
+      proteinSource: "pork",
+      convenience: ["one-pot", "batchable", "fridge-friendly"],
+    },
   },
   {
     id: "pesto-chicken-gnocchi",
     name: "Pesto chicken gnocchi",
     imageUrl: "./img-meals/pesto-chicken-gnocchi.jpg",
     ingredients: ["chicken", "gnocchi", "spinach", "basil", "pine-nuts", "parmesan"],
+    tags: {
+      cookingMethod: "pan",
+      base: "gnocchi",
+      proteinSource: "chicken",
+      convenience: ["one-pot", "fridge-friendly"],
+    },
   },
   {
     id: "pasta-bolognese",
     name: "Pasta bolognese",
     imageUrl: "./img-meals/pasta-bolognese.jpg",
     ingredients: ["pasta", "tomato-sauce", "ground-beef"],
+    tags: {
+      cookingMethod: "pot",
+      base: "pasta",
+      proteinSource: "beef",
+      convenience: ["one-pot", "fridge-friendly", "batchable"],
+    },
   },
   {
     id: "pasta-carbonara",
     name: "Pasta carbonara",
     imageUrl: "./img-meals/pasta-carbonara.jpg",
     ingredients: ["pasta", "eggs", "grana-padano", "parmesan", "lardons", "mushrooms"],
+    tags: {
+      cookingMethod: "pot-pan",
+      base: "pasta",
+      proteinSource: "pork",
+      convenience: [],
+    },
   },
   {
     id: "fish-n-mash",
     name: "Fish n mash",
     imageUrl: "./img-meals/fisn-n-mash.jpg",
     ingredients: ["fish", "potatoes", "shallots", "bell-pepper", "milk"],
+    tags: {
+      cookingMethod: "pot-pan",
+      base: "potatoes",
+      proteinSource: "fish",
+      convenience: ["fridge-friendly"],
+    },
   },
   {
     id: "pan-seared-lamb",
     name: "Pan-seared lamb",
     ingredients: ["lamb", "potatoes", "green-veg", "mint-sauce"],
+    tags: {
+      cookingMethod: "pot-pan",
+      base: "potatoes",
+      proteinSource: "lamb",
+      convenience: [],
+    },
   },
   {
     id: "prawn-burritos",
     name: "Prawn burritos",
     imageUrl: "./img-meals/prawn-burritos.jpg",
     ingredients: ["prawns", "large-tortillas", "avocados", "tomato", "red-onion", "lime", "beans", "shredded-cheese"],
+    tags: {
+      cookingMethod: "pan",
+      base: "tortillas",
+      proteinSource: "seafood",
+      convenience: ["sandwich", "one-pot"],
+    },
   },
   {
     id: "tuna-pita",
     name: "Tuna pita sandwiches",
     imageUrl: "./img-meals/tuna-pita.jpg",
     ingredients: ["tuna", "pita-bread", "avocados", "pickled-peppers", "feta", "greek-yogurt"],
+    tags: {
+      cookingMethod: "no-cook",
+      base: "bread",
+      proteinSource: "fish",
+      convenience: ["sandwich", "fridge-friendly"],
+    },
   },
   {
     id: "salmon-bagels",
     name: "Smoked salmon bagels",
     imageUrl: "./img-meals/salmon-bagels.jpg",
     ingredients: ["smoked-salmon", "bagels", "cream-cheese", "radishes", "spinach"],
+    tags: {
+      cookingMethod: "no-cook",
+      base: "bread",
+      proteinSource: "fish",
+      convenience: ["sandwich"],
+    },
     // TODO: add seasoning staples prop. Will be in its own section of grocery list
     // Recommended seasoning: dill, lemon juice, balsamic vinegar, pepper
   },

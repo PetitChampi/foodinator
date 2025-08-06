@@ -1,9 +1,11 @@
 import React, { useMemo } from "react";
 import { getIngredientById, ingredients, meals } from "@/models/data";
-import { SelectableMealItem } from "./SelectableMealItem";
+import { SelectableMealItem } from "@/components/SelectableMealItem";
+import { TagFilter } from "@/components/TagFilter";
 import { useFoodinatorStore, useRemainingSlots } from "@/store/useFoodinatorStore";
 import { Ingredient, Meal } from "@/models/types";
 import { mealSelectorTestIds } from "@/utils/testUtils";
+import { getAllTagsForSearch, getTagById } from "@/models/tagDefinitions";
 
 export const MealSelector: React.FC = () => {
   const {
@@ -17,14 +19,21 @@ export const MealSelector: React.FC = () => {
 
   const remainingSlots = useRemainingSlots();
 
-  const { filteredIngredients, matchingMeals } = useMemo(() => {
-    const { searchTerm, selectedIngredients } = searchState;
+  const { filteredIngredients, filteredTags, matchingMeals } = useMemo(() => {
+    const { searchTerm, selectedIngredients, selectedTags = [] } = searchState;
     const lowercasedSearchTerm = searchTerm.toLowerCase().trim();
 
     const filteredIngredients = lowercasedSearchTerm
       ? ingredients.filter(i =>
         i.name.toLowerCase().includes(lowercasedSearchTerm) &&
           !selectedIngredients.includes(i.id),
+      )
+      : [];
+
+    const filteredTags = lowercasedSearchTerm
+      ? getAllTagsForSearch().filter(tag =>
+        tag.name.toLowerCase().includes(lowercasedSearchTerm) &&
+          !selectedTags.includes(tag.id),
       )
       : [];
 
@@ -42,28 +51,55 @@ export const MealSelector: React.FC = () => {
       );
     }
 
-    return { filteredIngredients, matchingMeals: filteredMeals };
+    if (selectedTags.length > 0) {
+      filteredMeals = filteredMeals.filter((meal: Meal) => {
+        if (!meal.tags) return false;
+
+        return selectedTags.every((tagId: string) => {
+          const tag = getTagById(tagId);
+          if (!tag) return false;
+
+          switch (tag.category) {
+          case "cookingMethod":
+            return meal.tags?.cookingMethod === tagId;
+          case "base":
+            return meal.tags?.base === tagId;
+          case "proteinSource":
+            return meal.tags?.proteinSource === tagId;
+          case "convenience":
+            return meal.tags?.convenience?.includes(tagId) || false;
+          default:
+            return false;
+          }
+        });
+      });
+    }
+
+    return { filteredIngredients, filteredTags, matchingMeals: filteredMeals };
   }, [searchState]);
 
-  const showNoResultsMessage = (searchState.searchTerm.trim() !== "" || searchState.selectedIngredients.length > 0) && matchingMeals.length === 0;
+  const showNoResultsMessage = (searchState.searchTerm.trim() !== "" || searchState.selectedIngredients.length > 0 || (searchState.selectedTags || []).length > 0) && matchingMeals.length === 0;
 
   return (
     <section data-testid={mealSelectorTestIds.container}>
       <div className="section-header">
         <h2 className="section-title">All meals</h2>
       </div>
-      <div className="form-group search">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search for meals or ingredients"
-          value={searchState.searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          data-testid={mealSelectorTestIds.searchInput}
-        />
+      <div className="search-controls">
+        <div className="form-group search">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search meals and ingredients"
+            value={searchState.searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            data-testid={mealSelectorTestIds.searchInput}
+          />
+        </div>
+        <TagFilter />
       </div>
 
-      {searchState.searchTerm.trim() !== "" && filteredIngredients.length > 0 && (
+      {searchState.searchTerm.trim() !== "" && (filteredIngredients.length > 0 || filteredTags.length > 0) && (
         <div className="search-results" data-testid={mealSelectorTestIds.suggestionsList}>
           {filteredIngredients.map((ingredient: Ingredient) => (
             <span
@@ -87,17 +123,17 @@ export const MealSelector: React.FC = () => {
               onClick={clearIngredients}
               data-testid="clear-filters"
             >
-              Clear all
+              Clear
             </button>
           </div>
-          <div>
+          <div className="selected-tags-list">
             {searchState.selectedIngredients.map((ingredientId: string) => {
               const ingredient = getIngredientById(ingredientId);
               if (!ingredient) return null;
               return (
                 <span
                   key={ingredientId}
-                  className="tag clickable"
+                  className="tag clickable ingredient-tag"
                   data-testid={mealSelectorTestIds.selectedTag(ingredientId)}
                 >
                   {ingredient.name}
@@ -120,7 +156,7 @@ export const MealSelector: React.FC = () => {
       )}
 
       {showNoResultsMessage ? (
-        <div className="empty" data-testid="no-results">No meals found matching your criteria.</div>
+        <div className="empty" data-testid="no-results">No meals found matching your search and filter criteria.</div>
       ) : (
         <div className="meal-grid">
           {matchingMeals.map((meal: Meal) => (

@@ -11,9 +11,10 @@
   @include button-variant($primary-color, $primary-hover);
   &-secondary {
     color: $primary-color;
-    background-color: rgba($primary-color, .15);
+    background-color: $primary-6;
     &:hover:not(:disabled) {
-      background-color: rgba($primary-color, .25) !important;
+      // Temp: overriding button base
+      background-color: $primary-6 !important;
       color: color.adjust($primary-color, $lightness: -10%);
     }
   }

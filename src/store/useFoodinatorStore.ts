@@ -26,6 +26,7 @@ interface FoodinatorState {
   searchState: {
     searchTerm: string;
     selectedIngredients: string[];
+    selectedTags: string[];
   };
 }
 
@@ -47,6 +48,10 @@ interface FoodinatorActions {
   addIngredient: (ingredientId: string) => void;
   removeIngredient: (ingredientId: string) => void;
   clearIngredients: () => void;
+  addTag: (tagId: string) => void;
+  removeTag: (tagId: string) => void;
+  clearTags: () => void;
+  clearAllFilters: () => void;
 }
 
 type StoreType = FoodinatorState & FoodinatorActions;
@@ -64,7 +69,7 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
     startDate: new Date().toISOString().split("T")[0],
     checkedItems: {},
     notes: "",
-    searchState: { searchTerm: "", selectedIngredients: [] },
+    searchState: { searchTerm: "", selectedIngredients: [], selectedTags: [] },
 
     // --- ACTIONS ---
     addMeal: (mealId, quantity) => {
@@ -156,6 +161,10 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
     addIngredient: (ingredientId) => set(produce((state: FoodinatorState) => { if (!state.searchState.selectedIngredients.includes(ingredientId)) { state.searchState.selectedIngredients.push(ingredientId); } state.searchState.searchTerm = ""; })),
     removeIngredient: (ingredientId) => set(produce((state: FoodinatorState) => { state.searchState.selectedIngredients = state.searchState.selectedIngredients.filter(id => id !== ingredientId); })),
     clearIngredients: () => set(produce(state => { state.searchState.selectedIngredients = []; state.searchState.searchTerm = ""; })),
+    addTag: (tagId) => set(produce((state: FoodinatorState) => { if (!state.searchState.selectedTags.includes(tagId)) { state.searchState.selectedTags.push(tagId); } state.searchState.searchTerm = ""; })),
+    removeTag: (tagId) => set(produce((state: FoodinatorState) => { state.searchState.selectedTags = state.searchState.selectedTags.filter(id => id !== tagId); })),
+    clearTags: () => set(produce(state => { state.searchState.selectedTags = []; })),
+    clearAllFilters: () => set(produce(state => { state.searchState.selectedIngredients = []; state.searchState.selectedTags = []; state.searchState.searchTerm = ""; })),
   };
 };
 
@@ -163,6 +172,15 @@ export const useFoodinatorStore = create<StoreType>()(
   persist(foodinatorStoreCreator, {
     name: "foodinator-storage",
     storage: createJSONStorage(() => localStorage),
+    migrate: (persistedState: unknown, _version: number) => {
+      // Migration for adding selectedTags to searchState
+      const state = persistedState as Partial<FoodinatorState>;
+      if (state && state.searchState && !state.searchState.selectedTags) {
+        state.searchState.selectedTags = [];
+      }
+      return state;
+    },
+    version: 1,
   },
   ),
 );

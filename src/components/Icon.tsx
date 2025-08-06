@@ -1,7 +1,7 @@
 import React from "react";
 
 interface IconProps {
-  name: "list" | "calendar-week" | "shopping-bag";
+  name: "list" | "calendar-week" | "shopping-bag" | "filter";
   className?: string;
   size?: number;
 }
@@ -39,6 +39,14 @@ const iconPaths = {
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
       <path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z" />
       <path d="M9 11v-5a3 3 0 0 1 6 0v5" />
+    </>
+  ),
+  filter: (
+    <>
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M4 6h16" />
+      <path d="M6 12h12" />
+      <path d="M9 18h6" />
     </>
   ),
 };

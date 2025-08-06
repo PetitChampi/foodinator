@@ -3,11 +3,21 @@ export interface Ingredient {
   name: string;
 }
 
+export interface MealTags {
+  cookingMethod?: string;
+  base?: string;
+  proteinSource?: string;
+  convenience?: string[];
+}
+
 export interface Meal {
   id: string;
   name: string;
   imageUrl?: string;
-  ingredients: string[]; // Array of ingredient IDs
+  // Both arrays below contain ingredient IDs
+  ingredients: string[];
+  seasoning?: string[];
+  tags?: MealTags;
 }
 
 export interface SelectedMeal {
