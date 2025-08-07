@@ -40,6 +40,7 @@ export const TAG_DEFINITIONS: TagDefinition[] = [
   { id: "seafood", name: "Seafood", category: "proteinSource" },
   { id: "lamb", name: "Lamb", category: "proteinSource" },
   { id: "eggs", name: "Eggs", category: "proteinSource" },
+  { id: "vegetarian", name: "Vegetarian", category: "proteinSource" },
 
   // Convenience
   { id: "sandwich", name: "Sandwich", category: "convenience" },

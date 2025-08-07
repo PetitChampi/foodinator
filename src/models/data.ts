@@ -29,6 +29,8 @@ export const ingredients: Ingredient[] = [
   { id: "garlic", name: "Garlic" },
   { id: "rosemary", name: "Rosemary" },
   { id: "brown-bread", name: "Brown bread" },
+  { id: "bread", name: "Bread" },
+  { id: "pita-bread", name: "Pita bread" },
   { id: "avocados", name: "Avocados" },
   { id: "hummus", name: "Hummus" },
   { id: "lime", name: "Lime" },
@@ -40,6 +42,7 @@ export const ingredients: Ingredient[] = [
   { id: "bell-pepper", name: "Bell pepper" },
   { id: "milk", name: "Milk" },
   { id: "parmesan", name: "Parmesan" },
+  { id: "mozzarella", name: "Mozzarella" },
   { id: "grana-padano", name: "Grana Padano" },
   { id: "lardons", name: "Lardons" },
   { id: "asparagus", name: "Asparagus" },
@@ -61,7 +64,6 @@ export const ingredients: Ingredient[] = [
   { id: "spinach", name: "Spinach" },
   { id: "basil", name: "Basil" },
   { id: "pine-nuts", name: "Pine nuts" },
-  { id: "pita-bread", name: "Pita bread" },
 ];
 
 export const meals: Meal[] = [
@@ -245,6 +247,19 @@ export const meals: Meal[] = [
     },
     // TODO: add seasoning staples prop. Will be in its own section of grocery list
     // Recommended seasoning: dill, lemon juice, balsamic vinegar, pepper
+  },
+  {
+    id: "tom-mozza-bruschetta",
+    name: "Tomato mozzarella bruschetta",
+    imageUrl: "./img-meals/tom-mozza-bruschetta.jpg",
+    ingredients: ["bread", "tomato", "mozzarella", "basil", "pine-nuts", "parmesan"],
+    tags: {
+      cookingMethod: "no-cook",
+      base: "bread",
+      proteinSource: "vegetarian",
+      convenience: ["sandwich"],
+    },
+    // seasoning: ["balsamic vinegar", "olive oil", "black-pepper"],
   },
 ];
 
