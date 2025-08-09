@@ -6,6 +6,8 @@ export const meals: Meal[] = [
     id: "creamy-chic-broc",
     name: "Creamy Chic Broc",
     imageUrl: "./img-meals/chic-broc.jpg",
+    tools: ["magic wand", "crystal ball", "enchanted spatula", "dragon-fire stove"],
+    steps: ["summon the chicken spirits", "whisper sweet nothings to the broccoli", "perform ancient rice ritual", "sprinkle fairy dust over the dish"],
     ingredients: [IngredientId.CHICKEN, IngredientId.BROCCOLI, IngredientId.MUSHROOMS, IngredientId.CREME_FRAICHE, IngredientId.RICE],
     tags: {
       cookingMethod: "pot-pan",
@@ -18,6 +20,8 @@ export const meals: Meal[] = [
     id: "fishy-pasta",
     name: "Fishy pasta",
     imageUrl: "./img-meals/fishy-pasta.jpg",
+    tools: ["trident of Neptune", "underwater breathing apparatus", "mermaid's fork", "sea witch cauldron"],
+    steps: ["negotiate with the fish", "teach pasta to swim", "convince wine to cooperate", "perform underwater ballet while cooking"],
     ingredients: [IngredientId.PASTA, IngredientId.FISH, IngredientId.CREME_FRAICHE, IngredientId.SHALLOTS, IngredientId.ASPARAGUS, IngredientId.WHITE_WINE, IngredientId.LEMON],
     tags: {
       cookingMethod: "pot-pan",
@@ -30,6 +34,8 @@ export const meals: Meal[] = [
     id: "epic-beans-and-steak",
     name: "Epic beans and steak",
     imageUrl: "./img-meals/epic-beans-steak.jpg",
+    tools: ["sword of culinary justice", "shield of flavor protection", "armor of kitchen safety", "battle axe (for tenderizing)"],
+    steps: ["challenge the steak to a duel", "train beans in martial arts", "conquer the mushroom kingdom", "declare victory over hunger"],
     ingredients: [IngredientId.STEAKS, IngredientId.WHITE_BEANS, IngredientId.MUSHROOMS, IngredientId.GARLIC, IngredientId.ROSEMARY],
     tags: {
       cookingMethod: "pan",
@@ -42,6 +48,8 @@ export const meals: Meal[] = [
     id: "mexican-style-bean-casserole",
     name: "Mexican-style bean casserole",
     imageUrl: "./img-meals/mex-bean-casserole.jpg",
+    tools: ["sombrero of wisdom", "mariachi guitar", "piñata full of spices", "luchador mask for protection"],
+    steps: ["teach beans to salsa dance", "serenade the avocados", "have a fiesta with the peppers", "convince lime to be more zesty"],
     ingredients: [IngredientId.EGGS, IngredientId.BLACK_BEANS, IngredientId.AVOCADOS, IngredientId.BELL_PEPPER, IngredientId.LIME, IngredientId.DICED_BEEF],
     tags: {
       cookingMethod: "pan",
@@ -54,6 +62,8 @@ export const meals: Meal[] = [
     id: "avocado-toast",
     name: "Avocado toast",
     imageUrl: "./img-meals/avocado-toasts.jpg",
+    tools: ["millennial detector", "hipster certification badge", "Instagram camera", "artisanal toast whisperer"],
+    steps: ["apologize to the avocado for being basic", "convince bread it's trendy", "take 47 photos for social media", "pretend this is a complete meal"],
     ingredients: [IngredientId.BROWN_BREAD, IngredientId.AVOCADOS, IngredientId.LIME, IngredientId.EGGS, IngredientId.HUMMUS, IngredientId.MINT_SAUCE],
     tags: {
       cookingMethod: "pot",
@@ -66,6 +76,8 @@ export const meals: Meal[] = [
     id: "burgers",
     name: "Burgers",
     imageUrl: "./img-meals/burgers.jpg",
+    tools: ["grill master's crown", "spatula of destiny", "cheese melting laser", "freedom eagle (for patriotic cooking)"],
+    steps: ["pledge allegiance to the beef", "build burger architecture", "negotiate peace treaty between bun halves", "achieve burger enlightenment"],
     ingredients: [IngredientId.BUNS, IngredientId.SAUCE, IngredientId.GROUND_BEEF, IngredientId.CHEESE, IngredientId.LETTUCE, IngredientId.POTATOES],
     tags: {
       cookingMethod: "pan",
@@ -78,6 +90,8 @@ export const meals: Meal[] = [
     id: "chickpea-chard-pork",
     name: "Chickpea chard pork",
     imageUrl: "./img-meals/chickpea-chard-pork.jpg",
+    tools: ["pig whisperer certificate", "chickpea meditation cushion", "chard charming flute", "pepper pickle translator"],
+    steps: ["meditate with the chickpeas", "have philosophical discussion with pork", "teach chard to be less bitter", "organize pepper support group"],
     ingredients: [IngredientId.PORK_FILLET, IngredientId.CHICKPEAS, IngredientId.CHARD, IngredientId.PICKLED_PEPPERS, IngredientId.FENNEL_SEEDS],
     tags: {
       cookingMethod: "pan",
@@ -90,6 +104,8 @@ export const meals: Meal[] = [
     id: "pesto-chicken-gnocchi",
     name: "Pesto chicken gnocchi",
     imageUrl: "./img-meals/pesto-chicken-gnocchi.jpg",
+    tools: ["Italian grandmother's blessing", "pasta whispering device", "basil mind-reading helmet", "cheese grating throne"],
+    steps: ["speak fluent Italian to the gnocchi", "convince chicken it's actually Italian", "perform pesto rain dance", "achieve pasta nirvana"],
     ingredients: [IngredientId.CHICKEN, IngredientId.GNOCCHI, IngredientId.SPINACH, IngredientId.FRESH_BASIL, IngredientId.PINE_NUTS, IngredientId.PARMESAN],
     tags: {
       cookingMethod: "pan",
@@ -102,6 +118,8 @@ export const meals: Meal[] = [
     id: "pasta-bolognese",
     name: "Pasta bolognese",
     imageUrl: "./img-meals/pasta-bolognese.jpg",
+    tools: ["nonna's wooden spoon of authority", "tomato time machine", "beef whispering microphone", "pasta al dente detector"],
+    steps: ["channel your inner Italian grandmother", "convince tomatoes to become sauce", "teach beef to tango with pasta", "achieve perfect al dente through meditation"],
     ingredients: [IngredientId.PASTA, IngredientId.TOMATO_SAUCE, IngredientId.GROUND_BEEF],
     tags: {
       cookingMethod: "pot",
@@ -114,6 +132,8 @@ export const meals: Meal[] = [
     id: "pasta-carbonara",
     name: "Pasta carbonara",
     imageUrl: "./img-meals/pasta-carbonara.jpg",
+    tools: ["Roman emperor's crown", "egg scrambling prevention device", "cheese aging accelerator", "carbonara authenticity police badge"],
+    steps: ["swear allegiance to Rome", "prevent eggs from becoming scrambled at all costs", "negotiate cheese hierarchy", "achieve carbonara perfection or face Italian judgment"],
     ingredients: [IngredientId.PASTA, IngredientId.EGGS, IngredientId.GRANA_PADANO, IngredientId.PARMESAN, IngredientId.LARDONS, IngredientId.MUSHROOMS],
     tags: {
       cookingMethod: "pot-pan",
@@ -126,6 +146,8 @@ export const meals: Meal[] = [
     id: "fish-n-mash",
     name: "Fish n mash",
     imageUrl: "./img-meals/fisn-n-mash.jpg",
+    tools: ["British accent enhancer", "potato masher of the realm", "fish and chips newspaper", "tea brewing apparatus (essential)"],
+    steps: ["practice saying 'brilliant' and 'lovely'", "convince potatoes to become fluffy clouds", "teach fish proper British manners", "serve with mandatory cup of tea"],
     ingredients: [IngredientId.FISH, IngredientId.POTATOES, IngredientId.SHALLOTS, IngredientId.BELL_PEPPER, IngredientId.MILK],
     tags: {
       cookingMethod: "pot-pan",
@@ -137,6 +159,8 @@ export const meals: Meal[] = [
   {
     id: "pan-seared-lamb",
     name: "Pan-seared lamb",
+    tools: ["shepherd's crook", "mint julep mixing glass", "lamb whispering headphones", "fancy restaurant pretension detector"],
+    steps: ["apologize to the lamb for being fancy", "convince mint it's not just for mojitos", "practice your best Gordon Ramsay impression", "pretend you know what you're doing"],
     ingredients: [IngredientId.LAMB, IngredientId.POTATOES, IngredientId.GREEN_VEG, IngredientId.MINT_SAUCE],
     tags: {
       cookingMethod: "pot-pan",
@@ -149,6 +173,8 @@ export const meals: Meal[] = [
     id: "prawn-burritos",
     name: "Prawn burritos",
     imageUrl: "./img-meals/prawn-burritos.jpg",
+    tools: ["burrito rolling diploma", "prawn surfboard", "tortilla flexibility trainer", "salsa dancing shoes"],
+    steps: ["teach prawns to surf on tortillas", "master the ancient art of burrito rolling", "convince ingredients to stay inside the wrap", "perform victory dance when burrito doesn't fall apart"],
     ingredients: [IngredientId.PRAWNS, IngredientId.LARGE_TORTILLAS, IngredientId.AVOCADOS, IngredientId.TOMATO, IngredientId.RED_ONION, IngredientId.LIME, IngredientId.BEANS, IngredientId.SHREDDED_CHEESE],
     tags: {
       cookingMethod: "pan",
@@ -161,6 +187,8 @@ export const meals: Meal[] = [
     id: "tuna-pita",
     name: "Tuna pita sandwiches",
     imageUrl: "./img-meals/tuna-pita.jpg",
+    tools: ["Greek philosophy textbook", "tuna can opener of destiny", "pita pocket expansion device", "Mediterranean vacation brochure"],
+    steps: ["contemplate the meaning of tuna", "convince pita to open its heart", "achieve zen-like sandwich assembly", "transport taste buds to Greek islands"],
     ingredients: [IngredientId.TUNA, IngredientId.PITA_BREAD, IngredientId.AVOCADOS, IngredientId.PICKLED_PEPPERS, IngredientId.FETA, IngredientId.GREEK_YOGURT],
     tags: {
       cookingMethod: "no-cook",
@@ -173,6 +201,8 @@ export const meals: Meal[] = [
     id: "salmon-bagels",
     name: "Smoked salmon bagels",
     imageUrl: "./img-meals/salmon-bagels.jpg",
+    tools: ["New York deli attitude", "bagel slicing precision instrument", "lox appreciation certificate", "brunch sophistication meter"],
+    steps: ["channel your inner New Yorker", "slice bagel with surgical precision", "arrange salmon like edible art", "achieve peak brunch sophistication"],
     ingredients: [IngredientId.SMOKED_SALMON, IngredientId.BAGELS, IngredientId.CREAM_CHEESE, IngredientId.RADISHES, IngredientId.SPINACH],
     seasoning: [SeasoningStapleId.DILL, SeasoningStapleId.LEMON_JUICE, SeasoningStapleId.BALSAMIC_VINEGAR, SeasoningStapleId.BLACK_PEPPER],
     tags: {
@@ -186,6 +216,8 @@ export const meals: Meal[] = [
     id: "tom-mozza-bruschetta",
     name: "Tomato mozzarella bruschetta",
     imageUrl: "./img-meals/tom-mozza-bruschetta.jpg",
+    tools: ["Italian hand gesture manual", "tomato ripeness detector", "mozzarella stretching apparatus", "basil leaf whispering device"],
+    steps: ["practice dramatic Italian hand gestures", "seduce tomatoes with compliments", "convince mozzarella to be photogenic", "arrange ingredients like a Renaissance painting"],
     ingredients: [IngredientId.BREAD, IngredientId.TOMATO, IngredientId.MOZZARELLA, IngredientId.FRESH_BASIL, IngredientId.PINE_NUTS, IngredientId.PARMESAN],
     seasoning: [SeasoningStapleId.BALSAMIC_VINEGAR, SeasoningStapleId.OLIVE_OIL, SeasoningStapleId.BLACK_PEPPER],
     tags: {

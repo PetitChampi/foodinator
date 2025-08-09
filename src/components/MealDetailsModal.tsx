@@ -53,11 +53,9 @@ export function MealDetailsModal({ mealId }: MealDetailsModalProps) {
           <div className="modal-section">
             <h3 className="modal-section-header"><Icon name="tools-kitchen" className="icon" />Tools</h3>
             <ul>
-              <li>Non-stick pan</li>
-              <li>Large pot</li>
-              <li>Tongs</li>
-              <li>2 medium-sized bowls</li>
-              <li>1 plate</li>
+              {meal.tools?.map((tool, index) => (
+                <li key={index} data-testid={`meal-modal-tool-${index}`}>{tool}</li>
+              )) || <li>No tools specified</li>}
             </ul>
           </div>
         </div>
@@ -75,9 +73,9 @@ export function MealDetailsModal({ mealId }: MealDetailsModalProps) {
         <div className="modal-section">
           <h3 className="modal-section-header"><Icon name="list-numbers" className="icon" />Steps</h3>
           <ol>
-            <li>Cut the vegetables finely</li>
-            <li>Sear the meat on medium-high heat</li>
-            <li>Do something else until meal ready</li>
+            {meal.steps?.map((step, index) => (
+              <li key={index} data-testid={`meal-modal-step-${index}`}>{step}</li>
+            )) || <li>No steps specified</li>}
           </ol>
         </div>
       </div>

@@ -14,6 +14,8 @@ export interface Meal {
   id: string;
   name: string;
   imageUrl?: string;
+  tools?: string[];
+  steps?: string[];
   // Both arrays below contain ingredient IDs from enums
   ingredients: string[];
   seasoning?: string[];
