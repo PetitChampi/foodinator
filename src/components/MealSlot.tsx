@@ -1,5 +1,5 @@
 import React from "react";
-import { getMealById } from "@/models/data";
+import { getMealById } from "@/models/mealData";
 
 interface MealSlotProps {
   mealId: string | null;

@@ -153,13 +153,19 @@
 @mixin title-delimiter {
   display: flex;
   align-items: center;
-  gap: $spacing-md;
+  gap: $spacing-sm;
   text-wrap: nowrap;
   &::after {
     content: "";
     height: 1px;
     width: 100%;
     background-color: $gray-5;
+  }
+  .icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: $gray-3;
   }
 }
 

@@ -70,3 +70,28 @@
     white-space: nowrap;
   }
 }
+
+.search-input-container {
+  position: relative;
+  width: 100%;
+  .search-input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: $gray-3;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .search-input-field {
+    @include form-control;
+    width: 100%;
+    padding-left: 40px;
+    border-radius: $border-radius-max;
+    &::placeholder {
+      color: $gray-3;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 
 interface IconProps {
-  name: "list" | "calendar-week" | "shopping-bag" | "filter";
+  name: "list" | "calendar-week" | "shopping-bag" | "filter" | "carrot" | "list-numbers" | "search" | "tools-kitchen";
   className?: string;
   size?: number;
 }
@@ -47,6 +47,40 @@ const iconPaths = {
       <path d="M4 6h16" />
       <path d="M6 12h12" />
       <path d="M9 18h6" />
+    </>
+  ),
+  carrot: (
+    <>
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M3 21s9.834 -3.489 12.684 -6.34a4.487 4.487 0 0 0 0 -6.344a4.483 4.483 0 0 0 -6.342 0c-2.86 2.861 -6.347 12.689 -6.342 12.684z" />
+      <path d="M9 13l-1.5 -1.5" />
+      <path d="M16 14l-2 -2" />
+      <path d="M22 8s-1.14 -2 -3 -2c-1.406 0 -3 2 -3 2s1.14 2 3 2s3 -2 3 -2z" />
+      <path d="M16 2s-2 1.14 -2 3s2 3 2 3s2 -1.577 2 -3c0 -1.86 -2 -3 -2 -3z" />
+    </>
+  ),
+  "list-numbers": (
+    <>
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M11 6h9" />
+      <path d="M11 12h9" />
+      <path d="M11 18h9" />
+      <path d="M4 16a2 2 0 1 1 4 0c0 .591 -.5 1 -1 1.5l-3 2.5h4" />
+      <path d="M6 10v-6l-2 2" />
+    </>
+  ),
+  search: (
+    <>
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+      <path d="M21 21l-6 -6" />
+    </>
+  ),
+  "tools-kitchen": (
+    <>
+      <path d="M7 4v17m-3 -17v3a3 3 0 1 0 6 0v-3" />
+      <path d="M17 8m-3 0a3 4 0 1 0 6 0a3 4 0 1 0 -6 0" />
+      <path d="M17 12v9" />
     </>
   ),
 };

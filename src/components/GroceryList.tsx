@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { GroceryItem } from "@/models/types";
-import { getIngredientById, getMealById } from "@/models/data";
+import { getIngredientById } from "@/models/ingredients";
+import { getMealById } from "@/models/mealData";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 import { useDebounce } from "@/hooks/useDebounce";
 import { groceryListTestIds } from "@/utils/testUtils";

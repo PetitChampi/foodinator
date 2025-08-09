@@ -68,7 +68,7 @@ export const TagFilter: React.FC = () => {
   return (
     <div className="tag-filter" ref={dropdownRef}>
       <button
-        className={`btn btn-secondary ${isOpen ? "active" : ""}`}
+        className={`btn btn-tertiary-neutral ${isOpen ? "active" : ""}`}
         onClick={toggleDropdown}
         type="button"
       >

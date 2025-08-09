@@ -1,7 +1,9 @@
 import React, { useMemo } from "react";
-import { getIngredientById, ingredients, meals } from "@/models/data";
+import { getIngredientById, ingredients } from "@/models/ingredients";
+import { meals } from "@/models/mealData";
 import { SelectableMealItem } from "@/components/SelectableMealItem";
 import { TagFilter } from "@/components/TagFilter";
+import { SearchInput } from "@/components/SearchInput";
 import { useFoodinatorStore, useRemainingSlots } from "@/store/useFoodinatorStore";
 import { Ingredient, Meal } from "@/models/types";
 import { mealSelectorTestIds } from "@/utils/testUtils";
@@ -87,12 +89,10 @@ export const MealSelector: React.FC = () => {
       </div>
       <div className="search-controls">
         <div className="form-group search">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search meals and ingredients"
+          <SearchInput
             value={searchState.searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={setSearchTerm}
+            placeholder="Search meals"
             data-testid={mealSelectorTestIds.searchInput}
           />
         </div>

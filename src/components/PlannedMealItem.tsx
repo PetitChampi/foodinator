@@ -1,5 +1,5 @@
 import React from "react";
-import { getMealById } from "@/models/data";
+import { getMealById } from "@/models/mealData";
 import { useModal } from "@/contexts/ModalContext";
 import { MealDetailsModal } from "./MealDetailsModal";
 import { MealCard } from "./MealCard";
