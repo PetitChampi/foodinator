@@ -1,9 +1,10 @@
 import React from "react";
 
 interface IconProps {
-  name: "list" | "calendar-week" | "shopping-bag" | "filter" | "carrot" | "list-numbers" | "search" | "tools-kitchen";
+  name: "list" | "calendar-week" | "shopping-bag" | "filter" | "carrot" | "list-numbers" | "search" | "tools-kitchen" | "chevron-down";
   className?: string;
   size?: number;
+  strokeWidth?: number;
 }
 
 const iconPaths = {
@@ -83,9 +84,15 @@ const iconPaths = {
       <path d="M17 12v9" />
     </>
   ),
+  "chevron-down": (
+    <>
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M6 9l6 6l6 -6" />
+    </>
+  ),
 };
 
-export const Icon: React.FC<IconProps> = ({ name, className = "", size = 24 }) => {
+export const Icon: React.FC<IconProps> = ({ name, className = "", size = 24, strokeWidth = 1.5 }) => {
   return (
     <svg
       className={className}
@@ -95,7 +102,7 @@ export const Icon: React.FC<IconProps> = ({ name, className = "", size = 24 }) =
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
     >

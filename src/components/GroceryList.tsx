@@ -5,6 +5,7 @@ import { getMealById } from "@/models/mealData";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 import { useDebounce } from "@/hooks/useDebounce";
 import { groceryListTestIds } from "@/utils/testUtils";
+import { Icon } from "@/components/Icon";
 
 export const GroceryList: React.FC = () => {
   const mealSlots = useFoodinatorStore(state => state.mealSlots);
@@ -13,10 +14,12 @@ export const GroceryList: React.FC = () => {
   const toggleItemChecked = useFoodinatorStore(state => state.toggleItemChecked);
   const updateNotes = useFoodinatorStore(state => state.updateNotes);
 
-  const { items, isEmpty, groupedByMeal } = useMemo(() => {
+  const { items, isEmpty, groupedByMeal, seasoningStaples } = useMemo(() => {
     const mealIdsInOrder = mealSlots.map(slot => slot.mealId);
 
     const ingredientPortions = new Map<string, number>();
+    const seasoningStaplesSet = new Set<string>();
+
     mealIdsInOrder.forEach(mealId => {
       if (!mealId) return;
       const meal = getMealById(mealId);
@@ -26,10 +29,17 @@ export const GroceryList: React.FC = () => {
         const currentPortions = ingredientPortions.get(ingredientId) || 0;
         ingredientPortions.set(ingredientId, currentPortions + 1);
       });
+
+      // Collect seasoning staples
+      if (meal.seasoning) {
+        meal.seasoning.forEach(seasoningId => {
+          seasoningStaplesSet.add(seasoningId);
+        });
+      }
     });
 
     if (ingredientPortions.size === 0) {
-      return { items: [], isEmpty: true, groupedByMeal: new Map() };
+      return { items: [], isEmpty: true, groupedByMeal: new Map(), seasoningStaples: [] };
     }
 
     const allItems: GroceryItem[] = Array.from(ingredientPortions.entries()).map(([id, portions]) => ({
@@ -64,15 +74,23 @@ export const GroceryList: React.FC = () => {
       }
     });
 
+    const seasoningStaplesItems = Array.from(seasoningStaplesSet).map(seasoningId => ({
+      ingredientId: seasoningId,
+      portions: 1, // Seasonings don't have portions
+      checked: checkedItems[seasoningId] || false,
+    }));
+
     return {
       items: allItems,
       isEmpty: allItems.length === 0,
       groupedByMeal,
+      seasoningStaples: seasoningStaplesItems,
     };
   }, [mealSlots, checkedItems]);
 
   const [sortBy, setSortBy] = useState<"name" | "portions" | "meal">("meal");
   const [showChecked, setShowChecked] = useState(true);
+  const [seasoningCollapsed, setSeasoningCollapsed] = useState(true);
 
   const [localNotes, setLocalNotes] = useState(notes);
   const debouncedNotes = useDebounce(localNotes, 500);
@@ -164,8 +182,35 @@ export const GroceryList: React.FC = () => {
         </div>
       ) : (
         <>
+          {seasoningStaples.length > 0 && (
+            <div className="grocery-section" data-testid={groceryListTestIds.section("seasoning-staples")}>
+              <h3
+                className="grocery-section__title grocery-section__title--collapsible"
+                onClick={() => setSeasoningCollapsed(!seasoningCollapsed)}
+                data-testid={groceryListTestIds.sectionTitle("seasoning-staples")}
+              >
+                Seasoning staples
+                <Icon
+                  strokeWidth={2.5}
+                  name="chevron-down"
+                  className={`collapse-icon ${seasoningCollapsed ? "collapsed" : "expanded"}`}
+                />
+              </h3>
+              {!seasoningCollapsed && (
+                <ul
+                  className="grocery-section__list"
+                  data-testid={groceryListTestIds.sectionList("seasoning-staples")}
+                >
+                  {seasoningStaples
+                    .filter(item => showChecked || !item.checked)
+                    .map(renderGroceryItem)}
+                </ul>
+              )}
+            </div>
+          )}
+
           {sortBy === "meal" && groupedByMeal ? (
-            <div>
+            <>
               {Array.from(groupedByMeal.entries()).map(([mealId, mealItems]) => {
                 const filteredMealItems = showChecked ? mealItems : mealItems.filter((item: GroceryItem) => !item.checked);
                 if (filteredMealItems.length === 0) return null;
@@ -192,7 +237,7 @@ export const GroceryList: React.FC = () => {
                   </div>
                 );
               })}
-            </div>
+            </>
           ) : (
             <div className="grocery-section" data-testid={groceryListTestIds.section()}>
               <ul className="grocery-section__list" data-testid={groceryListTestIds.sectionList()}>

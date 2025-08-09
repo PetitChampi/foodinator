@@ -61,17 +61,36 @@
 }
 
 .grocery-section {
-  padding-top: $spacing-lg;
   &__title {
     @include title-delimiter;
     font-size: $font-size-md;
     font-weight: 600;
     padding-bottom: $spacing-xs;
     margin-bottom: $spacing-sm;
+    &--collapsible {
+      cursor: pointer;
+      user-select: none;
+      transition: color $transition-base;
+    }
   }
   &__list {
     list-style: none;
     padding: 0;
+    padding-bottom: $spacing-lg;
+  }
+}
+
+.collapse-icon {
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  transition: transform $transition-base;
+  &.collapsed {
+    transform: rotate(-90deg);
+  }
+  &.expanded {
+    transform: rotate(0deg);
   }
 }
 
