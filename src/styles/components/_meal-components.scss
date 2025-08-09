@@ -95,7 +95,7 @@
 }
 
 .grocery-notes {
-  margin-top: $spacing-xxxl;
+  margin-top: $spacing-xl;
   &__title {
     font-size: $font-size-base;
     margin-bottom: $spacing-xs;
@@ -105,5 +105,10 @@
     color: $gray-3;
     margin-top: $spacing-xs;
     text-align: right;
+  }
+  textarea {
+    font-family: inherit;
+    height: 200px;
+    resize: vertical;
   }
 }
