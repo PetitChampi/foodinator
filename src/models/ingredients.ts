@@ -70,12 +70,16 @@ export enum IngredientId {
 // Enum for seasoning staple IDs
 export enum SeasoningStapleId {
   OLIVE_OIL = "olive-oil",
+  BUTTER = "butter",
   PAPRIKA = "paprika",
   PAPRIKA_MIX = "paprika-mix",
   GARLIC_POWDER_MIX = "garlic-powder-mix",
   DILL = "dill",
   LEMON_JUICE = "lemon-juice",
   BALSAMIC_VINEGAR = "balsamic-vinegar",
+  RED_WINE_VINEGAR = "red-wine-vinegar",
+  WHITE_WINE_VINEGAR = "white-wine-vinegar",
+  CIDER_VINEGAR = "cider-vinegar",
   BLACK_PEPPER = "black-pepper",
 }
 
@@ -147,12 +151,16 @@ export const ingredients: Ingredient[] = [
 
 export const seasoningStaples: Ingredient[] = [
   { id: SeasoningStapleId.OLIVE_OIL, name: "Olive oil" },
+  { id: SeasoningStapleId.BUTTER, name: "Butter" },
   { id: SeasoningStapleId.PAPRIKA, name: "Paprika" },
   { id: SeasoningStapleId.PAPRIKA_MIX, name: "Paprika mix" },
   { id: SeasoningStapleId.GARLIC_POWDER_MIX, name: "Garlic powder mix" },
   { id: SeasoningStapleId.DILL, name: "Dill" },
   { id: SeasoningStapleId.LEMON_JUICE, name: "Lemon juice" },
   { id: SeasoningStapleId.BALSAMIC_VINEGAR, name: "Balsamic vinegar" },
+  { id: SeasoningStapleId.RED_WINE_VINEGAR, name: "Red wine vinegar" },
+  { id: SeasoningStapleId.WHITE_WINE_VINEGAR, name: "White wine vinegar" },
+  { id: SeasoningStapleId.CIDER_VINEGAR, name: "Cider vinegar" },
   { id: SeasoningStapleId.BLACK_PEPPER, name: "Black pepper" },
 ];
 
