@@ -31,7 +31,7 @@
       background-color: white;
       border: 1px solid rgba($gray-1, .4);
       &:hover:not(:disabled) {
-        background-color: rgba($gray-2, .1) !important;
+        background-color: $gray-6 !important;
         color: color.adjust($gray-2, $lightness: -10%);
       }
       &:focus {

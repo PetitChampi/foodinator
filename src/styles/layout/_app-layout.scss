@@ -31,6 +31,12 @@
   background-color: $gray-6;
   color: $gray-3;
   border: 1px solid $gray-5;
+  &.empty-search {
+    min-height: 180px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+  }
 }
 
 .search {

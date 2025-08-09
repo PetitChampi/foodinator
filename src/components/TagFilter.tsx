@@ -5,12 +5,13 @@ import { Icon } from "@/components/Icon";
 
 export const TagFilter: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [maxHeight, setMaxHeight] = useState<number | undefined>(undefined);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const { searchState, addTag, removeTag, clearTags } = useFoodinatorStore();
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  // Categories that allow only one selection
   const singleSelectCategories: TagCategory[] = ["cookingMethod", "base", "proteinSource"];
 
   const handleTagClick = (tagId: string) => {
@@ -22,7 +23,6 @@ export const TagFilter: React.FC = () => {
     if (selectedTags.includes(tagId)) {
       removeTag(tagId);
     } else {
-      // For single-select categories, remove any existing tag from the same category
       if (singleSelectCategories.includes(tag.category)) {
         const categoryTags = getTagsByCategory(tag.category);
         const existingTagInCategory = selectedTags.find(selectedTagId =>
@@ -38,7 +38,6 @@ export const TagFilter: React.FC = () => {
     }
   };
 
-  // Helper function to check if a category has any selected tags
   const getCategorySelectedTag = (category: TagCategory): string | null => {
     const selectedTags = searchState.selectedTags || [];
     const categoryTags = getTagsByCategory(category);
@@ -48,6 +47,53 @@ export const TagFilter: React.FC = () => {
   };
 
   const selectedTagsCount = (searchState.selectedTags || []).length;
+
+  const calculateMaxHeight = () => {
+    if (!buttonRef.current) return;
+
+    const buttonRect = buttonRef.current.getBoundingClientRect();
+    const tabsElement = document.querySelector(".tabs");
+
+    if (tabsElement) {
+      const tabsRect = tabsElement.getBoundingClientRect();
+      // Calculate space between button bottom and tabs top, minus some padding
+      const availableSpace = tabsRect.top - buttonRect.bottom - 20;
+      setMaxHeight(Math.max(200, availableSpace));
+    } else {
+      // Fallback if tabs not found
+      const viewportHeight = window.innerHeight;
+      const availableSpace = viewportHeight - buttonRect.bottom - 100;
+      setMaxHeight(Math.max(200, availableSpace));
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      calculateMaxHeight();
+      const handleResize = () => calculateMaxHeight();
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(calculateMaxHeight, 10);
+    }
+  }, [searchState.selectedTags, searchState.selectedIngredients, searchState.searchTerm, isOpen]);
+
+  useEffect(() => {
+    const initialCalculation = () => {
+      setTimeout(calculateMaxHeight, 100);
+    };
+
+    initialCalculation();
+
+    const handleResize = () => calculateMaxHeight();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -68,6 +114,7 @@ export const TagFilter: React.FC = () => {
   return (
     <div className="tag-filter" ref={dropdownRef}>
       <button
+        ref={buttonRef}
         className={`btn btn-tertiary-neutral ${isOpen ? "active" : ""}`}
         onClick={toggleDropdown}
         type="button"
@@ -78,7 +125,10 @@ export const TagFilter: React.FC = () => {
         )}
       </button>
 
-      <div className={`tag-filter-dropdown ${isOpen ? "open" : ""}`}>
+      <div
+        className={`tag-filter-dropdown ${isOpen ? "open" : ""}`}
+        style={{ maxHeight: maxHeight ? `${maxHeight}px` : undefined }}
+      >
         {searchState.selectedTags.length > 0 && (
           <div className="clear-filters-footer">
             <button onClick={clearTags} className="btn btn-danger-tertiary btn-sm clear-filters-btn">Clear filters</button>

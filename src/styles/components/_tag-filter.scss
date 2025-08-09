@@ -31,7 +31,7 @@
   position: absolute;
   top: 100%;
   right: 0;
-  overflow: hidden;
+  overflow-y: auto;
   background: $card-background;
   border: 1px solid $border-color;
   border-radius: $border-radius-xl;
@@ -44,6 +44,8 @@
   transform: translateY(-10px);
   visibility: hidden;
   transition: opacity $transition-base, transform $transition-base, visibility $transition-base;
+  display: flex;
+  flex-direction: column;
   &.open {
     opacity: 1;
     transform: translateY(0);
@@ -51,10 +53,11 @@
   }
   .tag-filter-contents {
     padding: $spacing-lg;
+    flex: 1;
+    overflow-y: auto;
   }
   .clear-filters-footer {
-    position: sticky;
-    top: 0;
+    flex-shrink: 0;
     padding: 5px;
     background-color: white;
     border-bottom: 1px solid $border-color;

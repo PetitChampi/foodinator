@@ -156,7 +156,7 @@ export const MealSelector: React.FC = () => {
       )}
 
       {showNoResultsMessage ? (
-        <div className="empty" data-testid="no-results">No meals found matching your search and filter criteria.</div>
+        <div className="empty empty-search" data-testid="no-results">No meals found matching your search and filter criteria.</div>
       ) : (
         <div className="meal-grid">
           {matchingMeals.map((meal: Meal) => (
