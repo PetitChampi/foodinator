@@ -241,6 +241,21 @@ export const meals: Meal[] = [
       convenience: ["sandwich"],
     },
   },
+  {
+    id: "honey-garlic-chicken-skewers",
+    name: "Honey garlic chicken skewers",
+    imageUrl: "./img-meals/chicken-skewers.jpg",
+    tools: ["1 bowl (for marinade)", "1 large plate", "Skewers", "Grill"],
+    steps: ["dramatically stab chicken", "step 2", "step 3", "step 4"],
+    ingredients: [IngredientId.CHICKEN, IngredientId.BELL_PEPPER, IngredientId.WHITE_ONION, IngredientId.PEARL_COUSCOUS],
+    seasoning: [SeasoningStapleId.SOY_SAUCE, SeasoningStapleId.HONEY, SeasoningStapleId.GINGER, SeasoningStapleId.SESAME_OIL, SeasoningStapleId.SESAME_SEEDS, SeasoningStapleId.GARLIC_PASTE],
+    tags: {
+      cookingMethod: "grill",
+      base: "couscous",
+      proteinSource: "chicken",
+      convenience: [],
+    },
+  },
 ];
 
 export const getMealById = (id: string): Meal | null => {

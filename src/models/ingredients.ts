@@ -15,6 +15,7 @@ export enum IngredientId {
   RADISHES = "radishes",
   LARGE_TORTILLAS = "large-tortillas",
   RED_ONION = "red-onion",
+  WHITE_ONION = "white-onion",
   TOMATO = "tomato",
   BEANS = "beans",
   BROCCOLI = "broccoli",
@@ -49,6 +50,7 @@ export enum IngredientId {
   ASPARAGUS = "asparagus",
   WHITE_WINE = "white-wine",
   NEW_POTATOES = "new-potatoes",
+  PEARL_COUSCOUS = "pearl-couscous",
   GREEN_VEG = "green-veg",
   MINT_SAUCE = "mint-sauce",
   PICKLED_PEPPERS = "pickled-peppers",
@@ -81,6 +83,12 @@ export enum SeasoningStapleId {
   WHITE_WINE_VINEGAR = "white-wine-vinegar",
   CIDER_VINEGAR = "cider-vinegar",
   BLACK_PEPPER = "black-pepper",
+  HONEY = "honey",
+  SOY_SAUCE = "soy-sauce",
+  SESAME_OIL = "sesame-oil",
+  SESAME_SEEDS = "sesame-seeds",
+  GINGER = "ginger",
+  GARLIC_PASTE = "garlic-paste",
 }
 
 export const ingredients: Ingredient[] = [
@@ -97,6 +105,7 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.RADISHES, name: "Radishes" },
   { id: IngredientId.LARGE_TORTILLAS, name: "Large tortillas" },
   { id: IngredientId.RED_ONION, name: "Red onion" },
+  { id: IngredientId.WHITE_ONION, name: "White onion" },
   { id: IngredientId.TOMATO, name: "Tomato" },
   { id: IngredientId.BEANS, name: "Beans" },
   { id: IngredientId.BROCCOLI, name: "Broccoli" },
@@ -131,6 +140,7 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.ASPARAGUS, name: "Asparagus" },
   { id: IngredientId.WHITE_WINE, name: "White wine" },
   { id: IngredientId.NEW_POTATOES, name: "New potatoes" },
+  { id: IngredientId.PEARL_COUSCOUS, name: "Pearl couscous" },
   { id: IngredientId.GREEN_VEG, name: "Green veg" },
   { id: IngredientId.MINT_SAUCE, name: "Mint sauce" },
   { id: IngredientId.PICKLED_PEPPERS, name: "Pickled peppers" },
@@ -162,6 +172,12 @@ export const seasoningStaples: Ingredient[] = [
   { id: SeasoningStapleId.WHITE_WINE_VINEGAR, name: "White wine vinegar" },
   { id: SeasoningStapleId.CIDER_VINEGAR, name: "Cider vinegar" },
   { id: SeasoningStapleId.BLACK_PEPPER, name: "Black pepper" },
+  { id: SeasoningStapleId.HONEY, name: "Honey" },
+  { id: SeasoningStapleId.SOY_SAUCE, name: "Soy sauce" },
+  { id: SeasoningStapleId.SESAME_OIL, name: "Sesame oil" },
+  { id: SeasoningStapleId.SESAME_SEEDS, name: "Sesame seeds" },
+  { id: SeasoningStapleId.GINGER, name: "Ginger" },
+  { id: SeasoningStapleId.GARLIC_PASTE, name: "Garlic paste" },
 ];
 
 export const getIngredientById = (id: string): Ingredient | null => {

@@ -18,6 +18,7 @@ export const TAG_DEFINITIONS: TagDefinition[] = [
   { id: "pot", name: "Pot only", category: "cookingMethod" },
   { id: "slow-cooker", name: "Slow cooker", category: "cookingMethod" },
   { id: "oven", name: "Oven", category: "cookingMethod" },
+  { id: "grill", name: "Grill", category: "cookingMethod" },
   { id: "pan", name: "Pan only", category: "cookingMethod" },
   { id: "pot-pan", name: "Pot & pan", category: "cookingMethod" },
   { id: "no-cook", name: "No cook", category: "cookingMethod" },
@@ -30,7 +31,8 @@ export const TAG_DEFINITIONS: TagDefinition[] = [
   { id: "tortillas", name: "Tortillas", category: "base" },
   { id: "gnocchi", name: "Gnocchi", category: "base" },
   { id: "beans", name: "Beans", category: "base" },
-  { id: "chicipeas", name: "Chickpeas", category: "base" },
+  { id: "chickpeas", name: "Chickpeas", category: "base" },
+  { id: "couscous", name: "Couscous", category: "base" },
 
   // Protein source
   { id: "chicken", name: "Chicken", category: "proteinSource" },
