@@ -3,11 +3,13 @@ export interface Ingredient {
   name: string;
 }
 
+import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "./tagDefinitions";
+
 export interface MealTags {
-  cookingMethod?: string;
-  base?: string;
-  proteinSource?: string;
-  convenience?: string[];
+  cookingMethod?: CookingMethodTag;
+  base?: BaseTag;
+  proteinSource?: ProteinSourceTag;
+  convenience?: ConvenienceTag[];
 }
 
 export interface Meal {
@@ -15,7 +17,10 @@ export interface Meal {
   name: string;
   imageUrl?: string;
   tools?: string[];
-  steps?: string[];
+  steps: {
+    prep: string[];
+    cook: string[];
+  };
   // Both arrays below contain ingredient IDs from enums
   ingredients: string[];
   seasoning?: string[];

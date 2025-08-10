@@ -72,11 +72,32 @@ export function MealDetailsModal({ mealId }: MealDetailsModalProps) {
 
         <div className="modal-section">
           <h3 className="modal-section-header"><Icon name="list-numbers" className="icon" />Steps</h3>
-          <ol>
-            {meal.steps?.map((step, index) => (
-              <li key={index} data-testid={`meal-modal-step-${index}`}>{step}</li>
-            )) || <li>No steps specified</li>}
-          </ol>
+          {meal.steps ? (
+            <>
+              {meal.steps.prep && meal.steps.prep.length > 0 && (
+                <div className="steps-section">
+                  <h4 className="steps-subsection-header">Preparation</h4>
+                  <ol>
+                    {meal.steps.prep.map((step, index) => (
+                      <li key={`prep-${index}`} data-testid={`meal-modal-prep-step-${index}`}>{step}</li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+              {meal.steps.cook && meal.steps.cook.length > 0 && (
+                <div className="steps-section">
+                  <h4 className="steps-subsection-header">Cooking</h4>
+                  <ol start={meal.steps.prep ? meal.steps.prep.length + 1 : 1}>
+                    {meal.steps.cook.map((step, index) => (
+                      <li key={`cook-${index}`} data-testid={`meal-modal-cook-step-${index}`}>{step}</li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+            </>
+          ) : (
+            <p>No steps specified</p>
+          )}
         </div>
       </div>
     </div>

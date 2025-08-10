@@ -6,6 +6,47 @@ export interface TagDefinition {
 
 export type TagCategory = "cookingMethod" | "base" | "proteinSource" | "convenience";
 
+// Tag enums for type safety
+export enum CookingMethodTag {
+  POT = "pot",
+  SLOW_COOKER = "slow-cooker",
+  OVEN = "oven",
+  GRILL = "grill",
+  PAN = "pan",
+  POT_PAN = "pot-pan",
+  NO_COOK = "no-cook",
+}
+
+export enum BaseTag {
+  RICE = "rice",
+  PASTA = "pasta",
+  BREAD = "bread",
+  POTATOES = "potatoes",
+  TORTILLAS = "tortillas",
+  GNOCCHI = "gnocchi",
+  BEANS = "beans",
+  CHICKPEAS = "chickpeas",
+  COUSCOUS = "couscous",
+}
+
+export enum ProteinSourceTag {
+  CHICKEN = "chicken",
+  BEEF = "beef",
+  PORK = "pork",
+  FISH = "fish",
+  SEAFOOD = "seafood",
+  LAMB = "lamb",
+  EGGS = "eggs",
+  VEGETARIAN = "vegetarian",
+}
+
+export enum ConvenienceTag {
+  SANDWICH = "sandwich",
+  FRIDGE_FRIENDLY = "fridge-friendly",
+  BATCHABLE = "batchable",
+  ONE_POT = "one-pot",
+}
+
 export const TAG_CATEGORIES: Record<TagCategory, string> = {
   cookingMethod: "Cooking method",
   base: "Carb base",
