@@ -42,7 +42,7 @@ export const SelectableMealItem: React.FC<SelectableMealItemProps> = ({
   const stopPropagation = (e: React.MouseEvent) => e.stopPropagation();
 
   return (
-    <div>
+    <>
       <MealCard imageUrl={meal.imageUrl} title={meal.name} onClick={handleCardClick}>
         <div className="controls" onClick={stopPropagation}>
           <QuantitySelector
@@ -64,6 +64,6 @@ export const SelectableMealItem: React.FC<SelectableMealItemProps> = ({
         </div>
       </MealCard>
       {error && <p className="error-text" style={{ marginTop: "8px" }}>{error}</p>}
-    </div>
+    </>
   );
 };

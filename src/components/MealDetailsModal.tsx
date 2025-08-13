@@ -76,7 +76,7 @@ export function MealDetailsModal({ mealId }: MealDetailsModalProps) {
             <>
               {meal.steps.prep && meal.steps.prep.length > 0 && (
                 <div className="steps-section">
-                  <h4 className="steps-subsection-header">Preparation</h4>
+                  <h4 className="steps-subsection-header">Prep</h4>
                   <ol>
                     {meal.steps.prep.map((step, index) => (
                       <li key={`prep-${index}`} data-testid={`meal-modal-prep-step-${index}`}>{step}</li>

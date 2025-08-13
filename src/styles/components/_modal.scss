@@ -130,6 +130,11 @@
       font-size: $font-size-base;
       margin-bottom: $spacing-sm;
     }
+    .steps-subsection-header {
+      font-size: $font-size-sm;
+      font-weight: 600;
+      margin: $spacing-lg 0 $spacing-xs;
+    }
     ul, ol {
       padding-left: $spacing-xxl;
       li {
