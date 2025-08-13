@@ -2,6 +2,7 @@ import { create, StateCreator } from "zustand";
 import { produce } from "immer";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { TOTAL_SLOTS } from "@/config/constants";
+import { MealTagId } from "@/models/types";
 
 export interface MealSlot {
   mealId: string | null;
@@ -26,7 +27,7 @@ interface FoodinatorState {
   searchState: {
     searchTerm: string;
     selectedIngredients: string[];
-    selectedTags: string[];
+    selectedTags: MealTagId[];
   };
 }
 
@@ -48,8 +49,8 @@ interface FoodinatorActions {
   addIngredient: (ingredientId: string) => void;
   removeIngredient: (ingredientId: string) => void;
   clearIngredients: () => void;
-  addTag: (tagId: string) => void;
-  removeTag: (tagId: string) => void;
+  addTag: (tagId: MealTagId) => void;
+  removeTag: (tagId: MealTagId) => void;
   clearTags: () => void;
   clearAllFilters: () => void;
 }

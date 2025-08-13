@@ -5,6 +5,9 @@ export interface Ingredient {
 
 import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "./tagDefinitions";
 
+// Union type for all possible tag IDs - ensures type safety when working with tags
+export type MealTagId = ProteinSourceTag | BaseTag | CookingMethodTag | ConvenienceTag;
+
 export interface MealTags {
   cookingMethod?: CookingMethodTag;
   base?: BaseTag;

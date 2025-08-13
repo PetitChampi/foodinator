@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { TAG_CATEGORIES, getTagsByCategory, TagCategory, getTagById } from "@/models/tagDefinitions";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 import { Icon } from "@/components/Icon";
+import { MealTagId } from "@/models/types";
 
 export const TagFilter: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +21,10 @@ export const TagFilter: React.FC = () => {
 
     if (!tag) return;
 
-    if (selectedTags.includes(tagId)) {
-      removeTag(tagId);
+    const typedTagId = tagId as MealTagId;
+
+    if (selectedTags.includes(typedTagId)) {
+      removeTag(typedTagId);
     } else {
       if (singleSelectCategories.includes(tag.category)) {
         const categoryTags = getTagsByCategory(tag.category);
@@ -34,7 +37,7 @@ export const TagFilter: React.FC = () => {
         }
       }
 
-      addTag(tagId);
+      addTag(typedTagId);
     }
   };
 
@@ -147,7 +150,7 @@ export const TagFilter: React.FC = () => {
                 <h5 className="tag-category-title">{categoryName}</h5>
                 <div className="tag-category-items">
                   {categoryTags.map((tag) => {
-                    const isSelected = (searchState.selectedTags || []).includes(tag.id);
+                    const isSelected = (searchState.selectedTags || []).includes(tag.id as MealTagId);
                     const isInactive = isSingleSelectCategory && selectedTagInCategory && !isSelected;
 
                     return (

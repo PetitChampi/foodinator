@@ -5,9 +5,9 @@ import { SelectableMealItem } from "@/components/SelectableMealItem";
 import { TagFilter } from "@/components/TagFilter";
 import { SearchInput } from "@/components/SearchInput";
 import { useFoodinatorStore, useRemainingSlots } from "@/store/useFoodinatorStore";
-import { Ingredient, Meal } from "@/models/types";
+import { Ingredient, Meal, MealTagId } from "@/models/types";
 import { mealSelectorTestIds } from "@/utils/testUtils";
-import { getAllTagsForSearch, getTagById } from "@/models/tagDefinitions";
+import { ConvenienceTag, getAllTagsForSearch, getTagById } from "@/models/tagDefinitions";
 
 export const MealSelector: React.FC = () => {
   const {
@@ -35,7 +35,7 @@ export const MealSelector: React.FC = () => {
     const filteredTags = lowercasedSearchTerm
       ? getAllTagsForSearch().filter(tag =>
         tag.name.toLowerCase().includes(lowercasedSearchTerm) &&
-          !selectedTags.includes(tag.id),
+          !selectedTags.includes(tag.id as MealTagId),
       )
       : [];
 
@@ -57,7 +57,7 @@ export const MealSelector: React.FC = () => {
       filteredMeals = filteredMeals.filter((meal: Meal) => {
         if (!meal.tags) return false;
 
-        return selectedTags.every((tagId: string) => {
+        return selectedTags.every((tagId: MealTagId) => {
           const tag = getTagById(tagId);
           if (!tag) return false;
 
@@ -69,7 +69,7 @@ export const MealSelector: React.FC = () => {
           case "proteinSource":
             return meal.tags?.proteinSource === tagId;
           case "convenience":
-            return meal.tags?.convenience?.includes(tagId) || false;
+            return meal.tags?.convenience?.includes(tagId as ConvenienceTag) || false;
           default:
             return false;
           }
