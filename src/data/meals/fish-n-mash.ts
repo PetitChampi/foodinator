@@ -9,14 +9,16 @@ export const fishNMash: Meal = {
   tools: ["Pan", "Pot", "Spatula"],
   steps: {
     prep: [
-      "practice saying 'brilliant' and 'lovely'",
-      "convince potatoes to become fluffy clouds",
-      "teach fish proper British manners",
+      "Cut potatoes into chunks",
+      "Chop shallots and bell pepper",
     ],
     cook: [
-      "serve with mandatory cup of tea",
-      "achieve proper British comfort",
-      "master the art of fish and chips alternative",
+      "Boil water in pot, add potatoes and cook until tender (15 min)",
+      "In pan, sauté shallots and bell peppers for 5 min",
+      "Add fish to the pan",
+      "Once one side of fish is done, flip and add balsamic vinegar to everything in pan",
+      "Once done, place fish and veg in plate",
+      "Drain potatoes, then mash them with milk",
     ],
   },
   ingredients: [IngredientId.FISH, IngredientId.POTATOES, IngredientId.SHALLOTS, IngredientId.BELL_PEPPER, IngredientId.MILK],

@@ -9,14 +9,14 @@ export const pestoChickenGnocchi: Meal = {
   tools: ["Pan", "Spatula", "Mixer"],
   steps: {
     prep: [
-      "speak fluent Italian to the gnocchi",
-      "convince chicken it's actually Italian",
-      "perform pesto rain dance",
+      "Toast pine nuts",
+      "Put pesto ingredients in mixer and blend until smooth",
     ],
     cook: [
-      "achieve pasta nirvana",
-      "master the art of Italian fusion",
-      "serve with Mediterranean flair",
+      "Cook spinach in small pot",
+      "Season and sear chicken in pan (5 min)",
+      "Add gnocchi + some more seasoning to the pan, cook until golden",
+      "Plate and top with pesto, spinach and grated parmesan",
     ],
   },
   ingredients: [IngredientId.CHICKEN, IngredientId.GNOCCHI, IngredientId.SPINACH, IngredientId.FRESH_BASIL, IngredientId.PINE_NUTS, IngredientId.PARMESAN],

@@ -1,6 +1,8 @@
 // ===========================
 // MODAL COMPONENT
 // ===========================
+
+@use "sass:color";
 @use "../variables" as *;
 @use "../mixins" as *;
 
@@ -98,6 +100,7 @@
     line-height: 1.3;
   }
   .modal-subtitle {
+    margin-top: $spacing-md;
     color: $gray-2;
   }
   .modal-actions {
@@ -152,9 +155,9 @@
     // styles similar to the empty banner:
     padding: 5px 10px;
     border-radius: $border-radius-md;
-    background-color: $gray-6;
-    color: $gray-2;
-    border: 1px solid $gray-5;
+    background-color: color.adjust($secondary-color, $lightness: 12%);
+    color: color.adjust($secondary-color, $lightness: -50%);
+    border: 1px solid $secondary-color;
     .notes-title {
       display: inline-block;
       margin-right: $spacing-xs;

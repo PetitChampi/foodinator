@@ -9,14 +9,14 @@ export const creamyChicBroc: Meal = {
   tools: ["Pan", "Spatula", "Pot"],
   steps: {
     prep: [
-      "summon the chicken spirits",
-      "whisper sweet nothings to the broccoli",
-      "perform ancient rice ritual",
+      "Cut broccoli into florets",
+      "Cut mushrooms into slices",
     ],
     cook: [
-      "sprinkle fairy dust over the dish",
-      "dance around the stove three times",
-      "serve with ceremonial flourish",
+      "Boil water in pot, and add rice",
+      "Season chicken and cook in pan for 5 min",
+      "Add mushrooms and broccoli to the pan, cook for 5 min",
+      "Reduce heat, add creme fraiche, cook for 5 min",
     ],
   },
   ingredients: [IngredientId.CHICKEN, IngredientId.BROCCOLI, IngredientId.MUSHROOMS, IngredientId.CREME_FRAICHE, IngredientId.RICE],

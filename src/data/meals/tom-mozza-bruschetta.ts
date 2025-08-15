@@ -9,14 +9,16 @@ export const tomMozzaBruschetta: Meal = {
   tools: ["2 plates (for bruschetta assembly)"],
   steps: {
     prep: [
-      "practice dramatic Italian hand gestures",
-      "seduce tomatoes with compliments",
-      "convince mozzarella to be photogenic",
+      "Slice tomatoes thinly",
+      "Slice mozzarella into similarly sized pieces",
+      "Toast pine nuts",
+      "Put pesto ingredients in mixer and blend until smooth",
     ],
     cook: [
-      "arrange ingredients like a Renaissance painting",
-      "achieve artistic food presentation",
-      "serve with Italian passion",
+      "Toast bread slices",
+      "Coat bread with pesto",
+      "Layer tomato and mozzarella slices on top",
+      "Top with balsamic vinegar, olive oil, black pepper, fresh basil if any",
     ],
   },
   ingredients: [IngredientId.BREAD, IngredientId.TOMATO, IngredientId.MOZZARELLA, IngredientId.FRESH_BASIL, IngredientId.PINE_NUTS, IngredientId.PARMESAN],

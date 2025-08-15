@@ -8,14 +8,17 @@ export const panSearedLamb: Meal = {
   tools: ["Pan", "Spatula", "Tongs", "1 plate", "Pot or air fryer for potatoes"],
   steps: {
     prep: [
-      "apologize to the lamb for being fancy",
-      "convince mint it's not just for mojitos",
-      "practice your best Gordon Ramsay impression",
+      "Cut the potatoes into thin slices",
+      "Put potatoes in air fryer, add seasoning",
+      "Cut green veg into bite-sized pieces",
     ],
     cook: [
-      "pretend you know what you're doing",
-      "achieve restaurant-quality searing",
-      "serve with sophisticated confidence",
+      "Start the air fryer",
+      "Season lamb and add to pan",
+      "Sear well, checking temperature, until desired doneness",
+      "Place lamb on plate",
+      "Add veg to pan and sauté until tender",
+      "Plate and serve with air-fried potatoes",
     ],
   },
   ingredients: [IngredientId.LAMB, IngredientId.POTATOES, IngredientId.GREEN_VEG, IngredientId.MINT_SAUCE],

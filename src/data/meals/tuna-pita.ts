@@ -9,14 +9,12 @@ export const tunaPita: Meal = {
   tools: ["2 plates (for pita assembly)", "1 bowl"],
   steps: {
     prep: [
-      "contemplate the meaning of tuna",
-      "convince pita to open its heart",
-      "achieve zen-like sandwich assembly",
+      "Blend avocado with salt and pepper",
+      "Slice pickled peppers into thin strips",
+      "Mix Greek yogurt with dill, olive oil, lemon juice, salt and black pepper",
     ],
     cook: [
-      "transport taste buds to Greek islands",
-      "master the art of Mediterranean assembly",
-      "serve with Greek hospitality",
+      "Stuff the pita bread with feta, avocado, tuna, yogurt sauce, pickled peppers",
     ],
   },
   ingredients: [IngredientId.TUNA, IngredientId.PITA_BREAD, IngredientId.AVOCADOS, IngredientId.PICKLED_PEPPERS, IngredientId.FETA, IngredientId.GREEK_YOGURT],

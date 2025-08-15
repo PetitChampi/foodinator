@@ -1,5 +1,7 @@
+import { MealTagId } from "@/models/types";
+
 export interface TagDefinition {
-  id: string;
+  id: MealTagId;
   name: string;
   category: TagCategory;
 }
@@ -56,40 +58,40 @@ export const TAG_CATEGORIES: Record<TagCategory, string> = {
 
 export const TAG_DEFINITIONS: TagDefinition[] = [
   // Cooking methods
-  { id: "pot", name: "Pot only", category: "cookingMethod" },
-  { id: "slow-cooker", name: "Slow cooker", category: "cookingMethod" },
-  { id: "oven", name: "Oven", category: "cookingMethod" },
-  { id: "grill", name: "Grill", category: "cookingMethod" },
-  { id: "pan", name: "Pan only", category: "cookingMethod" },
-  { id: "pot-pan", name: "Pot & pan", category: "cookingMethod" },
-  { id: "no-cook", name: "No cook", category: "cookingMethod" },
+  { id: CookingMethodTag.POT, name: "Pot only", category: "cookingMethod" },
+  { id: CookingMethodTag.SLOW_COOKER, name: "Slow cooker", category: "cookingMethod" },
+  { id: CookingMethodTag.OVEN, name: "Oven", category: "cookingMethod" },
+  { id: CookingMethodTag.GRILL, name: "Grill", category: "cookingMethod" },
+  { id: CookingMethodTag.PAN, name: "Pan only", category: "cookingMethod" },
+  { id: CookingMethodTag.POT_PAN, name: "Pot & pan", category: "cookingMethod" },
+  { id: CookingMethodTag.NO_COOK, name: "No cook", category: "cookingMethod" },
 
   // Base
-  { id: "rice", name: "Rice", category: "base" },
-  { id: "pasta", name: "Pasta", category: "base" },
-  { id: "bread", name: "Bread", category: "base" },
-  { id: "potatoes", name: "Potatoes", category: "base" },
-  { id: "tortillas", name: "Tortillas", category: "base" },
-  { id: "gnocchi", name: "Gnocchi", category: "base" },
-  { id: "beans", name: "Beans", category: "base" },
-  { id: "chickpeas", name: "Chickpeas", category: "base" },
-  { id: "couscous", name: "Couscous", category: "base" },
+  { id: BaseTag.RICE, name: "Rice", category: "base" },
+  { id: BaseTag.PASTA, name: "Pasta", category: "base" },
+  { id: BaseTag.BREAD, name: "Bread", category: "base" },
+  { id: BaseTag.POTATOES, name: "Potatoes", category: "base" },
+  { id: BaseTag.TORTILLAS, name: "Tortillas", category: "base" },
+  { id: BaseTag.GNOCCHI, name: "Gnocchi", category: "base" },
+  { id: BaseTag.BEANS, name: "Beans", category: "base" },
+  { id: BaseTag.CHICKPEAS, name: "Chickpeas", category: "base" },
+  { id: BaseTag.COUSCOUS, name: "Couscous", category: "base" },
 
   // Protein source
-  { id: "chicken", name: "Chicken", category: "proteinSource" },
-  { id: "beef", name: "Beef", category: "proteinSource" },
-  { id: "pork", name: "Pork", category: "proteinSource" },
-  { id: "fish", name: "Fish", category: "proteinSource" },
-  { id: "seafood", name: "Seafood", category: "proteinSource" },
-  { id: "lamb", name: "Lamb", category: "proteinSource" },
-  { id: "eggs", name: "Eggs", category: "proteinSource" },
-  { id: "vegetarian", name: "Vegetarian", category: "proteinSource" },
+  { id: ProteinSourceTag.CHICKEN, name: "Chicken", category: "proteinSource" },
+  { id: ProteinSourceTag.BEEF, name: "Beef", category: "proteinSource" },
+  { id: ProteinSourceTag.PORK, name: "Pork", category: "proteinSource" },
+  { id: ProteinSourceTag.FISH, name: "Fish", category: "proteinSource" },
+  { id: ProteinSourceTag.SEAFOOD, name: "Seafood", category: "proteinSource" },
+  { id: ProteinSourceTag.LAMB, name: "Lamb", category: "proteinSource" },
+  { id: ProteinSourceTag.EGGS, name: "Eggs", category: "proteinSource" },
+  { id: ProteinSourceTag.VEGETARIAN, name: "Vegetarian", category: "proteinSource" },
 
   // Convenience
-  { id: "sandwich", name: "Sandwich", category: "convenience" },
-  { id: "fridge-friendly", name: "Fridge friendly", category: "convenience" },
-  { id: "batchable", name: "Batchable", category: "convenience" },
-  { id: "one-pot", name: "One pot", category: "convenience" },
+  { id: ConvenienceTag.SANDWICH, name: "Sandwich", category: "convenience" },
+  { id: ConvenienceTag.FRIDGE_FRIENDLY, name: "Fridge friendly", category: "convenience" },
+  { id: ConvenienceTag.BATCHABLE, name: "Batchable", category: "convenience" },
+  { id: ConvenienceTag.ONE_POT, name: "One pot", category: "convenience" },
 ];
 
 export const getTagById = (id: string): TagDefinition | null => {

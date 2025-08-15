@@ -9,18 +9,19 @@ export const fishyPasta: Meal = {
   tools: ["Pot", "Pan", "2 spatulas"],
   steps: {
     prep: [
-      "negotiate with the fish",
-      "teach pasta to swim",
-      "convince wine to cooperate",
+      "Chop asparagus into small chunks",
+      "Slice shallots into thin rings",
     ],
     cook: [
-      "perform underwater ballet while cooking",
-      "achieve perfect fish-pasta harmony",
-      "serve with aquatic elegance",
+      "Boil water in pot, add pasta until al dente (8 min)",
+      "Add veg to pan with olive oil",
+      "Season fish, add to pan, stir for 3 min",
+      "Add white wine, stir for 5 min",
+      "Reduce heat, add creme fraiche, stir until combined (2 min)",
     ],
   },
-  ingredients: [IngredientId.PASTA, IngredientId.FISH, IngredientId.CREME_FRAICHE, IngredientId.SHALLOTS, IngredientId.ASPARAGUS, IngredientId.WHITE_WINE, IngredientId.LEMON],
-  seasoning: [SeasoningStapleId.OLIVE_OIL, SeasoningStapleId.PAPRIKA, SeasoningStapleId.BLACK_PEPPER],
+  ingredients: [IngredientId.PASTA, IngredientId.FISH, IngredientId.CREME_FRAICHE, IngredientId.SHALLOTS, IngredientId.ASPARAGUS, IngredientId.WHITE_WINE],
+  seasoning: [SeasoningStapleId.OLIVE_OIL, SeasoningStapleId.PAPRIKA, SeasoningStapleId.BLACK_PEPPER, SeasoningStapleId.LEMON_JUICE],
   tags: {
     cookingMethod: CookingMethodTag.POT_PAN,
     base: BaseTag.PASTA,

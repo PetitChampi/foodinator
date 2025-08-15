@@ -9,14 +9,13 @@ export const pastaCarbonara: Meal = {
   tools: ["Pot", "Pan", "Spatula", "1 bowl"],
   steps: {
     prep: [
-      "swear allegiance to Rome",
-      "prevent eggs from becoming scrambled at all costs",
-      "negotiate cheese hierarchy",
+      "Slice mushrooms into thin pieces",
+      "Prepare carbonara sauce in a bowl",
     ],
     cook: [
-      "achieve carbonara perfection or face Italian judgment",
-      "master the art of silky sauce",
-      "serve with Roman pride",
+      "Put pasta in boiling water",
+      "Sear lardons and mushrooms in pan until crispy",
+      "Once pasta is cooked, drain and add sauce and lardons + mushrooms; make sure the eggs don't scramble",
     ],
   },
   ingredients: [IngredientId.PASTA, IngredientId.EGGS, IngredientId.GRANA_PADANO, IngredientId.PARMESAN, IngredientId.LARDONS, IngredientId.MUSHROOMS],

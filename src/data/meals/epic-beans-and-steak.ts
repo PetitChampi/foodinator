@@ -9,14 +9,13 @@ export const epicBeansAndSteak: Meal = {
   tools: ["Pan", "Spatula", "Tongs", "1 plate"],
   steps: {
     prep: [
-      "challenge the steak to a duel",
-      "train beans in martial arts",
-      "conquer the mushroom kingdom",
+      "Cut mushrooms into slices",
     ],
     cook: [
-      "declare victory over hunger",
-      "achieve epic flavor combination",
-      "serve with triumphant fanfare",
+      "Season steak, cook in pan until desired doneness",
+      "Set steak aside on plate",
+      "Reduce heat, add olive oil, garlic, rosemary and mushrooms to pan (3 min)",
+      "Add white beans and some of their water to pan, cover, leave for 10 min",
     ],
   },
   ingredients: [IngredientId.STEAKS, IngredientId.WHITE_BEANS, IngredientId.MUSHROOMS, IngredientId.GARLIC, IngredientId.ROSEMARY],

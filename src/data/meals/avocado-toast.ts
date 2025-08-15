@@ -9,14 +9,15 @@ export const avocadoToast: Meal = {
   tools: ["Pot (for poaching eggs)", "Holed spoon", "Mixer", "Toaster"],
   steps: {
     prep: [
-      "apologize to the avocado for being basic",
-      "convince bread it's trendy",
-      "take 47 photos for social media",
+      "Put everything (except bread and eggs) in mixer",
+      "Blend until smooth",
     ],
     cook: [
-      "pretend this is a complete meal",
-      "achieve Instagram-worthy presentation",
-      "serve with millennial pride",
+      "Boil water in pot",
+      "Crack eggs into boiling water and poach (2-4 min)",
+      "Toast bread",
+      "Spread avocado mix on toasted bread",
+      "Place poached eggs on top",
     ],
   },
   ingredients: [IngredientId.BROWN_BREAD, IngredientId.AVOCADOS, IngredientId.LIME, IngredientId.EGGS, IngredientId.HUMMUS, IngredientId.MINT_SAUCE],

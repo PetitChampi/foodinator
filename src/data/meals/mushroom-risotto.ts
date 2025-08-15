@@ -9,14 +9,17 @@ export const mushroomRisotto: Meal = {
   tools: ["Pan", "Spatula", "Pot (for broth)"],
   steps: {
     prep: [
-      "apologize to the mushrooms for being basic",
-      "convince rice it's trendy",
-      "take 47 photos for social media",
+      "Cut mushrooms into small pieces",
+      "Cut shallots into thin slices",
     ],
     cook: [
-      "pretend this is a complete meal",
-      "achieve Instagram-worthy presentation",
-      "serve with millennial pride",
+      "Put broth in a pot until simmering",
+      "Put shallots in pan with some butter (2 min)",
+      "Add mushrooms + any extra seasoning to the pan (5 min)",
+      "Add rice and a splash of wine to pan, stir until absorbed",
+      "Add broth gradually (until each serving is absorbed), stir until rice creamy and cooked",
+      "Add grated parmesan + butter, stir until melted",
+      "Finish with grated parmesan and a sprinkle of rosemary or parsley, and black pepper",
     ],
   },
   ingredients: [IngredientId.RICE, IngredientId.MUSHROOMS, IngredientId.SHALLOTS, IngredientId.PARMESAN, IngredientId.WHITE_WINE],

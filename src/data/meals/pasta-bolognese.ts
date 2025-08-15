@@ -8,15 +8,11 @@ export const pastaBolognese: Meal = {
   imageUrl: "./img-meals/pasta-bolognese.jpg",
   tools: ["Pot", "Pan", "Spatula"],
   steps: {
-    prep: [
-      "channel your inner Italian grandmother",
-      "convince tomatoes to become sauce",
-      "teach beef to tango with pasta",
-    ],
+    prep: [],
     cook: [
-      "achieve perfect al dente through meditation",
-      "master the art of sauce harmony",
-      "serve with Italian passion",
+      "Put pasta in boiling water",
+      "Place beef mince in pan with seasoning, dividing it into small pieces",
+      "Once pasta is cooked, drain it and add the sauce and meat",
     ],
   },
   ingredients: [IngredientId.PASTA, IngredientId.TOMATO_SAUCE, IngredientId.GROUND_BEEF],

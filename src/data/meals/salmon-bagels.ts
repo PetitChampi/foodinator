@@ -9,14 +9,13 @@ export const salmonBagels: Meal = {
   tools: ["2 plates (for bagel assembly)"],
   steps: {
     prep: [
-      "channel your inner New Yorker",
-      "slice bagel with surgical precision",
-      "arrange salmon like edible art",
+      "Slice radishes thinly",
     ],
     cook: [
-      "achieve peak brunch sophistication",
-      "master the art of lox presentation",
-      "serve with metropolitan flair",
+      "Place bagels on plates",
+      "Spread cream cheese on bagels",
+      "Add seasoning to cream cheese",
+      "Place radishes, spinach, smoked salmon",
     ],
   },
   ingredients: [IngredientId.SMOKED_SALMON, IngredientId.BAGELS, IngredientId.CREAM_CHEESE, IngredientId.RADISHES, IngredientId.SPINACH],

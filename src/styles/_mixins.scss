@@ -166,6 +166,7 @@
     width: 20px;
     height: 20px;
     color: $gray-3;
+    color: color.adjust($secondary-color, $lightness: -35%);
   }
 }
 

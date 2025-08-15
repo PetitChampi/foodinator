@@ -9,14 +9,15 @@ export const honeyGarlicChickenSkewers: Meal = {
   tools: ["1 bowl (for marinade)", "1 large plate", "Skewers", "Grill"],
   steps: {
     prep: [
-      "dramatically stab chicken",
-      "create marinade magic",
-      "thread ingredients with precision",
+      "Cut the bell peppers into even chunks",
+      "Cut the white onions into even chunks",
+      "Prepare the marinade in a bowl",
+      "Place chicken in marinade (and let it sit in the fridge if prepping in advance)",
     ],
     cook: [
-      "master the grill dance",
-      "achieve perfect char marks",
-      "serve with skewer ceremony",
+      "Thread chicken, bell peppers, and onions onto skewers",
+      "Place on grill (cook and turn occasionally until chicken is done)",
+      "Boil pearl couscous in water",
     ],
   },
   ingredients: [IngredientId.CHICKEN, IngredientId.BELL_PEPPER, IngredientId.WHITE_ONION, IngredientId.PEARL_COUSCOUS],
