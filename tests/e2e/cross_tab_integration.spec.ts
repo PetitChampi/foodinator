@@ -193,7 +193,7 @@ test.describe("Cross-Tab Integration Flow", () => {
       "tomato-sauce",
       "chicken",
       "gnocchi",
-      "basil",
+      "fresh-basil",
     ];
 
     for (const ingredient of expectedIngredients) {
@@ -273,7 +273,7 @@ test.describe("Cross-Tab Integration Flow", () => {
 
     await expect(page.getByTestId("grocery-list-item-ground-beef")).toBeVisible();
     await expect(page.getByTestId("grocery-list-item-chicken")).toBeVisible();
-    await expect(page.getByTestId("grocery-list-item-basil")).toBeVisible();
+    await expect(page.getByTestId("grocery-list-item-fresh-basil")).toBeVisible();
   });
 
   test("should handle empty state across all tabs", async ({ page }) => {

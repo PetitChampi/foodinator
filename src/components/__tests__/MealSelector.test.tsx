@@ -26,7 +26,7 @@ describe("MealSelector", () => {
 
   it("should filter meals based on search term", async () => {
     renderMealSelector();
-    const searchInput = screen.getByPlaceholderText(/Search for meals or ingredients/i);
+    const searchInput = screen.getByTestId("meal-selector-search-input");
 
     await user.type(searchInput, "pasta");
 
@@ -39,30 +39,28 @@ describe("MealSelector", () => {
 
   it("should show ingredient suggestions when typing", async () => {
     renderMealSelector();
-    const searchInput = screen.getByPlaceholderText(/Search for meals or ingredients/i);
+    const searchInput = screen.getByTestId("meal-selector-search-input");
 
     await user.type(searchInput, "chic");
 
-    expect(screen.getByText("Chicken")).toBeInTheDocument();
-    expect(screen.getByText("Chickpeas")).toBeInTheDocument();
+    const suggestionsList = screen.getByTestId("meal-selector-suggestions-list");
+    expect(within(suggestionsList).getByText("Chicken")).toBeInTheDocument();
+    expect(within(suggestionsList).getByText("Chickpeas")).toBeInTheDocument();
   });
 
   it("should filter meals by selected ingredients", async () => {
     renderMealSelector();
 
-    const searchInput = screen.getByPlaceholderText(/Search for meals or ingredients/i);
+    const searchInput = screen.getByTestId("meal-selector-search-input");
     await user.type(searchInput, "mush");
 
-    const mushroomSuggestionTag = screen.getByText("Mushrooms");
+    const mushroomSuggestionTag = screen.getByTestId("meal-selector-suggestion-mushrooms");
     await user.click(mushroomSuggestionTag);
 
-    const selectedTagText = await screen.findByText("Mushrooms");
-
-    const selectedTag = selectedTagText.closest(".tag");
-
+    const selectedTag = await screen.findByTestId("meal-selector-selected-tag-mushrooms");
     expect(selectedTag).toBeInTheDocument();
 
-    expect(within(selectedTag as HTMLElement).getByText("×")).toBeInTheDocument();
+    expect(within(selectedTag).getByText("×")).toBeInTheDocument();
 
     expect(screen.getByText("Creamy Chic Broc")).toBeInTheDocument();
     expect(screen.getByText("Epic beans and steak")).toBeInTheDocument();
