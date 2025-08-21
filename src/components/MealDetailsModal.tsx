@@ -61,7 +61,7 @@ export function MealDetailsModal({ mealId }: MealDetailsModalProps) {
         </div>
         {meal.seasoning && meal.seasoning.length > 0 && (
           <div className="section-notes">
-            <div className="notes-title">Suggested seasoning:</div>
+            <div className="notes-title">Seasoning:</div>
             {meal.seasoning
               .map(seasoningId => getIngredientById(seasoningId))
               .filter(seasoning => seasoning !== null)

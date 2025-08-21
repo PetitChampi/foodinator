@@ -4,7 +4,7 @@ import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/m
 
 export const pestoChickenGnocchi: Meal = {
   id: "tuna-gnocchi",
-  name: "Tuna gnocchi",
+  name: "Tarragon tuna gnocchi",
   imageUrl: "./img-meals/tuna-gnocchi.jpg",
   tools: ["Pan", "Spatula"],
   steps: {

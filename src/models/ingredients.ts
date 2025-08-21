@@ -73,6 +73,9 @@ export enum IngredientId {
   FLAT_BEANS = "flat-beans",
   SPRING_ONION = "spring-onion",
   CABBAGE = "cabbage",
+  PISTACHIOS = "pistachios",
+  RICOTTA = "ricotta",
+  HONEY = "honey",
 }
 
 // Enum for seasoning staple IDs
@@ -172,6 +175,9 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.FLAT_BEANS, name: "Flat beans" },
   { id: IngredientId.SPRING_ONION, name: "Spring onion" },
   { id: IngredientId.CABBAGE, name: "Cabbage" },
+  { id: IngredientId.PISTACHIOS, name: "Pistachios" },
+  { id: IngredientId.RICOTTA, name: "Ricotta" },
+  { id: IngredientId.HONEY, name: "Honey" },
 ];
 
 export const seasoningStaples: Ingredient[] = [
