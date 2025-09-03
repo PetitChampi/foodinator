@@ -22,7 +22,7 @@ export const mushroomRisotto: Meal = {
       "Finish with grated parmesan and a sprinkle of rosemary or parsley, and black pepper",
     ],
   },
-  ingredients: [IngredientId.RICE, IngredientId.MUSHROOMS, IngredientId.SHALLOTS, IngredientId.PARMESAN, IngredientId.WHITE_WINE],
+  ingredients: [IngredientId.RICE, IngredientId.MUSHROOMS, IngredientId.SHALLOTS, IngredientId.PARMESAN, IngredientId.WHITE_WINE, IngredientId.VEGETABLE_BROTH],
   seasoning: [SeasoningStapleId.ROSEMARY, SeasoningStapleId.BLACK_PEPPER, SeasoningStapleId.BUTTER],
   tags: {
     cookingMethod: CookingMethodTag.POT_PAN,

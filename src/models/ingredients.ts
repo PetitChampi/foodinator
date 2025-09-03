@@ -6,6 +6,7 @@ export enum IngredientId {
   LAMB = "lamb",
   GROUND_BEEF = "ground-beef",
   DICED_BEEF = "diced-beef",
+  BEEF = "beef",
   PORK_FILLET = "pork-fillet",
   PRAWNS = "prawns",
   TUNA = "tuna",
@@ -49,6 +50,7 @@ export enum IngredientId {
   LARDONS = "lardons",
   ASPARAGUS = "asparagus",
   WHITE_WINE = "white-wine",
+  RED_WINE = "red-wine",
   NEW_POTATOES = "new-potatoes",
   PEARL_COUSCOUS = "pearl-couscous",
   GREEN_VEG = "green-veg",
@@ -79,6 +81,8 @@ export enum IngredientId {
   PARSLEY = "parsley",
   MASCARPONE = "mascarpone",
   FISH_BROTH = "fish-broth",
+  BEEF_BROTH = "beef-broth",
+  VEGETABLE_BROTH = "vegetable-broth",
 }
 
 // Enum for seasoning staple IDs
@@ -105,6 +109,7 @@ export enum SeasoningStapleId {
   TAHINI = "tahini",
   TARRAGON = "tarragon",
   SAFFRON = "saffron",
+  BOUQUET_GARNI = "bouquet-garni",
 }
 
 export const ingredients: Ingredient[] = [
@@ -185,6 +190,10 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.PARSLEY, name: "Parsley" },
   { id: IngredientId.MASCARPONE, name: "Mascarpone" },
   { id: IngredientId.FISH_BROTH, name: "Fish broth" },
+  { id: IngredientId.BEEF_BROTH, name: "Beef broth" },
+  { id: IngredientId.VEGETABLE_BROTH, name: "Vegetable broth" },
+  { id: IngredientId.RED_WINE, name: "Red wine" },
+  { id: IngredientId.BEEF, name: "Beef" },
 ];
 
 export const seasoningStaples: Ingredient[] = [
@@ -210,6 +219,7 @@ export const seasoningStaples: Ingredient[] = [
   { id: SeasoningStapleId.TAHINI, name: "Tahini" },
   { id: SeasoningStapleId.TARRAGON, name: "Tarragon" },
   { id: SeasoningStapleId.SAFFRON, name: "Saffron" },
+  { id: SeasoningStapleId.BOUQUET_GARNI, name: "Bouquet garni" },
 ];
 
 export const getIngredientById = (id: string): Ingredient | null => {
