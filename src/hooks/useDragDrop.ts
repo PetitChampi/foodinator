@@ -19,6 +19,7 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
   const touchCurrentSlot = useRef<number | null>(null);
   const longPressTimer = useRef<number | null>(null);
   const isDraggingTouch = useRef<boolean>(false);
+  const hasMovedWhileDragging = useRef<boolean>(false);
   const longPressThreshold = 300; // milliseconds
 
   const handleDragStart = useCallback((index: number) => {
@@ -57,6 +58,7 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
     touchStartY.current = e.touches[0].clientY;
     touchCurrentSlot.current = index;
     isDraggingTouch.current = false;
+    hasMovedWhileDragging.current = false;
 
     // Clear any existing timer
     if (longPressTimer.current !== null) {
@@ -140,6 +142,7 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
     if (slotElement) {
       const index = parseInt(slotElement.getAttribute("data-index") || "-1");
       if (index !== -1 && index !== touchCurrentSlot.current) {
+        hasMovedWhileDragging.current = true;
         touchCurrentSlot.current = index;
         document.querySelectorAll(".meal-slot").forEach(el => el.classList.remove("drop-target"));
         slotElement.classList.add("drop-target");
@@ -177,10 +180,20 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
       draggedMeal.current = null;
       touchCurrentSlot.current = null;
       isDraggingTouch.current = false;
+      hasMovedWhileDragging.current = false;
       return;
     }
 
-    // If we were dragging, perform the drop
+    // If dragging was started but user hasn't moved yet, keep it selected (don't drop)
+    if (!hasMovedWhileDragging.current) {
+      // Item stays selected, just remove the long-press-pending class
+      document.querySelectorAll(".meal-slot").forEach(el => {
+        el.classList.remove("long-press-pending");
+      });
+      return;
+    }
+
+    // If we were dragging and moved, perform the drop
     if (draggedMeal.current !== null && touchCurrentSlot.current !== null && draggedMeal.current !== touchCurrentSlot.current) {
       handleDrop(touchCurrentSlot.current);
     }
@@ -193,6 +206,7 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
     draggedMeal.current = null;
     touchCurrentSlot.current = null;
     isDraggingTouch.current = false;
+    hasMovedWhileDragging.current = false;
   }, [handleDrop]);
 
   return {
