@@ -2,7 +2,7 @@ import { Meal } from "@/models/types";
 import { IngredientId, SeasoningStapleId } from "@/models/ingredients";
 import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/models/tagDefinitions";
 
-export const mexicanStyleBeanCasserole: Meal = {
+export const boeufBourguignon: Meal = {
   id: "boeuf-bourguign",
   name: "Boeuf bourguignon",
   imageUrl: "./img-meals/boeuf-bourguignon.jpg",

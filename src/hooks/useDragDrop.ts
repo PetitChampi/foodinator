@@ -6,25 +6,50 @@ interface UseDragDropOptions {
   onReorder: (newSlots: MealSlot[]) => void;
 }
 
+const DragState = {
+  IDLE: "idle",
+  PENDING: "pending", // Waiting for long-press timer
+  DRAGGING: "dragging", // Actively dragging
+};
+
 export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => {
   const [mealSlots, setMealSlots] = useState<MealSlot[]>(initialSlots);
+
+  // Single ref to manage the state of the touch interaction
+  const dragState = useRef<typeof DragState[keyof typeof DragState]>(DragState.IDLE);
+  const draggedItemIndex = useRef<number | null>(null);
+  const targetItemIndex = useRef<number | null>(null);
+  const longPressTimer = useRef<number | null>(null);
+
+  // Refs to detect movement threshold to cancel a pending drag
+  const touchStartPos = useRef<{ x: number; y: number } | null>(null);
+  const longPressThreshold = 200; // milliseconds
 
   useEffect(() => {
     setMealSlots(initialSlots);
   }, [initialSlots]);
 
-  const draggedMeal = useRef<number | null>(null);
-  const touchStartX = useRef<number>(0);
-  const touchStartY = useRef<number>(0);
-  const touchCurrentSlot = useRef<number | null>(null);
-  const longPressTimer = useRef<number | null>(null);
-  const isDraggingTouch = useRef<boolean>(false);
-  const hasMovedWhileDragging = useRef<boolean>(false);
-  const longPressThreshold = 300; // milliseconds
+  const cleanup = useCallback(() => {
+    document.querySelectorAll(".meal-slot").forEach(el => {
+      el.classList.remove("dragging", "drop-target", "long-press-pending");
+    });
 
+    if (longPressTimer.current !== null) {
+      window.clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+
+    dragState.current = DragState.IDLE;
+    draggedItemIndex.current = null;
+    targetItemIndex.current = null;
+    touchStartPos.current = null;
+  }, []);
+
+  // --- Standard Desktop Drag Events (Unchanged) ---
   const handleDragStart = useCallback((index: number) => {
     if (mealSlots[index].mealId === null) return;
-    draggedMeal.current = index;
+    draggedItemIndex.current = index;
+    targetItemIndex.current = index;
     const slotElements = document.querySelectorAll(".meal-slot");
     if (slotElements[index]) {
       slotElements[index].classList.add("dragging");
@@ -36,7 +61,8 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
   }, []);
 
   const handleDragEnter = useCallback((index: number) => {
-    if (draggedMeal.current === null) return;
+    if (draggedItemIndex.current === null) return;
+    targetItemIndex.current = index;
     document.querySelectorAll(".meal-slot").forEach(el => el.classList.remove("drop-target"));
     const slotElements = document.querySelectorAll(".meal-slot");
     if (slotElements[index]) {
@@ -44,191 +70,99 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
     }
   }, []);
 
-  const handleDragEnd = useCallback(() => {
-    document.querySelectorAll(".meal-slot").forEach(el => {
-      el.classList.remove("dragging", "drop-target");
-    });
-    draggedMeal.current = null;
-  }, []);
-
+  // --- Touch Event Logic (Refined) ---
   const handleTouchStart = useCallback((index: number, e: React.TouchEvent) => {
     if (mealSlots[index].mealId === null) return;
 
-    // If an item is already grabbed and user taps the same item,
-    // allow them to continue dragging (reset movement flag)
-    if (isDraggingTouch.current && draggedMeal.current === index) {
-      touchStartX.current = e.touches[0].clientX;
-      touchStartY.current = e.touches[0].clientY;
-      touchCurrentSlot.current = index;
-      hasMovedWhileDragging.current = false; // Reset movement flag for new drag attempt
-      return;
-    }
+    dragState.current = DragState.PENDING;
+    draggedItemIndex.current = index;
+    targetItemIndex.current = index;
+    touchStartPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
 
-    // If a different item is already grabbed, don't start a new grab
-    if (isDraggingTouch.current && draggedMeal.current !== null) {
-      return;
-    }
-
-    touchStartX.current = e.touches[0].clientX;
-    touchStartY.current = e.touches[0].clientY;
-    touchCurrentSlot.current = index;
-    isDraggingTouch.current = false;
-    hasMovedWhileDragging.current = false;
-
-    // Clear any existing timer
-    if (longPressTimer.current !== null) {
-      window.clearTimeout(longPressTimer.current);
-    }
-
-    // Add long-press visual feedback
     const slotElements = document.querySelectorAll(".meal-slot");
     if (slotElements[index]) {
       slotElements[index].classList.add("long-press-pending");
     }
 
-    // Set up long press detection
     longPressTimer.current = window.setTimeout(() => {
-      // Start dragging after long press
-      draggedMeal.current = index;
-      isDraggingTouch.current = true;
-
-      const slotElements = document.querySelectorAll(".meal-slot");
-      if (slotElements[index]) {
-        slotElements[index].classList.remove("long-press-pending");
-        slotElements[index].classList.add("dragging");
-      }
-
-      // Optional: Add haptic feedback if available
-      if (navigator.vibrate) {
-        navigator.vibrate(50);
+      // If we are still in the pending state after the timeout, start dragging.
+      if (dragState.current === DragState.PENDING) {
+        dragState.current = DragState.DRAGGING;
+        if (slotElements[index]) {
+          slotElements[index].classList.remove("long-press-pending");
+          slotElements[index].classList.add("dragging");
+        }
+        if (navigator.vibrate) {
+          navigator.vibrate(50);
+        }
       }
     }, longPressThreshold);
   }, [mealSlots]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    // Cancel long press if user moves before timer completes
-    if (!isDraggingTouch.current) {
-      const touch = e.touches[0];
-      const deltaX = Math.abs(touch.clientX - touchStartX.current);
-      const deltaY = Math.abs(touch.clientY - touchStartY.current);
+    if (dragState.current === DragState.IDLE) return;
 
-      // If movement exceeds threshold, cancel long press
-      if (deltaX > 10 || deltaY > 10) {
-        if (longPressTimer.current !== null) {
-          window.clearTimeout(longPressTimer.current);
-          longPressTimer.current = null;
-        }
-        document.querySelectorAll(".meal-slot").forEach(el => {
-          el.classList.remove("long-press-pending");
-        });
-      }
-      return;
-    }
-
-    // Prevent scrolling when dragging
-    e.preventDefault();
-
-    if (draggedMeal.current === null) return;
     const touch = e.touches[0];
-    const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
-    let slotElement = null;
 
-    for (const element of elements) {
-      if (element.classList.contains("meal-slot")) {
-        slotElement = element;
-        break;
+    // If drag is pending, check if user has moved beyond a threshold.
+    // If so, cancel the drag. This prevents dragging when scrolling the page.
+    if (dragState.current === DragState.PENDING && touchStartPos.current) {
+      const deltaX = Math.abs(touch.clientX - touchStartPos.current.x);
+      const deltaY = Math.abs(touch.clientY - touchStartPos.current.y);
+      if (deltaX > 10 || deltaY > 10) {
+        cleanup();
+        return;
       }
     }
 
-    if (!slotElement) {
-      for (const element of elements) {
-        let parent = element.parentElement;
-        while (parent) {
-          if (parent.classList.contains("meal-slot")) {
-            slotElement = parent;
-            break;
-          }
-          parent = parent.parentElement;
-        }
-        if (slotElement) break;
-      }
-    }
+    if (dragState.current === DragState.DRAGGING) {
+      e.preventDefault(); // Prevent page scroll while dragging
 
-    if (slotElement) {
-      const index = parseInt(slotElement.getAttribute("data-index") || "-1");
-      if (index !== -1 && index !== touchCurrentSlot.current) {
-        hasMovedWhileDragging.current = true;
-        touchCurrentSlot.current = index;
-        document.querySelectorAll(".meal-slot").forEach(el => el.classList.remove("drop-target"));
+      const overElement = document.elementFromPoint(touch.clientX, touch.clientY);
+      const slotElement = overElement?.closest<HTMLElement>(".meal-slot");
+
+      document.querySelectorAll(".meal-slot").forEach(el => el.classList.remove("drop-target"));
+
+      if (slotElement) {
         slotElement.classList.add("drop-target");
+        const index = parseInt(slotElement.dataset.index || "-1", 10);
+        if (index !== -1) {
+          targetItemIndex.current = index;
+        }
       }
     }
-  }, []);
+  }, [cleanup]);
 
-  const handleDrop = useCallback((index: number) => {
-    if (draggedMeal.current === null || draggedMeal.current === index) {
-      draggedMeal.current = null;
-      return;
+  const handleDrop = useCallback(() => {
+    const sourceIndex = draggedItemIndex.current;
+    const destinationIndex = targetItemIndex.current;
+
+    if (sourceIndex === null || destinationIndex === null || sourceIndex === destinationIndex) {
+      return; // No valid drop occurred
     }
 
     const newMealSlots = [...mealSlots];
-    const sourceIndex = draggedMeal.current;
-    [newMealSlots[sourceIndex], newMealSlots[index]] = [newMealSlots[index], newMealSlots[sourceIndex]];
+    [newMealSlots[sourceIndex], newMealSlots[destinationIndex]] = [newMealSlots[destinationIndex], newMealSlots[sourceIndex]];
 
     setMealSlots(newMealSlots);
     onReorder(newMealSlots);
-    draggedMeal.current = null;
   }, [mealSlots, onReorder]);
 
   const handleTouchEnd = useCallback(() => {
-    // Clear long press timer
-    if (longPressTimer.current !== null) {
-      window.clearTimeout(longPressTimer.current);
-      longPressTimer.current = null;
+    // If we were actively dragging, perform the drop.
+    if (dragState.current === DragState.DRAGGING) {
+      handleDrop();
     }
 
-    // Only clear visual feedback if dragging wasn't started
-    if (!isDraggingTouch.current) {
-      document.querySelectorAll(".meal-slot").forEach(el => {
-        el.classList.remove("dragging", "drop-target", "long-press-pending");
-      });
-      draggedMeal.current = null;
-      touchCurrentSlot.current = null;
-      isDraggingTouch.current = false;
-      hasMovedWhileDragging.current = false;
-      return;
-    }
+    // Always clean up state and visuals on touch end.
+    cleanup();
+  }, [handleDrop, cleanup]);
 
-    // If dragging was started but user hasn't moved yet, keep it selected (don't drop)
-    if (!hasMovedWhileDragging.current) {
-      // Item stays grabbed - keep all the dragging state and visual feedback
-      // Just remove drop-target from other slots
-      document.querySelectorAll(".meal-slot").forEach(el => {
-        el.classList.remove("drop-target", "long-press-pending");
-      });
-      // Don't reset draggedMeal, isDraggingTouch, or touchCurrentSlot - keep them active
-      return;
-    }
-
-    // If we moved (anywhere, including back to original), perform the drop and clear state
-    // This completes the drag operation whether to a new slot or back to original
-    if (draggedMeal.current !== null && touchCurrentSlot.current !== null) {
-      // Only actually swap if moving to a different slot
-      if (draggedMeal.current !== touchCurrentSlot.current) {
-        handleDrop(touchCurrentSlot.current);
-      }
-
-      // Always clear all dragging state after any completed drag operation
-      document.querySelectorAll(".meal-slot").forEach(el => {
-        el.classList.remove("dragging", "drop-target", "long-press-pending");
-      });
-
-      draggedMeal.current = null;
-      touchCurrentSlot.current = null;
-      isDraggingTouch.current = false;
-      hasMovedWhileDragging.current = false;
-    }
-  }, [handleDrop]);
+  // Generic drop handler for both desktop and touch
+  const handleGenericDrop = useCallback(() => {
+    handleDrop();
+    cleanup();
+  }, [handleDrop, cleanup]);
 
   return {
     mealSlots,
@@ -236,10 +170,10 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
     handleDragStart,
     handleDragOver,
     handleDragEnter,
-    handleDragEnd,
+    handleDragEnd: handleGenericDrop, // Use generic cleanup/drop
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
-    handleDrop,
+    onDrop: handleGenericDrop, // Use generic cleanup/drop
   };
 };

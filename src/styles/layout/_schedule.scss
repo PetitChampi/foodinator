@@ -58,7 +58,6 @@
     border-color: rgba($success-color, 0.4);
   }
   &.long-press-pending {
-    transform: scale(1.03) rotate(-1deg);
     border-color: $primary-color;
     box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
   }

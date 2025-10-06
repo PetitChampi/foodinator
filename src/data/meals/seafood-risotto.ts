@@ -2,7 +2,7 @@ import { Meal } from "@/models/types";
 import { IngredientId, SeasoningStapleId } from "@/models/ingredients";
 import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/models/tagDefinitions";
 
-export const mushroomRisotto: Meal = {
+export const seafoodRisotto: Meal = {
   id: "seafood-risotto",
   name: "Seafood risotto",
   imageUrl: "./img-meals/seafood-risotto.jpg",

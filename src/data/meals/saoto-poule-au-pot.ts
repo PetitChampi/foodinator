@@ -2,7 +2,7 @@ import { Meal } from "@/models/types";
 import { IngredientId, SeasoningStapleId } from "@/models/ingredients";
 import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/models/tagDefinitions";
 
-export const mexicanStyleBeanCasserole: Meal = {
+export const saotoPouleAuPot: Meal = {
   id: "saoto-poule-au-pot",
   name: "Saoto-style Poule-au-pot",
   imageUrl: "./img-meals/poule-au-pot.jpg",

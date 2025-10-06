@@ -2,7 +2,7 @@ import { Meal } from "@/models/types";
 import { IngredientId, SeasoningStapleId } from "@/models/ingredients";
 import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/models/tagDefinitions";
 
-export const pestoChickenGnocchi: Meal = {
+export const pistacchioGnocchi: Meal = {
   id: "pistachio-pesto-gnocchi",
   name: "Pistachio pesto gnocchi",
   imageUrl: "./img-meals/pistachio-pesto-gnocchi.jpg",
