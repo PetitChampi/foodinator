@@ -54,15 +54,13 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
   const handleTouchStart = useCallback((index: number, e: React.TouchEvent) => {
     if (mealSlots[index].mealId === null) return;
 
-    // If an item is already grabbed and user taps the same item, release it
+    // If an item is already grabbed and user taps the same item,
+    // allow them to continue dragging (reset movement flag)
     if (isDraggingTouch.current && draggedMeal.current === index) {
-      document.querySelectorAll(".meal-slot").forEach(el => {
-        el.classList.remove("dragging", "drop-target", "long-press-pending");
-      });
-      draggedMeal.current = null;
-      touchCurrentSlot.current = null;
-      isDraggingTouch.current = false;
-      hasMovedWhileDragging.current = false;
+      touchStartX.current = e.touches[0].clientX;
+      touchStartY.current = e.touches[0].clientY;
+      touchCurrentSlot.current = index;
+      hasMovedWhileDragging.current = false; // Reset movement flag for new drag attempt
       return;
     }
 
@@ -212,19 +210,27 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
       return;
     }
 
-    // If we were dragging and moved, perform the drop
+    // If we moved to a different slot, perform the drop and clear state
     if (draggedMeal.current !== null && touchCurrentSlot.current !== null && draggedMeal.current !== touchCurrentSlot.current) {
       handleDrop(touchCurrentSlot.current);
+
+      // Clear all dragging state after drop is complete
+      document.querySelectorAll(".meal-slot").forEach(el => {
+        el.classList.remove("dragging", "drop-target", "long-press-pending");
+      });
+
+      draggedMeal.current = null;
+      touchCurrentSlot.current = null;
+      isDraggingTouch.current = false;
+      hasMovedWhileDragging.current = false;
+      return;
     }
 
-    // Clear all dragging state after drop is complete
+    // If we moved around but ended up back on the original slot, keep it grabbed
+    // Just clean up visual feedback on other slots and reset movement flag
     document.querySelectorAll(".meal-slot").forEach(el => {
-      el.classList.remove("dragging", "drop-target", "long-press-pending");
+      el.classList.remove("drop-target", "long-press-pending");
     });
-
-    draggedMeal.current = null;
-    touchCurrentSlot.current = null;
-    isDraggingTouch.current = false;
     hasMovedWhileDragging.current = false;
   }, [handleDrop]);
 

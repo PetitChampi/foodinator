@@ -38,7 +38,7 @@
   overflow: hidden;
   background-color: $card-background;
   box-shadow: $shadow-md;
-  transition: background-color $transition-base, opacity $transition-base, border-color $transition-base;
+  transition: all $transition-base;
   &--empty {
     padding: $spacing-md $spacing-lg;
     border: 2px dashed $border-color;
@@ -61,7 +61,6 @@
     transform: scale(1.03) rotate(-1deg);
     border-color: $primary-color;
     box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
-    transition: transform 0.15s ease-out, border-color 0.15s ease-out, box-shadow 0.15s ease-out;
   }
   &__img {
     background-color: $gray-5;
