@@ -86,10 +86,11 @@ describe("useFoodinatorStore", () => {
     expect(burgerMeals.length).toBe(0);
   });
 
-  it("resetPlan: should reset mealSlots and cookedMeals", () => {
+  it("resetPlan: should reset mealSlots, cookedMeals, and startDate", () => {
     act(() => {
       useFoodinatorStore.getState().addMeal("pasta-bolognese", 3);
       useFoodinatorStore.getState().toggleMealCooked(0);
+      useFoodinatorStore.getState().updateStartDate("2024-01-01");
     });
     act(() => {
       useFoodinatorStore.getState().resetPlan();
@@ -98,6 +99,7 @@ describe("useFoodinatorStore", () => {
     const state = useFoodinatorStore.getState();
     expect(state.mealSlots.every(slot => slot.mealId === null)).toBe(true);
     expect(state.cookedMeals).toEqual({});
+    expect(state.startDate).toBe(new Date().toISOString().split("T")[0]);
   });
 
   it("toggleMealCooked: should toggle the cooked status of a meal instance", () => {

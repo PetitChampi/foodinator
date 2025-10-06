@@ -85,6 +85,7 @@ export enum IngredientId {
   BEEF_BROTH = "beef-broth",
   VEGETABLE_BROTH = "vegetable-broth",
   CHICKEN_BROTH = "chicken-broth",
+  BEAN_SPROUTS = "bean-sprouts",
 }
 
 // Enum for seasoning staple IDs
@@ -199,6 +200,7 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.BEEF, name: "Beef" },
   { id: IngredientId.CHICKEN_BROTH, name: "Chicken broth" },
   { id: IngredientId.PARSNIPS, name: "Parsnips" },
+  { id: IngredientId.BEAN_SPROUTS, name: "Bean sprouts" },
 ];
 
 export const seasoningStaples: Ingredient[] = [

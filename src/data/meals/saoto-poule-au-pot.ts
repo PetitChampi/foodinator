@@ -3,8 +3,8 @@ import { IngredientId, SeasoningStapleId } from "@/models/ingredients";
 import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/models/tagDefinitions";
 
 export const mexicanStyleBeanCasserole: Meal = {
-  id: "poule-au-pot",
-  name: "Poule au pot",
+  id: "saoto-poule-au-pot",
+  name: "Saoto-style Poule-au-pot",
   imageUrl: "./img-meals/poule-au-pot.jpg",
   tools: ["Pan", "Spatula"],
   steps: {
@@ -14,19 +14,20 @@ export const mexicanStyleBeanCasserole: Meal = {
     ],
     cook: [
       "Start slow cooker on high, add water with chicken broth",
+      "Sear chicken in pan until golden on the outside",
       "Once the water is hot enough, add chicken to slow cooker",
-      "Add carrots, parsnips, onions, leeks, cloves and bouquet garni to slow cooker",
+      "Add carrots, parsnips, cloves, bouquet garni and a sprinkle of tarragon to slow cooker",
       "Add some butter and white wine to slow cooker",
-      "Leave to cook for 2 hours",
+      "Leave to cook for 30 min",
       "Cook rice in pan with chicken broth from slow-cooker",
-      "Bonus: make poulette sauce with some of the broth, butter, flour, creme fraiche, and lemon juice",
+      "At the end of cooking, mix in bean sprouts",
     ],
   },
-  ingredients: [IngredientId.CHICKEN, IngredientId.RICE, IngredientId.WHITE_ONION, IngredientId.CARROTS, IngredientId.PARSNIPS, IngredientId.WHITE_WINE, IngredientId.CHICKEN_BROTH],
-  seasoning: [SeasoningStapleId.BUTTER, SeasoningStapleId.BOUQUET_GARNI, SeasoningStapleId.BLACK_PEPPER, SeasoningStapleId.CLOVES],
+  ingredients: [IngredientId.CHICKEN, IngredientId.CARROTS, IngredientId.PARSNIPS, IngredientId.WHITE_WINE, IngredientId.CHICKEN_BROTH, IngredientId.BEAN_SPROUTS],
+  seasoning: [SeasoningStapleId.BUTTER, SeasoningStapleId.BOUQUET_GARNI, SeasoningStapleId.BLACK_PEPPER, SeasoningStapleId.CLOVES, SeasoningStapleId.TARRAGON],
   tags: {
     cookingMethod: CookingMethodTag.SLOW_COOKER,
-    base: BaseTag.RICE,
+    base: BaseTag.NONE,
     proteinSource: ProteinSourceTag.CHICKEN,
     convenience: [ConvenienceTag.BATCHABLE, ConvenienceTag.FRIDGE_FRIENDLY],
   },

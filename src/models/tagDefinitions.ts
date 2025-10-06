@@ -20,6 +20,7 @@ export enum CookingMethodTag {
 }
 
 export enum BaseTag {
+  NONE = "none",
   RICE = "rice",
   PASTA = "pasta",
   BREAD = "bread",

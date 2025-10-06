@@ -71,7 +71,7 @@ describe("MealSelector", () => {
     renderMealSelector();
 
     const burgerCard = screen.getByText("Burgers").closest(".card")!;
-    const addButton = within(burgerCard as HTMLElement).getByRole("button", { name: "Add" });
+    const addButton = within(burgerCard as HTMLElement).getByTestId("add-meal-burgers");
 
     await user.click(addButton);
 

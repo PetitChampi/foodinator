@@ -3,8 +3,9 @@ import { IngredientId, SeasoningStapleId } from "@/models/ingredients";
 import { CookingMethodTag, BaseTag, ProteinSourceTag } from "@/models/tagDefinitions";
 
 export const panSearedLamb: Meal = {
-  id: "pan-seared-lamb",
-  name: "Pan-seared lamb",
+  id: "lamb-and-potatoes",
+  name: "Lamb and potatoes",
+  imageUrl: "./img-meals/lamb-potatoes.jpg",
   tools: ["Pan", "Spatula", "Tongs", "1 plate", "Pot or air fryer for potatoes"],
   steps: {
     prep: [
@@ -24,7 +25,7 @@ export const panSearedLamb: Meal = {
   ingredients: [IngredientId.LAMB, IngredientId.POTATOES, IngredientId.GREEN_VEG, IngredientId.MINT_SAUCE],
   seasoning: [SeasoningStapleId.OLIVE_OIL, SeasoningStapleId.BLACK_PEPPER],
   tags: {
-    cookingMethod: CookingMethodTag.POT_PAN,
+    cookingMethod: CookingMethodTag.PAN,
     base: BaseTag.POTATOES,
     proteinSource: ProteinSourceTag.LAMB,
     convenience: [],

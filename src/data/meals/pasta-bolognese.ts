@@ -21,6 +21,6 @@ export const pastaBolognese: Meal = {
     cookingMethod: CookingMethodTag.POT_PAN,
     base: BaseTag.PASTA,
     proteinSource: ProteinSourceTag.BEEF,
-    convenience: [ConvenienceTag.ONE_POT, ConvenienceTag.FRIDGE_FRIENDLY, ConvenienceTag.BATCHABLE],
+    convenience: [ConvenienceTag.ONE_POT, ConvenienceTag.BATCHABLE],
   },
 };

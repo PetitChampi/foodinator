@@ -23,6 +23,6 @@ export const tunaPita: Meal = {
     cookingMethod: CookingMethodTag.NO_COOK,
     base: BaseTag.BREAD,
     proteinSource: ProteinSourceTag.FISH,
-    convenience: [ConvenienceTag.SANDWICH, ConvenienceTag.FRIDGE_FRIENDLY],
+    convenience: [ConvenienceTag.SANDWICH],
   },
 };

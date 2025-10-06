@@ -138,6 +138,7 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
         state.mealSlots = Array(TOTAL_SLOTS).fill(null).map(createEmptySlot);
         state.cookedMeals = {};
         state.checkedItems = {};
+        state.startDate = new Date().toISOString().split("T")[0];
       }));
     },
 
