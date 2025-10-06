@@ -169,26 +169,28 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
       longPressTimer.current = null;
     }
 
+    // Only clear visual feedback if dragging wasn't started
+    if (!isDraggingTouch.current) {
+      document.querySelectorAll(".meal-slot").forEach(el => {
+        el.classList.remove("dragging", "drop-target", "long-press-pending");
+      });
+      draggedMeal.current = null;
+      touchCurrentSlot.current = null;
+      isDraggingTouch.current = false;
+      return;
+    }
+
+    // If we were dragging, perform the drop
+    if (draggedMeal.current !== null && touchCurrentSlot.current !== null && draggedMeal.current !== touchCurrentSlot.current) {
+      handleDrop(touchCurrentSlot.current);
+    }
+
+    // Clear all dragging state after drop is complete
     document.querySelectorAll(".meal-slot").forEach(el => {
       el.classList.remove("dragging", "drop-target", "long-press-pending");
     });
 
-    // Only perform drop if dragging was actually started
-    if (!isDraggingTouch.current) {
-      draggedMeal.current = null;
-      touchCurrentSlot.current = null;
-      isDraggingTouch.current = false;
-      return;
-    }
-
-    if (draggedMeal.current === null || touchCurrentSlot.current === null || draggedMeal.current === touchCurrentSlot.current) {
-      draggedMeal.current = null;
-      touchCurrentSlot.current = null;
-      isDraggingTouch.current = false;
-      return;
-    }
-
-    handleDrop(touchCurrentSlot.current);
+    draggedMeal.current = null;
     touchCurrentSlot.current = null;
     isDraggingTouch.current = false;
   }, [handleDrop]);

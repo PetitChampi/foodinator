@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { getMealById } from "@/models/mealData";
 
 interface MealSlotProps {
@@ -35,9 +35,27 @@ export const MealSlot: React.FC<MealSlotProps> = ({
   onToggleCooked,
 }) => {
   const meal = mealId ? getMealById(mealId) : null;
+  const slotRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const element = slotRef.current;
+    if (!element) return;
+
+    const handleTouchMovePassive = (e: TouchEvent) => {
+      onTouchMove(e as unknown as React.TouchEvent);
+    };
+
+    // Add touch move listener with passive: false to allow preventDefault
+    element.addEventListener("touchmove", handleTouchMovePassive, { passive: false });
+
+    return () => {
+      element.removeEventListener("touchmove", handleTouchMovePassive);
+    };
+  }, [onTouchMove]);
 
   return (
     <div
+      ref={slotRef}
       className={`meal-slot ${!meal ? "meal-slot--empty" : ""} ${meal && isCooked ? "cooked" : ""}`}
       data-index={index}
       data-testid={`meal-slot-${index}`}
@@ -47,9 +65,7 @@ export const MealSlot: React.FC<MealSlotProps> = ({
       onDragEnter={() => onDragEnter(index)}
       onDragEnd={onDragEnd}
       onDrop={() => onDrop(index)}
-      // Touch events for mobile support
       onTouchStart={(e) => onTouchStart(index, e)}
-      onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
       {/* Date label for the slot */}
