@@ -26,7 +26,7 @@ export const PlannedMealItem: React.FC<PlannedMealItemProps> = ({
   if (!meal) return null;
 
   const handleCardClick = () => {
-    openModal(<MealDetailsModal mealId={meal.id} />, "sm");
+    openModal(<MealDetailsModal mealId={meal.id} />, "sm", true);
   };
 
   const stopPropagation = (e: React.MouseEvent) => e.stopPropagation();

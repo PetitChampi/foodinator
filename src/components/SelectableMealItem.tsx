@@ -20,7 +20,7 @@ export const SelectableMealItem: React.FC<SelectableMealItemProps> = ({
   const [error, setError] = useState("");
 
   const handleCardClick = () => {
-    openModal(<MealDetailsModal mealId={meal.id} />, "sm");
+    openModal(<MealDetailsModal mealId={meal.id} />, "sm", true);
   };
 
   const handleAddMeal = () => {

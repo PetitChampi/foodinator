@@ -205,15 +205,20 @@
 
 @media (max-width: $breakpoint-sm) {
   .modal-overlay {
-    padding: $spacing-xxl 0 0;
+    padding: $spacing-sm;
+    &.is-slider {
+      padding: $spacing-xxl 0 0;
+      .modal-body {
+        border-radius: $border-radius-xl $border-radius-xl 0 0;
+        animation: modalSlideUp $transition-base;
+        height: 100%;
+        &.modal-closing {
+          animation: modalSlideDown $transition-base;
+        }
+      }
+    }
   }
   .modal-body {
-    border-radius: $border-radius-xl $border-radius-xl 0 0;
-    animation: modalSlideUp $transition-base;
-    height: 100%;
-    &.modal-closing {
-      animation: modalSlideDown $transition-base;
-    }
     .modal-close-button {
       width: 40px;
       height: 40px;

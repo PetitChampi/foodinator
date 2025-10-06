@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useModal } from "@/contexts/ModalContext";
 
 export function Modal() {
-  const { isOpen, isClosing, content, size, closeModal } = useModal();
+  const { isOpen, isClosing, content, size, isSlider, closeModal } = useModal();
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -32,7 +32,7 @@ export function Modal() {
 
   return (
     <div
-      className={`modal-overlay ${isClosing ? "modal-closing" : ""}`}
+      className={`modal-overlay ${isSlider ? "is-slider" : ""} ${isClosing ? "modal-closing" : ""}`}
       onClick={handleOverlayClick}
       data-testid="modal-overlay"
     >
