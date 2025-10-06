@@ -18,6 +18,9 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
   const touchStartX = useRef<number>(0);
   const touchStartY = useRef<number>(0);
   const touchCurrentSlot = useRef<number | null>(null);
+  const longPressTimer = useRef<number | null>(null);
+  const isDraggingTouch = useRef<boolean>(false);
+  const longPressThreshold = 500; // milliseconds
 
   const handleDragStart = useCallback((index: number) => {
     if (mealSlots[index].mealId === null || dragLocked) return;
@@ -50,17 +53,62 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
 
   const handleTouchStart = useCallback((index: number, e: React.TouchEvent) => {
     if (mealSlots[index].mealId === null || dragLocked) return;
-    draggedMeal.current = index;
+
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
     touchCurrentSlot.current = index;
+    isDraggingTouch.current = false;
+
+    // Clear any existing timer
+    if (longPressTimer.current !== null) {
+      window.clearTimeout(longPressTimer.current);
+    }
+
+    // Add long-press visual feedback
     const slotElements = document.querySelectorAll(".meal-slot");
     if (slotElements[index]) {
-      slotElements[index].classList.add("dragging");
+      slotElements[index].classList.add("long-press-pending");
     }
+
+    // Set up long press detection
+    longPressTimer.current = window.setTimeout(() => {
+      // Start dragging after long press
+      draggedMeal.current = index;
+      isDraggingTouch.current = true;
+
+      const slotElements = document.querySelectorAll(".meal-slot");
+      if (slotElements[index]) {
+        slotElements[index].classList.remove("long-press-pending");
+        slotElements[index].classList.add("dragging");
+      }
+
+      // Optional: Add haptic feedback if available
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
+    }, longPressThreshold);
   }, [mealSlots, dragLocked]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    // Cancel long press if user moves before timer completes
+    if (!isDraggingTouch.current) {
+      const touch = e.touches[0];
+      const deltaX = Math.abs(touch.clientX - touchStartX.current);
+      const deltaY = Math.abs(touch.clientY - touchStartY.current);
+
+      // If movement exceeds threshold, cancel long press
+      if (deltaX > 10 || deltaY > 10) {
+        if (longPressTimer.current !== null) {
+          window.clearTimeout(longPressTimer.current);
+          longPressTimer.current = null;
+        }
+        document.querySelectorAll(".meal-slot").forEach(el => {
+          el.classList.remove("long-press-pending");
+        });
+      }
+      return;
+    }
+
     if (draggedMeal.current === null) return;
     const touch = e.touches[0];
     const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
@@ -113,15 +161,34 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
   }, [mealSlots, onReorder]);
 
   const handleTouchEnd = useCallback(() => {
-    document.querySelectorAll(".meal-slot").forEach(el => el.classList.remove("dragging", "drop-target"));
+    // Clear long press timer
+    if (longPressTimer.current !== null) {
+      window.clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+
+    document.querySelectorAll(".meal-slot").forEach(el => {
+      el.classList.remove("dragging", "drop-target", "long-press-pending");
+    });
+
+    // Only perform drop if dragging was actually started
+    if (!isDraggingTouch.current) {
+      draggedMeal.current = null;
+      touchCurrentSlot.current = null;
+      isDraggingTouch.current = false;
+      return;
+    }
+
     if (draggedMeal.current === null || touchCurrentSlot.current === null || draggedMeal.current === touchCurrentSlot.current) {
       draggedMeal.current = null;
       touchCurrentSlot.current = null;
+      isDraggingTouch.current = false;
       return;
     }
 
     handleDrop(touchCurrentSlot.current);
     touchCurrentSlot.current = null;
+    isDraggingTouch.current = false;
   }, [handleDrop]);
 
   return {
