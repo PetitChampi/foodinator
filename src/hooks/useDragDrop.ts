@@ -54,6 +54,23 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
   const handleTouchStart = useCallback((index: number, e: React.TouchEvent) => {
     if (mealSlots[index].mealId === null) return;
 
+    // If an item is already grabbed and user taps the same item, release it
+    if (isDraggingTouch.current && draggedMeal.current === index) {
+      document.querySelectorAll(".meal-slot").forEach(el => {
+        el.classList.remove("dragging", "drop-target", "long-press-pending");
+      });
+      draggedMeal.current = null;
+      touchCurrentSlot.current = null;
+      isDraggingTouch.current = false;
+      hasMovedWhileDragging.current = false;
+      return;
+    }
+
+    // If a different item is already grabbed, don't start a new grab
+    if (isDraggingTouch.current && draggedMeal.current !== null) {
+      return;
+    }
+
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
     touchCurrentSlot.current = index;
@@ -186,10 +203,12 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
 
     // If dragging was started but user hasn't moved yet, keep it selected (don't drop)
     if (!hasMovedWhileDragging.current) {
-      // Item stays selected, just remove the long-press-pending class
+      // Item stays grabbed - keep all the dragging state and visual feedback
+      // Just remove drop-target from other slots
       document.querySelectorAll(".meal-slot").forEach(el => {
-        el.classList.remove("long-press-pending");
+        el.classList.remove("drop-target", "long-press-pending");
       });
+      // Don't reset draggedMeal, isDraggingTouch, or touchCurrentSlot - keep them active
       return;
     }
 
