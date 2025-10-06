@@ -68,67 +68,10 @@ test.describe("Schedule Management Flow", () => {
     await expect(secondMealSlot).not.toHaveClass(/cooked/);
   });
 
-  test("should toggle schedule lock/unlock functionality", async ({ page }) => {
+  test("should allow dragging and reordering meals", async ({ page }) => {
     const scheduleTab = page.getByTestId("tab-schedule");
     await scheduleTab.click();
     await expect(scheduleTab).toHaveClass(/active/);
-
-    const lockButton = page.getByTestId("drag-lock-toggle");
-    await expect(lockButton).toBeVisible();
-
-    const initialState = await lockButton.textContent();
-
-    await lockButton.click();
-
-    const newState = await lockButton.textContent();
-    expect(newState).not.toBe(initialState);
-
-    if (newState?.includes("🔓 Unlocked")) {
-      await expect(lockButton).toContainText("🔓 Unlocked");
-    } else {
-      await expect(lockButton).toContainText("🔒 Locked");
-    }
-  });
-
-  test("should prevent dragging when schedule is locked", async ({ page }) => {
-    const scheduleTab = page.getByTestId("tab-schedule");
-    await scheduleTab.click();
-    await expect(scheduleTab).toHaveClass(/active/);
-
-    const lockButton = page.getByTestId("drag-lock-toggle");
-    await expect(lockButton).toBeVisible();
-
-    if ((await lockButton.textContent())?.includes("🔓 Unlocked")) {
-      await lockButton.click();
-    }
-
-    await expect(lockButton).toContainText("🔒 Locked");
-
-    const sourceSlot = page.getByTestId("meal-slot-0");
-    const targetSlot = page.getByTestId("meal-slot-1");
-
-    await expect(sourceSlot).toContainText("Burgers");
-    await expect(targetSlot).toContainText("Pesto chicken gnocchi");
-
-    await sourceSlot.dragTo(targetSlot);
-
-    await expect(sourceSlot).toContainText("Burgers");
-    await expect(targetSlot).toContainText("Pesto chicken gnocchi");
-  });
-
-  test("should allow dragging when schedule is unlocked", async ({ page }) => {
-    const scheduleTab = page.getByTestId("tab-schedule");
-    await scheduleTab.click();
-    await expect(scheduleTab).toHaveClass(/active/);
-
-    const lockButton = page.getByTestId("drag-lock-toggle");
-    await expect(lockButton).toBeVisible();
-
-    if ((await lockButton.textContent())?.includes("🔒 Locked")) {
-      await lockButton.click();
-    }
-
-    await expect(lockButton).toContainText("🔓 Unlocked");
 
     const sourceSlot = page.getByTestId("meal-slot-0");
     const targetSlot = page.getByTestId("meal-slot-1");
@@ -249,11 +192,6 @@ test.describe("Schedule Management Flow", () => {
     await expect(cookToggle).toBeVisible();
     await cookToggle.click();
     await expect(firstSlot).toHaveClass(/cooked/);
-
-    const lockButton = page.getByTestId("drag-lock-toggle");
-    if ((await lockButton.textContent())?.includes("🔒 Locked")) {
-      await lockButton.click();
-    }
 
     const secondSlot = page.getByTestId("meal-slot-1");
     await firstSlot.dragTo(secondSlot);

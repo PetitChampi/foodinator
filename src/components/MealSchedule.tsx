@@ -8,11 +8,9 @@ export const MealSchedule: React.FC = () => {
   const {
     mealSlots: storeMealSlots,
     cookedMeals,
-    dragLocked,
     startDate,
     reorderMeals,
     toggleMealCooked,
-    toggleDragLock,
     updateStartDate,
   } = useFoodinatorStore();
 
@@ -41,7 +39,6 @@ export const MealSchedule: React.FC = () => {
     handleDrop,
   } = useDragDrop({
     initialSlots: storeMealSlots,
-    dragLocked,
     onReorder: reorderMeals,
   });
 
@@ -59,18 +56,16 @@ export const MealSchedule: React.FC = () => {
       <ScheduleControls
         startDate={startDate}
         onUpdateStartDate={updateStartDate}
-        dragLocked={dragLocked}
-        onToggleDragLock={toggleDragLock}
       />
 
-      <div className={`meal-slots-container ${dragLocked ? "drag-locked" : ""}`}>
+      <div className="meal-slots-container">
         {mealSlots.map((slot, index) => (
           <MealSlot
             key={slot.instanceId || `empty-${index}`}
             mealId={slot.mealId}
             index={index}
             isCooked={cookedStatus[index]}
-            isDraggable={!dragLocked}
+            isDraggable={true}
             dateLabel={getSlotDate(index)}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}

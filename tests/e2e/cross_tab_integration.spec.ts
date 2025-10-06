@@ -243,11 +243,6 @@ test.describe("Cross-Tab Integration Flow", () => {
     const scheduleTab = page.getByTestId("tab-schedule");
     await scheduleTab.click();
 
-    const lockButton = page.getByTestId("drag-lock-toggle");
-    if ((await lockButton.textContent())?.includes("🔒 Locked")) {
-      await lockButton.click();
-    }
-
     const sourceSlot = page.getByTestId("meal-slot-0");
     const targetSlot = page.getByTestId("meal-slot-1");
 

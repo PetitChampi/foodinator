@@ -157,34 +157,6 @@ test.describe("Data Persistence Flow", () => {
     await expect(secondSlot).toContainText("Pesto chicken gnocchi");
   });
 
-  test("should persist drag lock state after page refresh", async ({ page }) => {
-    await page.goto("/");
-
-    await expect(page.locator(".container")).toBeVisible();
-
-    const burgersButton = page.getByTestId("add-meal-burgers");
-    await burgersButton.click();
-
-    const scheduleTab = page.getByTestId("tab-schedule");
-    await scheduleTab.click();
-    await expect(scheduleTab).toHaveClass(/active/);
-
-    const lockButton = page.getByTestId("drag-lock-toggle");
-    await expect(lockButton).toBeVisible();
-
-    if (await lockButton.textContent() === "🔒 Locked") {
-      await lockButton.click();
-    }
-
-    await expect(lockButton).toContainText("🔓 Unlocked");
-
-    await page.reload();
-
-    await expect(page.locator(".container")).toBeVisible();
-    await expect(page.getByTestId("tab-schedule")).toHaveClass(/active/);
-    await expect(lockButton).toContainText("🔓 Unlocked");
-  });
-
   test("should handle data persistence across browser sessions", async ({ context }) => {
     const page = await context.newPage();
     await page.goto("/");

@@ -3,15 +3,11 @@ import React from "react";
 interface ScheduleControlsProps {
   startDate: string;
   onUpdateStartDate: (date: string) => void;
-  dragLocked: boolean;
-  onToggleDragLock: () => void;
 }
 
 export const ScheduleControls: React.FC<ScheduleControlsProps> = ({
   startDate,
   onUpdateStartDate,
-  dragLocked,
-  onToggleDragLock,
 }) => {
   return (
     <div className="schedule-controls" data-testid="schedule-controls">
@@ -28,14 +24,6 @@ export const ScheduleControls: React.FC<ScheduleControlsProps> = ({
           data-testid="schedule-date-input"
         />
       </div>
-      <button
-        className={`btn btn-sm ${dragLocked ? "btn-secondary" : "btn-tertiary"}`}
-        onClick={onToggleDragLock}
-        title={dragLocked ? "Unlock drag and drop" : "Lock drag and drop"}
-        data-testid="drag-lock-toggle"
-      >
-        {dragLocked ? "🔒 Locked" : "🔓 Unlocked"}
-      </button>
     </div>
   );
 };

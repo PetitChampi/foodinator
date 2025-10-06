@@ -16,7 +16,6 @@ interface FoodinatorState {
 
   mealSlots: MealSlot[];
   cookedMeals: Record<string, boolean>;
-  dragLocked: boolean;
   startDate: string;
 
   // Grocery list
@@ -38,7 +37,6 @@ interface FoodinatorActions {
   resetPlan: () => void;
   reorderMeals: (newSlots: MealSlot[]) => void;
   toggleMealCooked: (slotIndex: number) => void;
-  toggleDragLock: () => void;
   updateStartDate: (date: string) => void;
 
   // Grocery + Search actions
@@ -66,7 +64,6 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
     weeklyPlan: { totalSlots: TOTAL_SLOTS },
     mealSlots: Array(TOTAL_SLOTS).fill(null).map(createEmptySlot),
     cookedMeals: {},
-    dragLocked: true,
     startDate: new Date().toISOString().split("T")[0],
     checkedItems: {},
     notes: "",
@@ -154,7 +151,6 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
       }));
     },
 
-    toggleDragLock: () => set(state => ({ dragLocked: !state.dragLocked })),
     updateStartDate: (date) => set({ startDate: date }),
     toggleItemChecked: (ingredientId) => set(produce((state: FoodinatorState) => { state.checkedItems[ingredientId] = !state.checkedItems[ingredientId]; })),
     clearAllCheckedItems: () => set({ checkedItems: {} }),

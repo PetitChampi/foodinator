@@ -3,11 +3,10 @@ import type { MealSlot } from "@/store/useFoodinatorStore";
 
 interface UseDragDropOptions {
   initialSlots: MealSlot[];
-  dragLocked: boolean;
   onReorder: (newSlots: MealSlot[]) => void;
 }
 
-export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDropOptions) => {
+export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => {
   const [mealSlots, setMealSlots] = useState<MealSlot[]>(initialSlots);
 
   useEffect(() => {
@@ -23,26 +22,26 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
   const longPressThreshold = 500; // milliseconds
 
   const handleDragStart = useCallback((index: number) => {
-    if (mealSlots[index].mealId === null || dragLocked) return;
+    if (mealSlots[index].mealId === null) return;
     draggedMeal.current = index;
     const slotElements = document.querySelectorAll(".meal-slot");
     if (slotElements[index]) {
       slotElements[index].classList.add("dragging");
     }
-  }, [mealSlots, dragLocked]);
+  }, [mealSlots]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
   }, []);
 
   const handleDragEnter = useCallback((index: number) => {
-    if (draggedMeal.current === null || dragLocked) return;
+    if (draggedMeal.current === null) return;
     document.querySelectorAll(".meal-slot").forEach(el => el.classList.remove("drop-target"));
     const slotElements = document.querySelectorAll(".meal-slot");
     if (slotElements[index]) {
       slotElements[index].classList.add("drop-target");
     }
-  }, [dragLocked]);
+  }, []);
 
   const handleDragEnd = useCallback(() => {
     document.querySelectorAll(".meal-slot").forEach(el => {
@@ -52,7 +51,7 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
   }, []);
 
   const handleTouchStart = useCallback((index: number, e: React.TouchEvent) => {
-    if (mealSlots[index].mealId === null || dragLocked) return;
+    if (mealSlots[index].mealId === null) return;
 
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
@@ -87,7 +86,7 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
         navigator.vibrate(50);
       }
     }, longPressThreshold);
-  }, [mealSlots, dragLocked]);
+  }, [mealSlots]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     // Cancel long press if user moves before timer completes
@@ -108,6 +107,9 @@ export const useDragDrop = ({ initialSlots, dragLocked, onReorder }: UseDragDrop
       }
       return;
     }
+
+    // Prevent scrolling when dragging
+    e.preventDefault();
 
     if (draggedMeal.current === null) return;
     const touch = e.touches[0];
