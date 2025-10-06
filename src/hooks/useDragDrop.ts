@@ -19,7 +19,7 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
   const touchCurrentSlot = useRef<number | null>(null);
   const longPressTimer = useRef<number | null>(null);
   const isDraggingTouch = useRef<boolean>(false);
-  const longPressThreshold = 500; // milliseconds
+  const longPressThreshold = 300; // milliseconds
 
   const handleDragStart = useCallback((index: number) => {
     if (mealSlots[index].mealId === null) return;

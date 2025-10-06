@@ -58,9 +58,10 @@
     border-color: rgba($success-color, 0.4);
   }
   &.long-press-pending {
-    animation: long-press-pulse 0.5s ease-in-out;
+    transform: scale(1.03) rotate(-1deg);
     border-color: $primary-color;
     box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+    transition: transform 0.15s ease-out, border-color 0.15s ease-out, box-shadow 0.15s ease-out;
   }
   &__img {
     background-color: $gray-5;
@@ -97,17 +98,5 @@
     line-height: 1.2;
     color: $gray-1;
     font-weight: $font-weight-medium;
-  }
-}
-
-@keyframes long-press-pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-  100% {
-    transform: scale(1);
   }
 }
