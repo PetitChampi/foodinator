@@ -17,7 +17,6 @@ describe("useFoodinatorStore", () => {
     expect(state.mealSlots.length).toBe(TOTAL_SLOTS);
     expect(state.mealSlots.every(slot => slot.mealId === null)).toBe(true);
     expect(state.cookedMeals).toEqual({});
-    expect(state.dragLocked).toBe(true);
   });
 
   it("addMeal: should add a specified quantity of a meal to empty slots", () => {

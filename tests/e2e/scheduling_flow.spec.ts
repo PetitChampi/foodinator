@@ -27,15 +27,6 @@ test("should allow a user to drag and drop to reorder meals", async ({ page }) =
 
   await expect(scheduleTab).toHaveClass(/active/);
 
-  const lockButton = page.getByRole("button", { name: /🔓 Unlocked|🔒 Locked/ });
-  await expect(lockButton).toBeVisible();
-
-  if (await lockButton.textContent() === "🔒 Locked") {
-    await lockButton.click();
-  }
-
-  await expect(page.getByRole("button", { name: "🔓 Unlocked" })).toBeVisible();
-
   const sourceSlot = page.getByTestId("meal-slot-0");
   const targetSlot = page.getByTestId("meal-slot-1");
 
