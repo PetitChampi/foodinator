@@ -210,11 +210,15 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
       return;
     }
 
-    // If we moved to a different slot, perform the drop and clear state
-    if (draggedMeal.current !== null && touchCurrentSlot.current !== null && draggedMeal.current !== touchCurrentSlot.current) {
-      handleDrop(touchCurrentSlot.current);
+    // If we moved (anywhere, including back to original), perform the drop and clear state
+    // This completes the drag operation whether to a new slot or back to original
+    if (draggedMeal.current !== null && touchCurrentSlot.current !== null) {
+      // Only actually swap if moving to a different slot
+      if (draggedMeal.current !== touchCurrentSlot.current) {
+        handleDrop(touchCurrentSlot.current);
+      }
 
-      // Clear all dragging state after drop is complete
+      // Always clear all dragging state after any completed drag operation
       document.querySelectorAll(".meal-slot").forEach(el => {
         el.classList.remove("dragging", "drop-target", "long-press-pending");
       });
@@ -223,15 +227,7 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
       touchCurrentSlot.current = null;
       isDraggingTouch.current = false;
       hasMovedWhileDragging.current = false;
-      return;
     }
-
-    // If we moved around but ended up back on the original slot, keep it grabbed
-    // Just clean up visual feedback on other slots and reset movement flag
-    document.querySelectorAll(".meal-slot").forEach(el => {
-      el.classList.remove("drop-target", "long-press-pending");
-    });
-    hasMovedWhileDragging.current = false;
   }, [handleDrop]);
 
   return {
