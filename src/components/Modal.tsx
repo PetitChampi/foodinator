@@ -4,7 +4,6 @@ import { useModal } from "@/contexts/ModalContext";
 export function Modal() {
   const { isOpen, isClosing, content, size, closeModal } = useModal();
 
-  // Handle escape key press
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape" && isOpen) {

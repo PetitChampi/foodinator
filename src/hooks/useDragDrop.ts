@@ -15,7 +15,6 @@ const DragState = {
 export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => {
   const [mealSlots, setMealSlots] = useState<MealSlot[]>(initialSlots);
 
-  // --- Refs for managing drag state ---
   const dragState = useRef<typeof DragState[keyof typeof DragState]>(DragState.IDLE);
   const draggedItemIndex = useRef<number | null>(null);
   const targetItemIndex = useRef<number | null>(null);
@@ -27,9 +26,6 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
     setMealSlots(initialSlots);
   }, [initialSlots]);
 
-  // --- Core Logic Functions ---
-
-  // Centralized cleanup to reset all state and styles
   const cleanup = useCallback(() => {
     document.querySelectorAll(".meal-slot").forEach(el => {
       el.classList.remove("dragging", "drop-target", "long-press-pending");
@@ -43,11 +39,10 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
     touchStartPos.current = null;
   }, []);
 
-  // The shared logic for swapping two items in the array
   const performDrop = useCallback((destinationIndex: number) => {
     const sourceIndex = draggedItemIndex.current;
     if (sourceIndex === null || sourceIndex === destinationIndex) {
-      return; // Do nothing if there's no source or if source is the same as destination
+      return;
     }
     const newMealSlots = [...mealSlots];
     [newMealSlots[sourceIndex], newMealSlots[destinationIndex]] = [newMealSlots[destinationIndex], newMealSlots[sourceIndex]];
@@ -55,10 +50,6 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
     onReorder(newMealSlots);
   }, [mealSlots, onReorder]);
 
-
-  // --- Event Handlers ---
-
-  // Desktop drag-and-drop
   const handleDragStart = useCallback((index: number) => {
     if (mealSlots[index].mealId === null) return;
     draggedItemIndex.current = index;
@@ -73,15 +64,12 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
     document.querySelectorAll(".meal-slot")[index]?.classList.add("drop-target");
   }, []);
 
-  // Called from the onDrop event on the target element (desktop)
   const handleDrop = useCallback((index: number) => {
     performDrop(index);
     cleanup();
   }, [performDrop, cleanup]);
 
-  // Called from the onDragEnd event on the source element (desktop)
   const handleDragEnd = useCallback(() => cleanup(), [cleanup]);
-
 
   // Touch events
   const handleTouchStart = useCallback((index: number, e: React.TouchEvent) => {
@@ -131,7 +119,6 @@ export const useDragDrop = ({ initialSlots, onReorder }: UseDragDropOptions) => 
     if (dragState.current === DragState.DRAGGING && targetItemIndex.current !== null) {
       performDrop(targetItemIndex.current);
     }
-    // Always clean up regardless of state to ensure no lingering effects
     cleanup();
   }, [performDrop, cleanup]);
 
