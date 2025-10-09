@@ -8,6 +8,7 @@ export enum IngredientId {
   DICED_BEEF = "diced-beef",
   BEEF = "beef",
   PORK_FILLET = "pork-fillet",
+  HAM = "ham",
   PRAWNS = "prawns",
   TUNA = "tuna",
   SMOKED_SALMON = "smoked-salmon",
@@ -86,6 +87,7 @@ export enum IngredientId {
   VEGETABLE_BROTH = "vegetable-broth",
   CHICKEN_BROTH = "chicken-broth",
   BEAN_SPROUTS = "bean-sprouts",
+  ROCKET = "rocket",
 }
 
 // Enum for seasoning staple IDs
@@ -198,9 +200,11 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.VEGETABLE_BROTH, name: "Vegetable broth" },
   { id: IngredientId.RED_WINE, name: "Red wine" },
   { id: IngredientId.BEEF, name: "Beef" },
+  { id: IngredientId.HAM, name: "Ham" },
   { id: IngredientId.CHICKEN_BROTH, name: "Chicken broth" },
   { id: IngredientId.PARSNIPS, name: "Parsnips" },
   { id: IngredientId.BEAN_SPROUTS, name: "Bean sprouts" },
+  { id: IngredientId.ROCKET, name: "Rocket" },
 ];
 
 export const seasoningStaples: Ingredient[] = [
