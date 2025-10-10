@@ -88,6 +88,8 @@ export enum IngredientId {
   CHICKEN_BROTH = "chicken-broth",
   BEAN_SPROUTS = "bean-sprouts",
   ROCKET = "rocket",
+  PROSCIUTTO = "prosciutto",
+  FOCACCIA = "focaccia",
 }
 
 // Enum for seasoning staple IDs
@@ -205,6 +207,8 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.PARSNIPS, name: "Parsnips" },
   { id: IngredientId.BEAN_SPROUTS, name: "Bean sprouts" },
   { id: IngredientId.ROCKET, name: "Rocket" },
+  { id: IngredientId.PROSCIUTTO, name: "Prosciutto" },
+  { id: IngredientId.FOCACCIA, name: "Focaccia" },
 ];
 
 export const seasoningStaples: Ingredient[] = [
