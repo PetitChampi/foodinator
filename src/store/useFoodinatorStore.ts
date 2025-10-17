@@ -9,6 +9,19 @@ export interface MealSlot {
   instanceId: string | null;
 }
 
+export interface RestockItem {
+  id: string;
+  name: string;
+  categoryEmoji: string;
+  checked: boolean;
+}
+
+export interface RestockCategory {
+  name: string;
+  emoji: string;
+  items: string[]; // item names
+}
+
 interface FoodinatorState {
   weeklyPlan: {
     totalSlots: number;
@@ -28,6 +41,10 @@ interface FoodinatorState {
     selectedIngredients: string[];
     selectedTags: MealTagId[];
   };
+
+  // Restock
+  restockList: RestockItem[];
+  restockCategories: RestockCategory[];
 }
 
 interface FoodinatorActions {
@@ -51,6 +68,15 @@ interface FoodinatorActions {
   removeTag: (tagId: MealTagId) => void;
   clearTags: () => void;
   clearAllFilters: () => void;
+
+  // Restock actions
+  addRestockItem: (name: string, categoryEmoji: string) => void;
+  removeRestockItem: (id: string) => void;
+  toggleRestockItem: (id: string) => void;
+  resetRestockList: () => void;
+  addCommonRestockItem: (itemName: string, categoryName: string) => void;
+  editCommonRestockItem: (oldItemName: string, oldCategoryName: string, newItemName: string, newCategoryName: string) => void;
+  deleteCommonRestockItem: (itemName: string, categoryName: string) => void;
 }
 
 type StoreType = FoodinatorState & FoodinatorActions;
@@ -68,6 +94,29 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
     checkedItems: {},
     notes: "",
     searchState: { searchTerm: "", selectedIngredients: [], selectedTags: [] },
+    restockList: [],
+    restockCategories: [
+      {
+        name: "Dog supplies",
+        emoji: "🐶",
+        items: ["Dog food", "Poo bags"],
+      },
+      {
+        name: "Food",
+        emoji: "🥕",
+        items: ["Brown pasta", "Pasta sauce", "Risotto rice", "Bananas", "Cereal", "Milk"],
+      },
+      {
+        name: "Cleaning",
+        emoji: "🧽",
+        items: ["Detergent", "Fabric conditioner", "Surface cleaner", "Cillit Bang"],
+      },
+      {
+        name: "Personal hygiene",
+        emoji: "🧼",
+        items: ["Shampoo", "Face wash", "Cotton pads", "Toothpaste"],
+      },
+    ],
 
     // --- ACTIONS ---
     addMeal: (mealId, quantity) => {
@@ -163,6 +212,56 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
     removeTag: (tagId) => set(produce((state: FoodinatorState) => { state.searchState.selectedTags = state.searchState.selectedTags.filter(id => id !== tagId); })),
     clearTags: () => set(produce(state => { state.searchState.selectedTags = []; })),
     clearAllFilters: () => set(produce(state => { state.searchState.selectedIngredients = []; state.searchState.selectedTags = []; state.searchState.searchTerm = ""; })),
+
+    // --- RESTOCK ACTIONS ---
+    addRestockItem: (name, categoryEmoji) => set(produce((state: FoodinatorState) => {
+      const id = `restock_${crypto.randomUUID()}`;
+      state.restockList.push({ id, name, categoryEmoji, checked: false });
+    })),
+
+    removeRestockItem: (id) => set(produce((state: FoodinatorState) => {
+      state.restockList = state.restockList.filter(item => item.id !== id);
+    })),
+
+    toggleRestockItem: (id) => set(produce((state: FoodinatorState) => {
+      const item = state.restockList.find(item => item.id === id);
+      if (item) {
+        item.checked = !item.checked;
+      }
+    })),
+
+    resetRestockList: () => set(produce((state: FoodinatorState) => {
+      state.restockList = [];
+    })),
+
+    addCommonRestockItem: (itemName, categoryName) => set(produce((state: FoodinatorState) => {
+      const category = state.restockCategories.find(cat => cat.name === categoryName);
+      if (category && !category.items.includes(itemName)) {
+        category.items.push(itemName);
+      }
+    })),
+
+    editCommonRestockItem: (oldItemName, oldCategoryName, newItemName, newCategoryName) => set(produce((state: FoodinatorState) => {
+      const oldCategory = state.restockCategories.find(cat => cat.name === oldCategoryName);
+      if (oldCategory) {
+        const itemIndex = oldCategory.items.indexOf(oldItemName);
+        if (itemIndex !== -1) {
+          oldCategory.items.splice(itemIndex, 1);
+        }
+      }
+
+      const newCategory = state.restockCategories.find(cat => cat.name === newCategoryName);
+      if (newCategory && !newCategory.items.includes(newItemName)) {
+        newCategory.items.push(newItemName);
+      }
+    })),
+
+    deleteCommonRestockItem: (itemName, categoryName) => set(produce((state: FoodinatorState) => {
+      const category = state.restockCategories.find(cat => cat.name === categoryName);
+      if (category) {
+        category.items = category.items.filter(item => item !== itemName);
+      }
+    })),
   };
 };
 

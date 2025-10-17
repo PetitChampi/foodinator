@@ -34,7 +34,10 @@
 // Button Mixins
 // ===========================
 @mixin button-base {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
   border: 1px solid transparent;
   border-radius: $border-radius-max;
   padding: $spacing-sm $spacing-lg;
@@ -42,7 +45,6 @@
   cursor: pointer;
   transition: all $transition-base;
   text-decoration: none;
-  text-align: center;
   text-wrap: nowrap;
   font-weight: 500;
   &:disabled {
@@ -51,6 +53,11 @@
   }
   &:active {
     transform: translateY(2px);
+  }
+  .plus {
+    font-size: 1.5em;
+    line-height: 1;
+    font-weight: 300;
   }
 }
 
@@ -86,7 +93,7 @@
 // Form Mixins
 // ===========================
 @mixin form-control {
-  padding: $spacing-sm $spacing-md;
+  padding: $spacing-sm $spacing-lg;
   border: 1px solid $gray-4;
   border-radius: $border-radius-lg;
   font-size: $font-size-base;

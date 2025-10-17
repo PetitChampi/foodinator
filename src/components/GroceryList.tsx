@@ -6,6 +6,9 @@ import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 import { useDebounce } from "@/hooks/useDebounce";
 import { groceryListTestIds } from "@/utils/testUtils";
 import { Icon } from "@/components/Icon";
+import { RestockManager } from "@/components/RestockManager";
+
+type GroceryTabType = "list" | "restock";
 
 export const GroceryList: React.FC = () => {
   const mealSlots = useFoodinatorStore(state => state.mealSlots);
@@ -13,6 +16,8 @@ export const GroceryList: React.FC = () => {
   const notes = useFoodinatorStore(state => state.notes);
   const toggleItemChecked = useFoodinatorStore(state => state.toggleItemChecked);
   const updateNotes = useFoodinatorStore(state => state.updateNotes);
+
+  const [activeTab, setActiveTab] = useState<GroceryTabType>("list");
 
   const { items, isEmpty, groupedByMeal, seasoningStaples } = useMemo(() => {
     const mealIdsInOrder = mealSlots.map(slot => slot.mealId);
@@ -155,113 +160,139 @@ export const GroceryList: React.FC = () => {
       <div className="section-header">
         <h2 className="section-title">Groceries</h2>
       </div>
-      {!isEmpty && (
-        <div className="controls-group">
-          <select
-            className="form-control select-sm"
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as "name" | "portions" | "meal")}
-            data-testid={groceryListTestIds.sortDropdown}
-          >
-            <option value="meal">Group by Meal</option>
-            <option value="name">Sort by Name</option>
-            <option value="portions">Sort by Quantity</option>
-          </select>
-          <button
-            className="btn btn-sm btn-secondary"
-            onClick={() => setShowChecked(!showChecked)}
-            data-testid={groceryListTestIds.toggleCheckedButton}
-          >
-            {showChecked ? "Hide checked" : "Show All"}
-          </button>
-        </div>
-      )}
-      {isEmpty ? (
-        <div className="empty" data-testid={groceryListTestIds.emptyState}>
-          Your grocery list will appear here once you select meals.
-        </div>
-      ) : (
+
+      <div className="tabs tabs-secondary">
+        <button
+          className={`tab ${activeTab === "list" ? "tab-active" : ""}`}
+          onClick={() => setActiveTab("list")}
+          data-testid="grocery-tab-list"
+        >
+          Grocery list
+        </button>
+        <button
+          className={`tab ${activeTab === "restock" ? "tab-active" : ""}`}
+          onClick={() => setActiveTab("restock")}
+          data-testid="grocery-tab-restock"
+        >
+          Restock manager
+        </button>
+      </div>
+
+      {activeTab === "list" && (
         <>
-          {seasoningStaples.length > 0 && (
-            <div className="grocery-section" data-testid={groceryListTestIds.section("seasoning-staples")}>
-              <h3
-                className="grocery-section__title grocery-section__title--collapsible"
-                onClick={() => setSeasoningCollapsed(!seasoningCollapsed)}
-                data-testid={groceryListTestIds.sectionTitle("seasoning-staples")}
+          {!isEmpty && (
+            <div className="controls-group">
+              <select
+                className="form-control select-sm"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as "name" | "portions" | "meal")}
+                data-testid={groceryListTestIds.sortDropdown}
               >
-                Seasoning staples
-                <Icon
-                  strokeWidth={2.5}
-                  name="chevron-down"
-                  className={`collapse-icon ${seasoningCollapsed ? "collapsed" : "expanded"}`}
-                />
-              </h3>
-              {!seasoningCollapsed && (
-                <ul
-                  className="grocery-section__list"
-                  data-testid={groceryListTestIds.sectionList("seasoning-staples")}
-                >
-                  {seasoningStaples
-                    .filter(item => showChecked || !item.checked)
-                    .map(renderGroceryItem)}
-                </ul>
-              )}
+                <option value="meal">Group by Meal</option>
+                <option value="name">Sort by Name</option>
+                <option value="portions">Sort by Quantity</option>
+              </select>
+              <button
+                className="btn btn-sm btn-secondary"
+                onClick={() => setShowChecked(!showChecked)}
+                data-testid={groceryListTestIds.toggleCheckedButton}
+              >
+                {showChecked ? "Hide checked" : "Show All"}
+              </button>
             </div>
           )}
-
-          {sortBy === "meal" && groupedByMeal ? (
+          {isEmpty ? (
+            <div className="empty" data-testid={groceryListTestIds.emptyState}>
+          Your grocery list will appear here once you select meals.
+            </div>
+          ) : (
             <>
-              {Array.from(groupedByMeal.entries()).map(([mealId, mealItems]) => {
-                const filteredMealItems = showChecked ? mealItems : mealItems.filter((item: GroceryItem) => !item.checked);
-                if (filteredMealItems.length === 0) return null;
-                const meal = getMealById(mealId);
-                if (!meal) return null;
-                return (
-                  <div
-                    key={mealId}
-                    className="grocery-section"
-                    data-testid={groceryListTestIds.section(mealId)}
+              {seasoningStaples.length > 0 && (
+                <div className="grocery-section" data-testid={groceryListTestIds.section("seasoning-staples")}>
+                  <h3
+                    className="grocery-section__title grocery-section__title--collapsible"
+                    onClick={() => setSeasoningCollapsed(!seasoningCollapsed)}
+                    data-testid={groceryListTestIds.sectionTitle("seasoning-staples")}
                   >
-                    <h3
-                      className="grocery-section__title"
-                      data-testid={groceryListTestIds.sectionTitle(mealId)}
-                    >
-                      {meal.name}
-                    </h3>
+                Seasoning staples
+                    <Icon
+                      strokeWidth={2.5}
+                      name="chevron-down"
+                      className={`collapse-icon ${seasoningCollapsed ? "collapsed" : "expanded"}`}
+                    />
+                  </h3>
+                  {!seasoningCollapsed && (
                     <ul
                       className="grocery-section__list"
-                      data-testid={groceryListTestIds.sectionList(mealId)}
+                      data-testid={groceryListTestIds.sectionList("seasoning-staples")}
                     >
-                      {filteredMealItems.map(renderGroceryItem)}
+                      {seasoningStaples
+                        .filter(item => showChecked || !item.checked)
+                        .map(renderGroceryItem)}
                     </ul>
-                  </div>
-                );
-              })}
+                  )}
+                </div>
+              )}
+
+              {sortBy === "meal" && groupedByMeal ? (
+                <>
+                  {Array.from(groupedByMeal.entries()).map(([mealId, mealItems]) => {
+                    const filteredMealItems = showChecked ? mealItems : mealItems.filter((item: GroceryItem) => !item.checked);
+                    if (filteredMealItems.length === 0) return null;
+                    const meal = getMealById(mealId);
+                    if (!meal) return null;
+                    return (
+                      <div
+                        key={mealId}
+                        className="grocery-section"
+                        data-testid={groceryListTestIds.section(mealId)}
+                      >
+                        <h3
+                          className="grocery-section__title"
+                          data-testid={groceryListTestIds.sectionTitle(mealId)}
+                        >
+                          {meal.name}
+                        </h3>
+                        <ul
+                          className="grocery-section__list"
+                          data-testid={groceryListTestIds.sectionList(mealId)}
+                        >
+                          {filteredMealItems.map(renderGroceryItem)}
+                        </ul>
+                      </div>
+                    );
+                  })}
+                </>
+              ) : (
+                <div className="grocery-section" data-testid={groceryListTestIds.section()}>
+                  <ul className="grocery-section__list" data-testid={groceryListTestIds.sectionList()}>
+                    {sortedItems.map(renderGroceryItem)}
+                  </ul>
+                </div>
+              )}
             </>
-          ) : (
-            <div className="grocery-section" data-testid={groceryListTestIds.section()}>
-              <ul className="grocery-section__list" data-testid={groceryListTestIds.sectionList()}>
-                {sortedItems.map(renderGroceryItem)}
-              </ul>
-            </div>
           )}
+          <div className="grocery-notes" data-testid={groceryListTestIds.notesContainer}>
+            <h3 className="grocery-notes__title">Notes</h3>
+            <textarea
+              className="form-control"
+              value={localNotes}
+              onChange={(e) => setLocalNotes(e.target.value)}
+              placeholder="Add notes for your grocery list here..."
+              rows={4}
+              maxLength={1000}
+              data-testid={groceryListTestIds.notesTextarea}
+            />
+            <div className="grocery-notes__counter" data-testid={groceryListTestIds.notesCounter}>
+              {localNotes.length}/1000
+            </div>
+          </div>
         </>
       )}
-      <div className="grocery-notes" data-testid={groceryListTestIds.notesContainer}>
-        <h3 className="grocery-notes__title">Notes</h3>
-        <textarea
-          className="form-control"
-          value={localNotes}
-          onChange={(e) => setLocalNotes(e.target.value)}
-          placeholder="Add notes for your grocery list here..."
-          rows={4}
-          maxLength={1000}
-          data-testid={groceryListTestIds.notesTextarea}
-        />
-        <div className="grocery-notes__counter" data-testid={groceryListTestIds.notesCounter}>
-          {localNotes.length}/1000
-        </div>
-      </div>
+
+      {activeTab === "restock" && (
+        <RestockManager />
+      )}
     </section>
   );
 };
