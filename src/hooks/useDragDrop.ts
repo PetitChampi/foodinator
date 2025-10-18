@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import type { MealSlot } from "@/store/useFoodinatorStore";
+import type { MealSlot } from "@/store/types";
 
 interface UseDragDropOptions {
   initialSlots: MealSlot[];

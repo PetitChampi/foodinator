@@ -34,13 +34,21 @@ export function ConfirmationModal({
 
   return (
     <div>
-      <h2 className="modal-title">{title}</h2>
-      <p className="modal-subtitle">{message}</p>
+      <h2 className="modal-title" data-testid="confirmation-modal-title">{title}</h2>
+      <p className="modal-subtitle" data-testid="confirmation-modal-message">{message}</p>
       <div className="modal-actions">
-        <button onClick={handleCancel} className="btn btn-tertiary">
+        <button
+          onClick={handleCancel}
+          className="btn btn-tertiary"
+          data-testid="confirmation-modal-cancel"
+        >
           {cancelText}
         </button>
-        <button onClick={handleConfirm} className={confirmButtonClass}>
+        <button
+          onClick={handleConfirm}
+          className={confirmButtonClass}
+          data-testid="confirmation-modal-confirm"
+        >
           {confirmText}
         </button>
       </div>

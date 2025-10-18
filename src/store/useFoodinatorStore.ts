@@ -2,7 +2,7 @@ import { create, StateCreator } from "zustand";
 import { produce } from "immer";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { TOTAL_SLOTS } from "@/config/constants";
-import { FoodinatorStore, FoodinatorState, MealSlot } from "@/store/types";
+import type { FoodinatorStore, FoodinatorState, MealSlot } from "@/store/types";
 import { DEFAULT_RESTOCK_CATEGORIES } from "@/store/constants";
 
 const generateInstanceId = () => `instance_${crypto.randomUUID()}`;

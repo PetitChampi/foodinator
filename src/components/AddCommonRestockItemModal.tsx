@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useModal } from "@/contexts/ModalContext";
-import { RestockCategory } from "@/store/useFoodinatorStore";
+import type { RestockCategory } from "@/store/types";
 
 interface AddCommonRestockItemModalProps {
   categories: RestockCategory[];
@@ -91,6 +91,7 @@ export function AddCommonRestockItemModal({
             type="button"
             onClick={handleCancel}
             className="btn btn-tertiary"
+            data-testid="add-common-item-cancel"
           >
             Cancel
           </button>
@@ -98,6 +99,7 @@ export function AddCommonRestockItemModal({
             type="submit"
             className="btn btn-primary"
             disabled={!itemName.trim() || !selectedCategory}
+            data-testid="add-common-item-submit"
           >
             {submitButtonText}
           </button>

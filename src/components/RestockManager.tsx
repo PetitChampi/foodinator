@@ -104,13 +104,13 @@ export const RestockManager: React.FC = () => {
   };
 
   return (
-    <div className="restock-view">
+    <div className="restock-view" data-testid="restock-manager-view">
       {restockList.length === 0 ? (
-        <div className="empty" data-testid="restock-manager-view">
+        <div className="empty" data-testid="restock-empty-state">
           Nothing to restock
         </div>
       ) : (
-        <ul className="restock-list">
+        <ul className="restock-list" data-testid="restock-list">
           {restockList.map((item) => (
             <li key={item.id}>
               <div className="checkbox-container">
@@ -119,6 +119,7 @@ export const RestockManager: React.FC = () => {
                   id={item.id}
                   checked={item.checked}
                   onChange={() => handleToggleItem(item.id)}
+                  data-testid={`restock-item-checkbox-${item.name}`}
                 />
                 <label htmlFor={item.id}>
                   <span className="category-emoji">{item.categoryEmoji}</span>
@@ -133,6 +134,7 @@ export const RestockManager: React.FC = () => {
                         handleRemoveItem(e as unknown as React.MouseEvent, item.id);
                       }
                     }}
+                    data-testid={`restock-item-remove-${item.name}`}
                   >✕</span>
                 </label>
               </div>
@@ -154,14 +156,15 @@ export const RestockManager: React.FC = () => {
           <button
             className="btn btn-danger-tertiary btn-sm"
             onClick={handleResetList}
+            data-testid="restock-reset-list"
           >Reset list</button>
         )}
       </div>
 
-      <div className="restock-common-items">
+      <div className="restock-common-items" data-testid="restock-common-items">
         <h3 className="grocery-section__title">Common items</h3>
 
-        <div className="restock-category-list">
+        <div className="restock-category-list" data-testid="restock-category-list">
           {restockCategories.map((category) => (
             <div key={category.name} className="restock-common-category">
               <h4 className="tag-category-title">{category.name}</h4>
@@ -195,6 +198,7 @@ export const RestockManager: React.FC = () => {
                         }
                       }}
                       style={{ display: inRestockList && !isEditMode ? "none" : undefined }}
+                      data-testid={`restock-common-item-${itemName}`}
                     >
                       {!isEditMode && <span className="plus">+</span>}
                       <span className="category-emoji">{category.emoji}</span>
@@ -214,6 +218,7 @@ export const RestockManager: React.FC = () => {
                               handleDeleteCommonItem(itemName, category.name, category.emoji);
                             }
                           }}
+                          data-testid={`restock-common-item-delete-${itemName}`}
                         >
                           ✕
                         </span>
@@ -227,13 +232,18 @@ export const RestockManager: React.FC = () => {
         </div>
 
         <div className="restock-common-items-actions">
-          <button className="btn btn-tertiary" onClick={handleToggleEditMode}>
+          <button
+            className="btn btn-tertiary"
+            onClick={handleToggleEditMode}
+            data-testid="restock-toggle-edit-mode"
+          >
             {isEditMode ? "Finish editing" : "Edit common items"}
           </button>
           <button
             className="btn btn-secondary"
             onClick={handleAddNewCommonItem}
             disabled={isEditMode}
+            data-testid="restock-add-common-item"
           >
             <span className="plus">+</span>
             New item

@@ -44,6 +44,7 @@ export function AddRestockItemModal({ onAdd }: AddRestockItemModalProps) {
             type="button"
             onClick={handleCancel}
             className="btn btn-tertiary"
+            data-testid="add-restock-item-cancel"
           >
             Cancel
           </button>
@@ -51,6 +52,7 @@ export function AddRestockItemModal({ onAdd }: AddRestockItemModalProps) {
             type="submit"
             className="btn btn-primary"
             disabled={!itemName.trim()}
+            data-testid="add-restock-item-submit"
           >
             Add item
           </button>
