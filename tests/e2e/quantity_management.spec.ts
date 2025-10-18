@@ -73,12 +73,18 @@ test.describe("Quantity Management Flow", () => {
     await expect(quantityDisplay).toContainText("7");
   });
 
-  test("should disable decrease button when quantity is 0", async ({ page }) => {
-    const allMealsSection = page.locator("section").filter({ hasText: "All meals" });
-    const decreaseButton = allMealsSection.getByTestId("quantity-selector-decrease-btn-Fishy pasta");
+  test("should disable decrease button when quantity is 1", async ({ page }) => {
+    const addMealButton = page.getByTestId("add-meal-fishy-pasta");
+    await expect(addMealButton).toBeVisible();
+    await addMealButton.click();
+
+    await expect(page.getByTestId("planner-meal-count")).toContainText("1/7");
+
+    const dinnerPlanSection = page.locator("section").filter({ hasText: "Dinner plan" });
+    const decreaseButton = dinnerPlanSection.getByTestId("quantity-selector-decrease-btn-Fishy pasta");
     await expect(decreaseButton).toBeDisabled();
 
-    const quantityDisplay = allMealsSection.getByTestId("quantity-selector-quantity-Fishy pasta");
+    const quantityDisplay = dinnerPlanSection.getByTestId("quantity-selector-quantity-Fishy pasta");
     await expect(quantityDisplay).toContainText("1");
   });
 

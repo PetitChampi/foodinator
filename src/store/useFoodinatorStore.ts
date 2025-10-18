@@ -2,89 +2,13 @@ import { create, StateCreator } from "zustand";
 import { produce } from "immer";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { TOTAL_SLOTS } from "@/config/constants";
-import { MealTagId } from "@/models/types";
-
-export interface MealSlot {
-  mealId: string | null;
-  instanceId: string | null;
-}
-
-export interface RestockItem {
-  id: string;
-  name: string;
-  categoryEmoji: string;
-  checked: boolean;
-}
-
-export interface RestockCategory {
-  name: string;
-  emoji: string;
-  items: string[]; // item names
-}
-
-interface FoodinatorState {
-  weeklyPlan: {
-    totalSlots: number;
-  };
-
-  mealSlots: MealSlot[];
-  cookedMeals: Record<string, boolean>;
-  startDate: string;
-
-  // Grocery list
-  checkedItems: Record<string, boolean>;
-  notes: string;
-
-  // Search
-  searchState: {
-    searchTerm: string;
-    selectedIngredients: string[];
-    selectedTags: MealTagId[];
-  };
-
-  // Restock
-  restockList: RestockItem[];
-  restockCategories: RestockCategory[];
-}
-
-interface FoodinatorActions {
-  addMeal: (mealId: string, quantity: number) => boolean;
-  removeMeal: (mealId: string) => void;
-  updateMealQuantity: (mealId: string, newQuantity: number) => boolean;
-  resetPlan: () => void;
-  reorderMeals: (newSlots: MealSlot[]) => void;
-  toggleMealCooked: (slotIndex: number) => void;
-  updateStartDate: (date: string) => void;
-
-  // Grocery + Search actions
-  toggleItemChecked: (ingredientId: string) => void;
-  clearAllCheckedItems: () => void;
-  updateNotes: (notes: string) => void;
-  setSearchTerm: (term: string) => void;
-  addIngredient: (ingredientId: string) => void;
-  removeIngredient: (ingredientId: string) => void;
-  clearIngredients: () => void;
-  addTag: (tagId: MealTagId) => void;
-  removeTag: (tagId: MealTagId) => void;
-  clearTags: () => void;
-  clearAllFilters: () => void;
-
-  // Restock actions
-  addRestockItem: (name: string, categoryEmoji: string) => void;
-  removeRestockItem: (id: string) => void;
-  toggleRestockItem: (id: string) => void;
-  resetRestockList: () => void;
-  addCommonRestockItem: (itemName: string, categoryName: string) => void;
-  editCommonRestockItem: (oldItemName: string, oldCategoryName: string, newItemName: string, newCategoryName: string) => void;
-  deleteCommonRestockItem: (itemName: string, categoryName: string) => void;
-}
-
-type StoreType = FoodinatorState & FoodinatorActions;
+import { FoodinatorStore, FoodinatorState, MealSlot } from "@/store/types";
+import { DEFAULT_RESTOCK_CATEGORIES } from "@/store/constants";
 
 const generateInstanceId = () => `instance_${crypto.randomUUID()}`;
 const createEmptySlot = (): MealSlot => ({ mealId: null, instanceId: null });
 
-const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
+const foodinatorStoreCreator: StateCreator<FoodinatorStore> = (set, get) => {
   return {
     // --- INITIAL STATE ---
     weeklyPlan: { totalSlots: TOTAL_SLOTS },
@@ -95,28 +19,7 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
     notes: "",
     searchState: { searchTerm: "", selectedIngredients: [], selectedTags: [] },
     restockList: [],
-    restockCategories: [
-      {
-        name: "Dog supplies",
-        emoji: "🐶",
-        items: ["Dog food", "Poo bags"],
-      },
-      {
-        name: "Food",
-        emoji: "🥕",
-        items: ["Brown pasta", "Pasta sauce", "Risotto rice", "Bananas", "Cereal", "Milk"],
-      },
-      {
-        name: "Cleaning",
-        emoji: "🧽",
-        items: ["Detergent", "Fabric conditioner", "Surface cleaner", "Cillit Bang"],
-      },
-      {
-        name: "Personal hygiene",
-        emoji: "🧼",
-        items: ["Shampoo", "Face wash", "Cotton pads", "Toothpaste"],
-      },
-    ],
+    restockCategories: DEFAULT_RESTOCK_CATEGORIES,
 
     // --- ACTIONS ---
     addMeal: (mealId, quantity) => {
@@ -265,24 +168,57 @@ const foodinatorStoreCreator: StateCreator<StoreType> = (set, get) => {
   };
 };
 
-export const useFoodinatorStore = create<StoreType>()(
+export const useFoodinatorStore = create<FoodinatorStore>()(
   persist(foodinatorStoreCreator, {
     name: "foodinator-storage",
     storage: createJSONStorage(() => localStorage),
     migrate: (persistedState: unknown, _version: number) => {
-      // Migration for adding selectedTags to searchState
       const state = persistedState as Partial<FoodinatorState>;
+
+      // Migration for adding selectedTags to searchState (v1)
       if (state && state.searchState && !state.searchState.selectedTags) {
         state.searchState.selectedTags = [];
       }
+
+      // Migration for merging new default restock items (v2)
+      if (state && state.restockCategories) {
+        // Merge default categories with persisted categories
+        const mergedCategories = DEFAULT_RESTOCK_CATEGORIES.map(defaultCat => {
+          const existingCat = state.restockCategories?.find(cat => cat.name === defaultCat.name);
+
+          if (existingCat) {
+            const mergedItems = [...existingCat.items];
+            defaultCat.items.forEach(defaultItem => {
+              if (!mergedItems.includes(defaultItem)) {
+                mergedItems.push(defaultItem);
+              }
+            });
+            return {
+              ...existingCat,
+              items: mergedItems,
+            };
+          }
+
+          return defaultCat;
+        });
+
+        // Add any user-created categories that don't exist in defaults
+        state.restockCategories.forEach(existingCat => {
+          if (!mergedCategories.find(cat => cat.name === existingCat.name)) {
+            mergedCategories.push(existingCat);
+          }
+        });
+
+        state.restockCategories = mergedCategories;
+      }
+
       return state;
     },
-    version: 1,
-  },
-  ),
+    version: 2,
+  }),
 );
 
-export const useRemainingSlots = () => useFoodinatorStore(state => {
-  const usedSlots = state.mealSlots.filter(slot => slot.mealId !== null).length;
+export const useRemainingSlots = () => useFoodinatorStore((state) => {
+  const usedSlots = state.mealSlots.filter((slot) => slot.mealId !== null).length;
   return state.weeklyPlan.totalSlots - usedSlots;
 });
