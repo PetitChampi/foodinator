@@ -3,7 +3,7 @@ import { render, screen, act, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MealSelector } from "@/components/MealSelector";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
-import { ModalProvider } from "@/contexts/ModalContext";
+import { ModalProvider } from "@/contexts/ModalProvider";
 
 const initialState = useFoodinatorStore.getState();
 

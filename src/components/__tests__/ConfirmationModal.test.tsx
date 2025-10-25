@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ModalProvider } from "@/contexts/ModalContext";
+import { ModalProvider } from "@/contexts/ModalProvider";
 import { useConfirmationModal } from "@/components/ConfirmationModal";
 import { Modal } from "@/components/Modal";
 

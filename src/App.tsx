@@ -5,7 +5,7 @@ import { ScheduleTab } from "@/components/tabs/ScheduleTab";
 import { GroceryTab } from "@/components/tabs/GroceryTab";
 import { OfflineStatus } from "@/components/OfflineStatus";
 import { Modal } from "@/components/Modal";
-import { ModalProvider } from "@/contexts/ModalContext";
+import { ModalProvider } from "@/contexts/ModalProvider";
 
 type TabType = "planner" | "grocery" | "schedule";
 
