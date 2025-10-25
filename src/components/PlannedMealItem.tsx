@@ -1,9 +1,9 @@
 import React from "react";
 import { getMealById } from "@/models/mealData";
 import { useModal } from "@/contexts/ModalContext";
-import { MealDetailsModal } from "./MealDetailsModal";
-import { MealCard } from "./MealCard";
-import { QuantitySelector } from "./QuantitySelector";
+import { MealDetailsModal } from "@/components/MealDetailsModal";
+import { MealCard } from "@/components/MealCard";
+import { QuantitySelector } from "@/components/QuantitySelector";
 
 interface PlannedMealItemProps {
   mealId: string;

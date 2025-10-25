@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Meal } from "@/models/types";
 import { useModal } from "@/contexts/ModalContext";
-import { MealDetailsModal } from "./MealDetailsModal";
-import { MealCard } from "./MealCard";
+import { MealDetailsModal } from "@/components/MealDetailsModal";
+import { MealCard } from "@/components/MealCard";
 
 interface SelectableMealItemProps {
   meal: Meal;

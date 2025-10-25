@@ -1,4 +1,4 @@
-import { Ingredient } from "./types";
+import { Ingredient } from "@/models/types";
 
 // Enum for ingredient IDs to prevent arbitrary additions
 export enum IngredientId {

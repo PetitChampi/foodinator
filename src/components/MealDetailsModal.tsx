@@ -1,7 +1,7 @@
 import { getMealById } from "@/models/mealData";
 import { getIngredientById } from "@/models/ingredients";
 import { getTagById } from "@/models/tagDefinitions";
-import { Icon } from "./Icon";
+import { Icon } from "@/components/Icon";
 
 interface MealDetailsModalProps {
   mealId: string;

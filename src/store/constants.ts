@@ -1,4 +1,4 @@
-import { RestockCategory } from "./types";
+import { RestockCategory } from "@/store/types";
 
 // Default restock categories - add new items here and they'll automatically merge with existing user data
 export const DEFAULT_RESTOCK_CATEGORIES: RestockCategory[] = [

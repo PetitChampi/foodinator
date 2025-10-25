@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 import { getMealById } from "@/models/mealData";
-import { Icon } from "./Icon";
+import { Icon } from "@/components/Icon";
 
 type TabType = "planner" | "grocery" | "schedule";
 

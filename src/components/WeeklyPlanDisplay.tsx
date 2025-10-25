@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
-import { useConfirmationModal } from "./ConfirmationModal";
+import { useConfirmationModal } from "@/components/ConfirmationModal";
 import { getMealById } from "@/models/mealData";
-import { PlannedMealItem } from "./PlannedMealItem";
+import { PlannedMealItem } from "@/components/PlannedMealItem";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 import { SelectedMeal } from "@/models/types";
 

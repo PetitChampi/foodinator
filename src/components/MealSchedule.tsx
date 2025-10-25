@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect, useCallback } from "react";
-import { MealSlot } from "./MealSlot";
-import { ScheduleControls } from "./ScheduleControls";
+import { MealSlot } from "@/components/MealSlot";
+import { ScheduleControls } from "@/components/ScheduleControls";
 import { useDragDrop } from "@/hooks/useDragDrop";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 
