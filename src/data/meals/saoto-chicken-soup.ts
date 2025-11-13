@@ -2,7 +2,7 @@ import { Meal } from "@/models/types";
 import { IngredientId, SeasoningStapleId } from "@/models/ingredients";
 import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/models/tagDefinitions";
 
-export const saotoPouleAuPot: Meal = {
+export const saotoChickenSoup: Meal = {
   id: "saoto-chicken-soup",
   name: "Saoto-style chicken soup",
   imageUrl: "./img-meals/saoto-chicken-soup.jpg",
