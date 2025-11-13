@@ -27,6 +27,11 @@
     margin-top: 0;
     margin-bottom: $spacing-lg;
     box-shadow: none;
+    button.tab {
+      @include mobile {
+        font-size: $font-size-sm;
+      }
+    }
   }
   button.tab {
     display: flex;

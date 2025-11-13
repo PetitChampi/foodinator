@@ -5,12 +5,12 @@ export const DEFAULT_RESTOCK_CATEGORIES: RestockCategory[] = [
   {
     name: "Dog supplies",
     emoji: "🐶",
-    items: ["Dog food", "Poo bags"],
+    items: ["Dog food", "Poo bags", "Dental chews"],
   },
   {
     name: "Food",
     emoji: "🥕",
-    items: ["Brown pasta", "Pasta sauce", "Risotto rice", "Bananas", "Cereal", "Milk"],
+    items: ["Brown pasta", "Pasta sauce", "Risotto rice", "Bananas", "Cereal", "Milk", "Black peppercorns"],
   },
   {
     name: "Cleaning",
@@ -20,6 +20,6 @@ export const DEFAULT_RESTOCK_CATEGORIES: RestockCategory[] = [
   {
     name: "Personal hygiene",
     emoji: "🧼",
-    items: ["Shampoo", "Face wash", "Cotton pads", "Toothpaste"],
+    items: ["Shampoo", "Face wash", "Cotton pads", "Toothpaste", "Loo rolls"],
   },
 ];

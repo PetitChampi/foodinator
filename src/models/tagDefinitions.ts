@@ -30,6 +30,7 @@ export enum BaseTag {
   BEANS = "beans",
   CHICKPEAS = "chickpeas",
   COUSCOUS = "couscous",
+  LENTILS = "lentils",
 }
 
 export enum ProteinSourceTag {
@@ -77,6 +78,7 @@ export const TAG_DEFINITIONS: TagDefinition[] = [
   { id: BaseTag.BEANS, name: "Beans", category: "base" },
   { id: BaseTag.CHICKPEAS, name: "Chickpeas", category: "base" },
   { id: BaseTag.COUSCOUS, name: "Couscous", category: "base" },
+  { id: BaseTag.LENTILS, name: "Lentils", category: "base" },
 
   // Protein source
   { id: ProteinSourceTag.CHICKEN, name: "Chicken", category: "proteinSource" },
