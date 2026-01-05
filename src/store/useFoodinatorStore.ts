@@ -63,6 +63,21 @@ const foodinatorStoreCreator: StateCreator<FoodinatorStore> = (set, get) => {
       }));
     },
 
+    removeMealVariant: (mealId: string, variantIndex?: number) => {
+      set(produce((state: FoodinatorState) => {
+        const instancesToRemove: string[] = [];
+        state.mealSlots.forEach((slot, index) => {
+          if (slot.mealId === mealId && slot.variantIndex === variantIndex) {
+            if (slot.instanceId) instancesToRemove.push(slot.instanceId);
+            state.mealSlots[index] = createEmptySlot();
+          }
+        });
+        instancesToRemove.forEach(instanceId => {
+          delete state.cookedMeals[instanceId];
+        });
+      }));
+    },
+
     updateMealQuantity: (mealId, newQuantity) => {
       if (newQuantity <= 0) {
         get().removeMeal(mealId);
@@ -81,6 +96,35 @@ const foodinatorStoreCreator: StateCreator<FoodinatorStore> = (set, get) => {
         for (let i = state.mealSlots.length - 1; i >= 0 && removedCount < numToRemove; i--) {
           const slot = state.mealSlots[i];
           if (slot.mealId === mealId) {
+            if (slot.instanceId) delete state.cookedMeals[slot.instanceId];
+            state.mealSlots[i] = createEmptySlot();
+            removedCount++;
+          }
+        }
+      }));
+      return true;
+    },
+
+    updateMealVariantQuantity: (mealId, variantIndex, newQuantity) => {
+      if (newQuantity <= 0) {
+        get().removeMealVariant(mealId, variantIndex);
+        return true;
+      }
+
+      const currentQuantity = get().mealSlots.filter(
+        slot => slot.mealId === mealId && slot.variantIndex === variantIndex,
+      ).length;
+      const delta = newQuantity - currentQuantity;
+
+      if (delta === 0) return true;
+      if (delta > 0) return get().addMeal(mealId, delta, variantIndex);
+
+      set(produce((state: FoodinatorState) => {
+        let removedCount = 0;
+        const numToRemove = Math.abs(delta);
+        for (let i = state.mealSlots.length - 1; i >= 0 && removedCount < numToRemove; i--) {
+          const slot = state.mealSlots[i];
+          if (slot.mealId === mealId && slot.variantIndex === variantIndex) {
             if (slot.instanceId) delete state.cookedMeals[slot.instanceId];
             state.mealSlots[i] = createEmptySlot();
             removedCount++;

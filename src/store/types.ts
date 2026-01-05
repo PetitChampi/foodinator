@@ -40,7 +40,9 @@ export interface FoodinatorState {
 export interface FoodinatorActions {
   addMeal: (mealId: string, quantity: number, variantIndex?: number) => boolean;
   removeMeal: (mealId: string) => void;
+  removeMealVariant: (mealId: string, variantIndex?: number) => void;
   updateMealQuantity: (mealId: string, newQuantity: number) => boolean;
+  updateMealVariantQuantity: (mealId: string, variantIndex: number | undefined, newQuantity: number) => boolean;
   updateMealVariant: (slotIndex: number, variantIndex: number | undefined) => void;
   resetPlan: () => void;
   reorderMeals: (newSlots: MealSlot[]) => void;

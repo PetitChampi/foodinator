@@ -10,6 +10,11 @@ import { RestockManager } from "@/components/RestockManager";
 
 type GroceryTabType = "list" | "restock";
 
+// composite key for grouping meals by variant
+const createCompositeKey = (mealId: string, variantIndex?: number): string => {
+  return variantIndex !== undefined ? `${mealId}-variant-${variantIndex}` : mealId;
+};
+
 export const GroceryList: React.FC = () => {
   const mealSlots = useFoodinatorStore(state => state.mealSlots);
   const checkedItems = useFoodinatorStore(state => state.checkedItems);
@@ -29,6 +34,7 @@ export const GroceryList: React.FC = () => {
       const meal = getMealById(slot.mealId);
       if (!meal) return;
 
+      const compositeKey = createCompositeKey(slot.mealId, slot.variantIndex);
       const mealIngredients = getMealIngredients(meal, slot.variantIndex);
       const mealSeasoning = getMealSeasoning(meal, slot.variantIndex);
 
@@ -40,8 +46,9 @@ export const GroceryList: React.FC = () => {
       mealSeasoning.forEach(seasoningId => {
         seasoningStaplesSet.add(seasoningId);
       });
+
       const displayName = getMealDisplayName(meal, slot.variantIndex);
-      mealDisplayNamesMap.set(slot.mealId, displayName);
+      mealDisplayNamesMap.set(compositeKey, displayName);
     });
 
     if (ingredientPortions.size === 0) {
@@ -59,8 +66,10 @@ export const GroceryList: React.FC = () => {
 
     const processedMeals = new Set<string>();
     mealSlots.forEach(slot => {
-      if (!slot.mealId || processedMeals.has(slot.mealId)) return;
-      processedMeals.add(slot.mealId);
+      if (!slot.mealId) return;
+      const compositeKey = createCompositeKey(slot.mealId, slot.variantIndex);
+      if (processedMeals.has(compositeKey)) return;
+      processedMeals.add(compositeKey);
 
       const meal = getMealById(slot.mealId);
       if (!meal) return;
@@ -80,7 +89,7 @@ export const GroceryList: React.FC = () => {
       });
 
       if (mealGroupItems.length > 0) {
-        groupedByMeal.set(slot.mealId, mealGroupItems);
+        groupedByMeal.set(compositeKey, mealGroupItems);
       }
     });
 

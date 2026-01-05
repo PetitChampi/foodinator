@@ -9,7 +9,7 @@ interface PlannedMealItemProps {
   mealId: string;
   quantity: number;
   variantIndex?: number;
-  onRemoveMeal: (mealId: string) => void;
+  onRemoveMeal: () => void;
   onUpdateQuantity: (mealId: string, quantity: number) => boolean;
   availableSlots: number;
 }
@@ -39,11 +39,11 @@ export const PlannedMealItem: React.FC<PlannedMealItemProps> = ({
     <MealCard imageUrl={meal.imageUrl} title={displayName} onClick={handleCardClick}>
       <span
         className="card-close"
-        onClick={(e) => { e.stopPropagation(); onRemoveMeal(meal.id); }}
+        onClick={(e) => { e.stopPropagation(); onRemoveMeal(); }}
         role="button"
         tabIndex={0}
         aria-label={`Remove ${displayName} from plan`}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onRemoveMeal(meal.id); }}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onRemoveMeal(); }}
         data-testid={`remove-meal-${meal.name}`}
       >
         ✕
