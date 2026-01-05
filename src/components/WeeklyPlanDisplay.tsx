@@ -3,7 +3,12 @@ import { useConfirmationModal } from "@/components/ConfirmationModal";
 import { getMealById } from "@/models/mealData";
 import { PlannedMealItem } from "@/components/PlannedMealItem";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
-import { SelectedMeal } from "@/models/types";
+
+interface SelectedMealWithVariant {
+  mealId: string;
+  quantity: number;
+  variantIndex?: number;
+}
 
 export const WeeklyPlanDisplay: React.FC = () => {
   const { openConfirmation } = useConfirmationModal();
@@ -15,19 +20,26 @@ export const WeeklyPlanDisplay: React.FC = () => {
   const resetPlan = useFoodinatorStore(state => state.resetPlan);
 
   const { selectedMeals, usedSlots } = useMemo(() => {
-    const mealCounts = new Map<string, number>();
+    const mealData = new Map<string, { quantity: number; variantIndex?: number }>();
     let slotsUsed = 0;
 
     mealSlots.forEach(slot => {
       if (slot.mealId) {
         slotsUsed++;
-        mealCounts.set(slot.mealId, (mealCounts.get(slot.mealId) || 0) + 1);
+        const existing = mealData.get(slot.mealId);
+        if (existing) {
+          existing.quantity++;
+        } else {
+          // Store the variantIndex from the first occurrence
+          mealData.set(slot.mealId, { quantity: 1, variantIndex: slot.variantIndex });
+        }
       }
     });
 
-    const meals: SelectedMeal[] = Array.from(mealCounts.entries()).map(([mealId, quantity]) => ({
+    const meals: SelectedMealWithVariant[] = Array.from(mealData.entries()).map(([mealId, data]) => ({
       mealId,
-      quantity,
+      quantity: data.quantity,
+      variantIndex: data.variantIndex,
     }));
 
     return { selectedMeals: meals, usedSlots: slotsUsed };
@@ -73,11 +85,12 @@ export const WeeklyPlanDisplay: React.FC = () => {
         <div className="empty">No meals selected yet. Start by adding meals from the list below.</div>
       ) : (
         <div className="meal-list">
-          {selectedMeals.map(({ mealId, quantity }) => (
+          {selectedMeals.map(({ mealId, quantity, variantIndex }) => (
             <PlannedMealItem
               key={mealId}
               mealId={mealId}
               quantity={quantity}
+              variantIndex={variantIndex}
               onRemoveMeal={handleRemoveMealConfirmation}
               onUpdateQuantity={updateMealQuantity}
               availableSlots={totalSlots - (usedSlots - quantity)}

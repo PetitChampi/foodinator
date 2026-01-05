@@ -1,13 +1,14 @@
-import { getMealById } from "@/models/mealData";
+import { getMealById, getMealIngredients, getMealSeasoning, getMealDisplayName } from "@/models/mealData";
 import { getIngredientById } from "@/models/ingredients";
 import { getTagById } from "@/models/tagDefinitions";
 import { Icon } from "@/components/Icon";
 
 interface MealDetailsModalProps {
   mealId: string;
+  variantIndex?: number;
 }
 
-export function MealDetailsModal({ mealId }: MealDetailsModalProps) {
+export function MealDetailsModal({ mealId, variantIndex }: MealDetailsModalProps) {
   const meal = getMealById(mealId);
 
   if (!meal) {
@@ -19,7 +20,11 @@ export function MealDetailsModal({ mealId }: MealDetailsModalProps) {
     );
   }
 
-  const ingredientNames = meal.ingredients
+  const mealIngredients = getMealIngredients(meal, variantIndex);
+  const mealSeasoning = getMealSeasoning(meal, variantIndex);
+  const displayName = getMealDisplayName(meal, variantIndex);
+
+  const ingredientNames = mealIngredients
     .map(ingredientId => getIngredientById(ingredientId))
     .filter(ingredient => ingredient !== null)
     .map(ingredient => ingredient!.name);
@@ -30,7 +35,7 @@ export function MealDetailsModal({ mealId }: MealDetailsModalProps) {
         {meal.imageUrl && <img src={meal.imageUrl} alt={meal.name} data-testid="meal-modal-img" />}
       </div>
       <div className="modal-meal-details" data-testid="meal-modal-details">
-        <h2 className="modal-title" data-testid="meal-modal-title">{meal.name}</h2>
+        <h2 className="modal-title" data-testid="meal-modal-title">{displayName}</h2>
 
         <div className="meal-tags">
           {meal.tags?.convenience?.map((tagId) => {
@@ -59,10 +64,10 @@ export function MealDetailsModal({ mealId }: MealDetailsModalProps) {
             </ul>
           </div>
         </div>
-        {meal.seasoning && meal.seasoning.length > 0 && (
+        {mealSeasoning.length > 0 && (
           <div className="section-notes">
             <div className="notes-title">Seasoning:</div>
-            {meal.seasoning
+            {mealSeasoning
               .map(seasoningId => getIngredientById(seasoningId))
               .filter(seasoning => seasoning !== null)
               .map(seasoning => seasoning!.name)

@@ -63,6 +63,7 @@ export const MealSchedule: React.FC = () => {
           <MealSlot
             key={slot.instanceId || `empty-${index}`}
             mealId={slot.mealId}
+            variantIndex={slot.variantIndex}
             index={index}
             isCooked={cookedStatus[index]}
             isDraggable={true}

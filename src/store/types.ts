@@ -3,6 +3,7 @@ import { MealTagId } from "@/models/types";
 export interface MealSlot {
   mealId: string | null;
   instanceId: string | null;
+  variantIndex?: number;  // Tracks which variant is selected for meals with variants
 }
 
 export interface RestockItem {
@@ -37,9 +38,10 @@ export interface FoodinatorState {
 }
 
 export interface FoodinatorActions {
-  addMeal: (mealId: string, quantity: number) => boolean;
+  addMeal: (mealId: string, quantity: number, variantIndex?: number) => boolean;
   removeMeal: (mealId: string) => void;
   updateMealQuantity: (mealId: string, newQuantity: number) => boolean;
+  updateMealVariant: (slotIndex: number, variantIndex: number | undefined) => void;
   resetPlan: () => void;
   reorderMeals: (newSlots: MealSlot[]) => void;
   toggleMealCooked: (slotIndex: number) => void;

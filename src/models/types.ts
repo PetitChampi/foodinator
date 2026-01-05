@@ -5,6 +5,13 @@ export interface Ingredient {
   id: string;
   name: string;
 }
+
+export interface MealVariant {
+  name: string;                         // e.g., "Prawn", "Chicken", "Beef"
+  ingredients: string[];                // Variant-specific ingredients
+  seasoning?: string[];                 // Optional variant-specific seasoning
+  proteinSourceTag?: ProteinSourceTag;  // Updates the tag for filtering
+}
 // Union type for all possible tag IDs - ensures type safety when working with tags
 export type MealTagId = ProteinSourceTag | BaseTag | CookingMethodTag | ConvenienceTag;
 
@@ -28,6 +35,7 @@ export interface Meal {
   ingredients: string[];
   seasoning?: string[];
   tags?: MealTags;
+  variants?: MealVariant[];  // Optional variant definitions for meals with protein/ingredient options
 }
 
 export interface SelectedMeal {

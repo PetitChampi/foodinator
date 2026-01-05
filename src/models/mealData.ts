@@ -1,2 +1,2 @@
 // Export all meals from auto-import system
-export { meals, getMealById } from "@/data/meals";
+export { meals, getMealById, getMealIngredients, getMealSeasoning, getMealDisplayName } from "@/data/meals";

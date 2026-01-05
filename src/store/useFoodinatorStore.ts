@@ -22,7 +22,7 @@ const foodinatorStoreCreator: StateCreator<FoodinatorStore> = (set, get) => {
     restockCategories: DEFAULT_RESTOCK_CATEGORIES,
 
     // --- ACTIONS ---
-    addMeal: (mealId, quantity) => {
+    addMeal: (mealId, quantity, variantIndex) => {
       const { mealSlots } = get();
       const availableSlots = mealSlots.filter(slot => slot.mealId === null).length;
 
@@ -32,12 +32,20 @@ const foodinatorStoreCreator: StateCreator<FoodinatorStore> = (set, get) => {
         let addedCount = 0;
         for (let i = 0; i < state.mealSlots.length && addedCount < quantity; i++) {
           if (state.mealSlots[i].mealId === null) {
-            state.mealSlots[i] = { mealId, instanceId: generateInstanceId() };
+            state.mealSlots[i] = { mealId, instanceId: generateInstanceId(), variantIndex };
             addedCount++;
           }
         }
       }));
       return true;
+    },
+
+    updateMealVariant: (slotIndex, variantIndex) => {
+      set(produce((state: FoodinatorState) => {
+        if (state.mealSlots[slotIndex]) {
+          state.mealSlots[slotIndex].variantIndex = variantIndex;
+        }
+      }));
     },
 
     removeMeal: (mealId: string) => {
@@ -175,12 +183,10 @@ export const useFoodinatorStore = create<FoodinatorStore>()(
     migrate: (persistedState: unknown, _version: number) => {
       const state = persistedState as Partial<FoodinatorState>;
 
-      // Migration for adding selectedTags to searchState (v1)
       if (state && state.searchState && !state.searchState.selectedTags) {
         state.searchState.selectedTags = [];
       }
 
-      // Migration for merging new default restock items (v2)
       if (state && state.restockCategories) {
         // Merge default categories with persisted categories
         const mergedCategories = DEFAULT_RESTOCK_CATEGORIES.map(defaultCat => {

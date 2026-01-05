@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import { getMealById } from "@/models/mealData";
+import { getMealById, getMealDisplayName } from "@/models/mealData";
 
 interface MealSlotProps {
   mealId: string | null;
+  variantIndex?: number;
   index: number;
   isCooked: boolean;
   isDraggable: boolean;
@@ -20,6 +21,7 @@ interface MealSlotProps {
 
 export const MealSlot: React.FC<MealSlotProps> = ({
   mealId,
+  variantIndex,
   index,
   isCooked,
   isDraggable,
@@ -35,6 +37,7 @@ export const MealSlot: React.FC<MealSlotProps> = ({
   onToggleCooked,
 }) => {
   const meal = mealId ? getMealById(mealId) : null;
+  const displayName = meal ? getMealDisplayName(meal, variantIndex) : "";
   const slotRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -68,7 +71,6 @@ export const MealSlot: React.FC<MealSlotProps> = ({
       onTouchStart={(e) => onTouchStart(index, e)}
       onTouchEnd={onTouchEnd}
     >
-      {/* Date label for the slot */}
       <div className="meal-slot__date-label">
         {dateLabel}
       </div>
@@ -76,11 +78,11 @@ export const MealSlot: React.FC<MealSlotProps> = ({
       {meal ? (
         <>
           <div className="meal-slot__img">
-            {meal?.imageUrl && <img src={meal.imageUrl} alt={meal.name} />}
+            {meal?.imageUrl && <img src={meal.imageUrl} alt={displayName} />}
           </div>
           <div className="meal-slot__header">
             <h3 className="meal-slot__title">
-              {meal.name}
+              {displayName}
             </h3>
             <div
               className={`meal-cooked-toggle ${isCooked ? "cooked" : ""}`}

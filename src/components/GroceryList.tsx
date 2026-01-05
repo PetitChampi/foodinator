@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { GroceryItem } from "@/models/types";
 import { getIngredientById } from "@/models/ingredients";
-import { getMealById } from "@/models/mealData";
+import { getMealById, getMealIngredients, getMealSeasoning, getMealDisplayName } from "@/models/mealData";
 import { useFoodinatorStore } from "@/store/useFoodinatorStore";
 import { useDebounce } from "@/hooks/useDebounce";
 import { groceryListTestIds } from "@/utils/testUtils";
@@ -19,32 +19,33 @@ export const GroceryList: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<GroceryTabType>("list");
 
-  const { items, isEmpty, groupedByMeal, seasoningStaples } = useMemo(() => {
-    const mealIdsInOrder = mealSlots.map(slot => slot.mealId);
-
+  const { items, isEmpty, groupedByMeal, seasoningStaples, mealDisplayNames } = useMemo(() => {
     const ingredientPortions = new Map<string, number>();
     const seasoningStaplesSet = new Set<string>();
+    const mealDisplayNamesMap = new Map<string, string>();
 
-    mealIdsInOrder.forEach(mealId => {
-      if (!mealId) return;
-      const meal = getMealById(mealId);
+    mealSlots.forEach(slot => {
+      if (!slot.mealId) return;
+      const meal = getMealById(slot.mealId);
       if (!meal) return;
 
-      meal.ingredients.forEach(ingredientId => {
+      const mealIngredients = getMealIngredients(meal, slot.variantIndex);
+      const mealSeasoning = getMealSeasoning(meal, slot.variantIndex);
+
+      mealIngredients.forEach(ingredientId => {
         const currentPortions = ingredientPortions.get(ingredientId) || 0;
         ingredientPortions.set(ingredientId, currentPortions + 1);
       });
 
-      // Collect seasoning staples
-      if (meal.seasoning) {
-        meal.seasoning.forEach(seasoningId => {
-          seasoningStaplesSet.add(seasoningId);
-        });
-      }
+      mealSeasoning.forEach(seasoningId => {
+        seasoningStaplesSet.add(seasoningId);
+      });
+      const displayName = getMealDisplayName(meal, slot.variantIndex);
+      mealDisplayNamesMap.set(slot.mealId, displayName);
     });
 
     if (ingredientPortions.size === 0) {
-      return { items: [], isEmpty: true, groupedByMeal: new Map(), seasoningStaples: [] };
+      return { items: [], isEmpty: true, groupedByMeal: new Map(), seasoningStaples: [], mealDisplayNames: new Map() };
     }
 
     const allItems: GroceryItem[] = Array.from(ingredientPortions.entries()).map(([id, portions]) => ({
@@ -56,14 +57,18 @@ export const GroceryList: React.FC = () => {
     const groupedByMeal = new Map<string, GroceryItem[]>();
     const assignedIngredients = new Set<string>();
 
-    const uniqueMealsInOrder = [...new Set(mealIdsInOrder.filter(id => id !== null) as string[])];
+    const processedMeals = new Set<string>();
+    mealSlots.forEach(slot => {
+      if (!slot.mealId || processedMeals.has(slot.mealId)) return;
+      processedMeals.add(slot.mealId);
 
-    uniqueMealsInOrder.forEach(mealId => {
-      const meal = getMealById(mealId);
+      const meal = getMealById(slot.mealId);
       if (!meal) return;
 
+      const mealIngredients = getMealIngredients(meal, slot.variantIndex);
       const mealGroupItems: GroceryItem[] = [];
-      meal.ingredients.forEach(ingredientId => {
+
+      mealIngredients.forEach(ingredientId => {
         if (ingredientPortions.has(ingredientId) && !assignedIngredients.has(ingredientId)) {
           mealGroupItems.push({
             ingredientId: ingredientId,
@@ -75,7 +80,7 @@ export const GroceryList: React.FC = () => {
       });
 
       if (mealGroupItems.length > 0) {
-        groupedByMeal.set(mealId, mealGroupItems);
+        groupedByMeal.set(slot.mealId, mealGroupItems);
       }
     });
 
@@ -90,6 +95,7 @@ export const GroceryList: React.FC = () => {
       isEmpty: allItems.length === 0,
       groupedByMeal,
       seasoningStaples: seasoningStaplesItems,
+      mealDisplayNames: mealDisplayNamesMap,
     };
   }, [mealSlots, checkedItems]);
 
@@ -203,7 +209,7 @@ export const GroceryList: React.FC = () => {
           )}
           {isEmpty ? (
             <div className="empty" data-testid={groceryListTestIds.emptyState}>
-          Your grocery list will appear here once you select meals.
+              Your grocery list will appear here once you select meals.
             </div>
           ) : (
             <>
@@ -214,7 +220,7 @@ export const GroceryList: React.FC = () => {
                     onClick={() => setSeasoningCollapsed(!seasoningCollapsed)}
                     data-testid={groceryListTestIds.sectionTitle("seasoning-staples")}
                   >
-                Seasoning staples
+                    Seasoning staples
                     <Icon
                       strokeWidth={2.5}
                       name="chevron-down"
@@ -239,8 +245,7 @@ export const GroceryList: React.FC = () => {
                   {Array.from(groupedByMeal.entries()).map(([mealId, mealItems]) => {
                     const filteredMealItems = showChecked ? mealItems : mealItems.filter((item: GroceryItem) => !item.checked);
                     if (filteredMealItems.length === 0) return null;
-                    const meal = getMealById(mealId);
-                    if (!meal) return null;
+                    const displayName = mealDisplayNames.get(mealId) || mealId;
                     return (
                       <div
                         key={mealId}
@@ -251,7 +256,7 @@ export const GroceryList: React.FC = () => {
                           className="grocery-section__title"
                           data-testid={groceryListTestIds.sectionTitle(mealId)}
                         >
-                          {meal.name}
+                          {displayName}
                         </h3>
                         <ul
                           className="grocery-section__list"

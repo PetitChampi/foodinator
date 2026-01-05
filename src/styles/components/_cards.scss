@@ -52,5 +52,14 @@
       color: $gray-1;
       font-weight: $font-weight-medium;
     }
+    .controls {
+      .variant-select {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        min-width: 80px;
+        max-width: 120px;
+      }
+    }
   }
 }
