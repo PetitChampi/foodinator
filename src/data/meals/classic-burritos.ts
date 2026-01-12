@@ -6,7 +6,7 @@ export const classicBurritos: Meal = {
   id: "classic-burritos",
   name: "Classic burritos",
   imageUrl: "./img-meals/classic-burritos.jpg",
-  tools: ["Pan", "Spatula", "2 plates", "1 bowl (for pico de gallo)"],
+  tools: ["Pan", "Spatula", "2 plates"],
   steps: {
     prep: [
       "Slice tomatoes and red onion into medium pieces",
@@ -28,7 +28,7 @@ export const classicBurritos: Meal = {
   tags: {
     cookingMethod: CookingMethodTag.PAN,
     base: BaseTag.TORTILLAS,
-    convenience: [ConvenienceTag.SANDWICH, ConvenienceTag.ONE_POT],
+    convenience: [ConvenienceTag.SANDWICH, ConvenienceTag.ONE_POT, ConvenienceTag.FRIDGE_FRIENDLY],
   },
   variants: [
     { name: "Prawn", ingredients: [IngredientId.PRAWNS], proteinSourceTag: ProteinSourceTag.SEAFOOD },

@@ -97,6 +97,7 @@ export enum IngredientId {
   GOATS_CHEESE = "goats-cheese",
   WALNUTS = "walnuts",
   CAESAR_DRESSING = "caesar-dressing",
+  CROUTONS = "croutons",
 }
 
 // Enum for seasoning staple IDs
@@ -226,6 +227,7 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.GOATS_CHEESE, name: "Goat's cheese" },
   { id: IngredientId.WALNUTS, name: "Walnuts" },
   { id: IngredientId.CAESAR_DRESSING, name: "Caesar dressing" },
+  { id: IngredientId.CROUTONS, name: "Croutons" },
 ];
 
 export const seasoningStaples: Ingredient[] = [
