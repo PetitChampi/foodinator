@@ -2,9 +2,9 @@ import { Meal } from "@/models/types";
 import { IngredientId, SeasoningStapleId } from "@/models/ingredients";
 import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/models/tagDefinitions";
 
-export const tunaPita: Meal = {
-  id: "tuna-pita",
-  name: "Tuna pita sandwiches",
+export const tunaMediterraneanSandwich: Meal = {
+  id: "tuna-med-sandwich",
+  name: "Tuna Mediterranean sandwich",
   imageUrl: "./img-meals/tuna-pita.jpg",
   tools: ["2 plates (for pita assembly)", "1 bowl"],
   steps: {
