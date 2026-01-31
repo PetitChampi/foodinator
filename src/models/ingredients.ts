@@ -133,6 +133,7 @@ export enum SeasoningStapleId {
   BALSAMIC_GLAZE = "balsamic-glaze",
   MAYO = "mayo",
   MIXED_HERBS = "mixed-herbs",
+  MINT = "mint",
 }
 
 export const ingredients: Ingredient[] = [
@@ -266,6 +267,7 @@ export const seasoningStaples: Ingredient[] = [
   { id: SeasoningStapleId.BALSAMIC_GLAZE, name: "Balsamic glaze" },
   { id: SeasoningStapleId.MAYO, name: "Mayo" },
   { id: SeasoningStapleId.MIXED_HERBS, name: "Mixed herbs" },
+  { id: SeasoningStapleId.MINT, name: "Mint" },
 ];
 
 export const getIngredientById = (id: string): Ingredient | null => {
