@@ -25,6 +25,6 @@ export const chickenRoast: Meal = {
     cookingMethod: CookingMethodTag.OVEN,
     base: BaseTag.POTATOES,
     proteinSource: ProteinSourceTag.CHICKEN,
-    convenience: [ConvenienceTag.BATCHABLE, ConvenienceTag.FRIDGE_FRIENDLY],
+    convenience: [ConvenienceTag.FRIDGE_FRIENDLY],
   },
 };
