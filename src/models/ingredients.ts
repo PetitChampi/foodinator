@@ -101,6 +101,7 @@ export enum IngredientId {
   CAESAR_DRESSING = "caesar-dressing",
   CROUTONS = "croutons",
   TOMATO_PASTE = "tomato-paste",
+  GAMMON_JOINT = "gammon-joint",
 }
 
 // Enum for seasoning staple IDs
@@ -137,6 +138,7 @@ export enum SeasoningStapleId {
   MINT = "mint",
   CUMIN = "cumin",
   CINNAMON = "cinnamon",
+  BAY_LEAVES = "bay-leaves",
 }
 
 export const ingredients: Ingredient[] = [
@@ -239,6 +241,7 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.CHEESE_SLICES, name: "Cheese slices" },
   { id: IngredientId.CELERY, name: "Celery" },
   { id: IngredientId.TOMATO_PASTE, name: "Tomato paste" },
+  { id: IngredientId.GAMMON_JOINT, name: "Gammon joint" },
 ];
 
 export const seasoningStaples: Ingredient[] = [
@@ -274,6 +277,7 @@ export const seasoningStaples: Ingredient[] = [
   { id: SeasoningStapleId.MINT, name: "Mint" },
   { id: SeasoningStapleId.CUMIN, name: "Cumin" },
   { id: SeasoningStapleId.CINNAMON, name: "Cinnamon" },
+  { id: SeasoningStapleId.BAY_LEAVES, name: "Bay leaves" },
 ];
 
 export const getIngredientById = (id: string): Ingredient | null => {
