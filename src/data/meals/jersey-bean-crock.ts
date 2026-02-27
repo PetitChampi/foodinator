@@ -5,7 +5,7 @@ import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/m
 export const jerseyBeanCrock: Meal = {
   id: "jersey-bean-crock",
   name: "Jersey bean crock",
-  // imageUrl: "./img-meals/bean-crock.jpg",
+  imageUrl: "./img-meals/bean-crock.jpg",
   tools: ["Large knife"],
   steps: {
     prep: [
