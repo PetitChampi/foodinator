@@ -29,7 +29,10 @@ body {
   }
 }
 
-// Container
+// ----- Main section & container -----
+.main-wrapper {
+  background-color: white;
+}
 .container {
   min-height: 100dvh;
   max-width: $container-max-width;
@@ -40,7 +43,7 @@ body {
   justify-content: space-between;
 }
 
-// App Header
+// ----- App header -----
 .app-header {
   position: relative;
   background-color: $primary-color;

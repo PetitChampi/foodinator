@@ -21,7 +21,7 @@ function App() {
 
   return (
     <ModalProvider>
-      <div>
+      <div className="main-wrapper">
         <OfflineStatus />
 
         <div className="container">
