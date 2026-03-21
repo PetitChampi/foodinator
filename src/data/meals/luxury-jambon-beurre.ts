@@ -15,7 +15,7 @@ export const luxuryJambonBeurre: Meal = {
       "Slice baguette in half",
       "Spread butter on bottom half of baguette (top half optional)",
       "Top with cheese, ham, radish slices, pepper, balsamic glaze, then rocket",
-      "Close sandwich adn serve",
+      "Close sandwich and serve",
     ],
   },
   ingredients: [IngredientId.HAM, IngredientId.BREAD, IngredientId.CHEESE, IngredientId.ROCKET, IngredientId.RADISHES],

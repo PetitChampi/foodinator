@@ -102,6 +102,8 @@ export enum IngredientId {
   CROUTONS = "croutons",
   TOMATO_PASTE = "tomato-paste",
   GAMMON_JOINT = "gammon-joint",
+  BRIE = "brie",
+  CHUTNEY = "chutney",
 }
 
 // Enum for seasoning staple IDs
@@ -242,6 +244,8 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.CELERY, name: "Celery" },
   { id: IngredientId.TOMATO_PASTE, name: "Tomato paste" },
   { id: IngredientId.GAMMON_JOINT, name: "Gammon joint" },
+  { id: IngredientId.BRIE, name: "Brie" },
+  { id: IngredientId.CHUTNEY, name: "Chutney" },
 ];
 
 export const seasoningStaples: Ingredient[] = [
