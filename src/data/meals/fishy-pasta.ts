@@ -1,6 +1,6 @@
 import { Meal } from "@/models/types";
 import { IngredientId, SeasoningStapleId } from "@/models/ingredients";
-import { CookingMethodTag, BaseTag, ProteinSourceTag } from "@/models/tagDefinitions";
+import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/models/tagDefinitions";
 
 export const fishyPasta: Meal = {
   id: "fishy-pasta",
@@ -26,6 +26,6 @@ export const fishyPasta: Meal = {
     cookingMethod: CookingMethodTag.POT_PAN,
     base: BaseTag.PASTA,
     proteinSource: ProteinSourceTag.FISH,
-    convenience: [],
+    convenience: [ConvenienceTag.PANTRY_CLEANER],
   },
 };

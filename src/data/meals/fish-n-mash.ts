@@ -27,6 +27,6 @@ export const fishNMash: Meal = {
     cookingMethod: CookingMethodTag.POT_PAN,
     base: BaseTag.POTATOES,
     proteinSource: ProteinSourceTag.FISH,
-    convenience: [ConvenienceTag.FRIDGE_FRIENDLY],
+    convenience: [ConvenienceTag.FRIDGE_FRIENDLY, ConvenienceTag.PANTRY_CLEANER],
   },
 };

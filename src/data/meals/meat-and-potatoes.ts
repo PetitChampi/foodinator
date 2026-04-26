@@ -1,6 +1,6 @@
 import { Meal } from "@/models/types";
 import { IngredientId, SeasoningStapleId } from "@/models/ingredients";
-import { CookingMethodTag, BaseTag, ProteinSourceTag } from "@/models/tagDefinitions";
+import { CookingMethodTag, BaseTag, ProteinSourceTag, ConvenienceTag } from "@/models/tagDefinitions";
 
 export const meatAndPotatoes: Meal = {
   id: "meat-and-potatoes",
@@ -28,7 +28,7 @@ export const meatAndPotatoes: Meal = {
   tags: {
     cookingMethod: CookingMethodTag.PAN,
     base: BaseTag.POTATOES,
-    convenience: [],
+    convenience: [ConvenienceTag.PANTRY_CLEANER],
   },
   variants: [
     { name: "Lamb", ingredients: [IngredientId.LAMB, IngredientId.MINT_SAUCE], proteinSourceTag: ProteinSourceTag.LAMB },

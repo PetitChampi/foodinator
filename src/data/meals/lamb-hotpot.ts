@@ -28,6 +28,6 @@ export const lambHot: Meal = {
     cookingMethod: CookingMethodTag.OVEN,
     base: BaseTag.POTATOES,
     proteinSource: ProteinSourceTag.LAMB,
-    convenience: [ConvenienceTag.FRIDGE_FRIENDLY],
+    convenience: [ConvenienceTag.FRIDGE_FRIENDLY, ConvenienceTag.PANTRY_CLEANER],
   },
 };

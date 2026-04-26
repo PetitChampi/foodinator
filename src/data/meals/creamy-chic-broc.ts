@@ -25,6 +25,6 @@ export const creamyChicBroc: Meal = {
     cookingMethod: CookingMethodTag.POT_PAN,
     base: BaseTag.RICE,
     proteinSource: ProteinSourceTag.CHICKEN,
-    convenience: [ConvenienceTag.BATCHABLE, ConvenienceTag.FRIDGE_FRIENDLY],
+    convenience: [ConvenienceTag.PANTRY_CLEANER, ConvenienceTag.FRIDGE_FRIENDLY],
   },
 };

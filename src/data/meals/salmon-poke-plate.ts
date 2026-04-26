@@ -27,6 +27,6 @@ export const honeyGarlicChickenSkewers: Meal = {
     cookingMethod: CookingMethodTag.POT_PAN,
     base: BaseTag.RICE,
     proteinSource: ProteinSourceTag.FISH,
-    convenience: [ConvenienceTag.FRIDGE_FRIENDLY],
+    convenience: [ConvenienceTag.FRIDGE_FRIENDLY, ConvenienceTag.PANTRY_CLEANER],
   },
 };

@@ -49,6 +49,7 @@ export enum ConvenienceTag {
   FRIDGE_FRIENDLY = "fridge-friendly",
   BATCHABLE = "batchable",
   ONE_POT = "one-pot",
+  PANTRY_CLEANER = "pantry-cleaner",
 }
 
 export const TAG_CATEGORIES: Record<TagCategory, string> = {
@@ -95,6 +96,7 @@ export const TAG_DEFINITIONS: TagDefinition[] = [
   { id: ConvenienceTag.FRIDGE_FRIENDLY, name: "Fridge friendly", category: "convenience" },
   { id: ConvenienceTag.BATCHABLE, name: "Batchable", category: "convenience" },
   { id: ConvenienceTag.ONE_POT, name: "One pot", category: "convenience" },
+  { id: ConvenienceTag.PANTRY_CLEANER, name: "Pantry cleaner", category: "convenience" },
 ];
 
 export const getTagById = (id: string): TagDefinition | null => {
