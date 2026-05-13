@@ -107,6 +107,10 @@ export enum IngredientId {
   DARK_BEER = "dark-beer",
   SPECULOOS = "speculoos",
   MUSTARD = "mustard",
+  FRESH_PARSLEY = "fresh-parsley",
+  FRESH_MINT = "fresh-mint",
+  COUSCOUS = "couscous",
+  CUCUMBER = "cucumber",
 }
 
 // Enum for seasoning staple IDs
@@ -253,6 +257,10 @@ export const ingredients: Ingredient[] = [
   { id: IngredientId.DARK_BEER, name: "Dark beer" },
   { id: IngredientId.SPECULOOS, name: "Speculoos" },
   { id: IngredientId.MUSTARD, name: "Mustard" },
+  { id: IngredientId.FRESH_PARSLEY, name: "Fresh parsley" },
+  { id: IngredientId.FRESH_MINT, name: "Fresh mint" },
+  { id: IngredientId.COUSCOUS, name: "Couscous" },
+  { id: IngredientId.CUCUMBER, name: "Cucumber" },
 ];
 
 export const seasoningStaples: Ingredient[] = [

@@ -24,7 +24,7 @@ export const lentilSalad: Meal = {
   tags: {
     cookingMethod: CookingMethodTag.NO_COOK,
     base: BaseTag.LENTILS,
-    convenience: [ConvenienceTag.BATCHABLE, ConvenienceTag.FRIDGE_FRIENDLY],
+    convenience: [ConvenienceTag.BATCHABLE, ConvenienceTag.FRIDGE_FRIENDLY, ConvenienceTag.ONE_POT],
   },
   variants: [
     {
